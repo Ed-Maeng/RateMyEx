@@ -1,0 +1,142 @@
+import {
+  Button,
+  FormControl,
+  InputBase,
+  MenuItem,
+  Select,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setLogout } from "../state/auth";
+import FlexBetween from "./FlexBetween";
+
+const Navbar = () => {
+  const isAuth = Boolean(useSelector((state) => state.token));
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+
+  const theme = useTheme();
+  const primaryMain = theme.palette.primary.main;
+  const neutralLight = theme.palette.neutral.light;
+  const alt = theme.palette.background.alt;
+
+  return (
+    <FlexBetween padding="1rem 10%" backgroundColor={alt}>
+      <FlexBetween gap="2rem">
+        {/* Logo */}
+        <Typography
+          fontWeight="bold"
+          fontSize="clamp(1rem, 1.5rem, 1.5rem)"
+          color="primary"
+          onClick={() => navigate("/")}
+          sx={{
+            "&:hover": {
+              cursor: "pointer",
+            },
+          }}
+        >
+          RateMyEx
+        </Typography>
+        
+        {/* Internship Tab */}
+        <Typography
+          fontWeight="bold"
+          fontSize="clamp(1rem, 1rem, 1rem)"
+          color="primary"
+          onClick={() => navigate("/internships")}
+          sx={{
+            "&:hover": {
+              cursor: "pointer",
+            },
+          }}
+        >
+          Internships
+        </Typography>
+
+        {/* Dorms Tab */}
+        <Typography
+          fontWeight="bold"
+          fontSize="clamp(1rem, 1rem, 1rem)"
+          color="primary"
+          onClick={() => navigate("/dorms")}
+          sx={{
+            "&:hover": {
+              cursor: "pointer",
+            },
+          }}
+        >
+          Dorms
+        </Typography>
+
+        {/* Professors Tab */}
+        <Typography
+          fontWeight="bold"
+          fontSize="clamp(1rem, 1rem, 1rem)"
+          color="primary"
+          onClick={() => navigate("/professors")}
+          sx={{
+            "&:hover": {
+              cursor: "pointer",
+            },
+          }}
+        >
+          Professors
+        </Typography>
+      </FlexBetween>
+
+      {/* Sign In or Menus */}
+      <FlexBetween gap="2rem">
+        {isAuth 
+          ?
+          <FormControl variant="standard">
+            <Select
+              value={user.firstName}
+              sx={{
+                backgroundColor: neutralLight,
+                width: "150px",
+                borderRadius: "0.25rem",
+                p: "0.25rem 1rem",
+                "& .MuiSvgIcon-root": {
+                  pr: "0.25rem",
+                  width: "3rem",
+                },
+                "& .MuiSelect-select:focus": {
+                  backgroundColor: neutralLight,
+                },
+              }}
+              input={<InputBase />}
+            >
+              <MenuItem value={user.firstName}>
+                <Typography>{user.firstName}</Typography>
+              </MenuItem>
+              <MenuItem onClick={() => dispatch(setLogout())}>
+                Log Out
+              </MenuItem>
+            </Select> 
+          </FormControl>
+          :
+          <Button 
+            href="/login"
+            variant="contained" 
+            sx={{
+              backgroundColor: primaryMain,
+              width: "150px",
+              borderRadius: "0.25rem",
+              p: "0.25rem 1rem",
+              "&:hover": {
+                backgroundColor: primaryMain
+              }
+            }}
+          >
+            Sign In
+          </Button>
+        }
+      </FlexBetween>
+    </FlexBetween>
+  );
+};
+
+export default Navbar;

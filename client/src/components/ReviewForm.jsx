@@ -5,56 +5,76 @@ import {
   useTheme,
 } from "@mui/material";
 import { Formik } from "formik";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import * as yup from "yup";
-import setReviews from "../state/auth";
-
-const reviewSchema = yup.object().shape({
-  companyName: yup.string().required("required"),
-  role: yup.string().required("required"),
-  location: yup.string(),
-  rating: yup.string().required("required"),
-  comment: yup.string().required("required"),
-});
-
-const initialValuesReview = {
-  companyName: "",
-  role: "",
-  location: "",
-  rating: "",
-  comment: "",
-};
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import * as InitialSchema from "./InitialSchema";
 
 const ReviewForm = () => {
   const { palette } = useTheme();
-  const dispatch = useDispatch();
+  const { _id } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const review = async (values, onSubmitProps) => {    
+  // All Path Types
+  const isInternship = location.pathname === "/internships/review";
+  const isDorm = location.pathname === "/dorms/review";
+  const isProfessor = location.pathname === "/Professors/review";
+
+  const saveReview = async (values, onSubmitProps) => {    
     const savedReviewResponse = await fetch(
-      `http://localhost:4000/internship/6451cad57524f79d85ee8413/64532269581c4972867914a9`,
+      `http://localhost:4000/internship/${_id}/64532269581c4972867914a9`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       }
     );
-    const savedReview = await savedReviewResponse.json();
+    await savedReviewResponse.json();
     onSubmitProps.resetForm();
-    navigate("/internships");
+    navigate("/");
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
-    await review(values, onSubmitProps);
+    await saveReview(values, onSubmitProps);
   };
 
+  const handleSchema = () => {
+    switch(location.pathname) {
+      case "/internships/review":
+        return InitialSchema.internshipSchema;
+      case "/dorms/review":
+        return InitialSchema.dormSchema;
+      case "/professors/review":
+        return InitialSchema.professorSchema;
+      case "/clubs/review":
+        return InitialSchema.clubSchema;
+      // Find a better way to handle default (error)
+      default:
+        return "No Schema"
+    }
+  }
+
+  const handleInitialValues = () => {
+    switch(location.pathname) {
+      case "/internships/review":
+        return InitialSchema.initialValuesInternship;
+      case "/dorms/review":
+        return InitialSchema.initialValuesDorm;
+      case "/professors/review":
+        return InitialSchema.initialValuesProfessor;
+      case "/clubs/review":
+        return InitialSchema.initialValuesClub;
+      // Find a better way to handle default (error)
+      default:
+        return "No Initial Values"
+    }
+  }
 
   return (
     <Formik
       onSubmit={handleFormSubmit}
-      initialValues={initialValuesReview}
-      validationSchema={reviewSchema}
+      initialValues={handleInitialValues()}
+      validationSchema={handleSchema()}
     >
       {({
         values,
@@ -63,7 +83,6 @@ const ReviewForm = () => {
         handleBlur,
         handleChange,
         handleSubmit,
-        resetForm,
       }) => (
         <form onSubmit={handleSubmit}>
           <Box
@@ -72,35 +91,61 @@ const ReviewForm = () => {
           gridTemplateColumns="repeat(4, minmax(0, 1fr))"
           >
             <TextField
-              label="Company Name"
+              label="Name"
               onBlur={handleBlur}
               onChange={handleChange}
-              value={values.companyName}
-              name="companyName"
-              error={Boolean(touched.companyName) && Boolean(errors.companyName)}
-              helperText={touched.companyName && errors.companyName}
+              value={values.name}
+              name="name"
+              error={Boolean(touched.name) && Boolean(errors.name)}
+              helperText={touched.name && errors.name}
               sx={{ gridColumn: "span 4" }}
             />
-            <TextField
-              label="Role"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={values.role}
-              name="role"
-              error={Boolean(touched.role) && Boolean(errors.role)}
-              helperText={touched.role && errors.role}
-              sx={{ gridColumn: "span 4" }}
-            />
-            <TextField
-              label="Location"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={values.location}
-              name="location"
-              error={Boolean(touched.location) && Boolean(errors.location)}
-              helperText={touched.location && errors.location}
-              sx={{ gridColumn: "span 4" }}
-            />
+
+            {isInternship && (
+              <>
+                <TextField
+                  label="Role"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.role}
+                  name="role"
+                  error={Boolean(touched.role) && Boolean(errors.role)}
+                  helperText={touched.role && errors.role}
+                  sx={{ gridColumn: "span 4" }}
+                />
+              </>
+            )}
+
+            {(isInternship || isDorm) && (
+              <>
+                <TextField
+                  label="Location"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.location}
+                  name="location"
+                  error={Boolean(touched.location) && Boolean(errors.location)}
+                  helperText={touched.location && errors.location}
+                  sx={{ gridColumn: "span 4" }}
+                />
+              </>
+            )}
+
+            {isProfessor && (
+              <>
+                <TextField
+                  label="Class"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.className}
+                  name="className"
+                  error={Boolean(touched.className) && Boolean(errors.className)}
+                  helperText={touched.className && errors.className}
+                  sx={{ gridColumn: "span 4" }}
+                />
+              </>
+            )}
+
             <TextField
               label="Rating"
               onBlur={handleBlur}

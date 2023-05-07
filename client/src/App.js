@@ -34,6 +34,9 @@ function App() {
 
               { /* Write Review */ }
               <Route path="/internships/review" element={<ReviewPage />} />
+              <Route path="/dorms/review" element={<ReviewPage />} />
+              <Route path="/professors/review" element={<ReviewPage />} />
+              <Route path="/clubs/review" element={<ReviewPage />} />
             </Routes>
           </div>
         </ThemeProvider>

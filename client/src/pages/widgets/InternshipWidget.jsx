@@ -2,8 +2,8 @@ import { Rating, Typography } from "@mui/material";
 import FlexBetween from "../../components/FlexBetween";
 import WidgetWrapper from "../../components/WidgetWrapper";
 
-const ReviewWidget = ({
-  companyName, 
+const InternshipWidget = ({
+  name, 
   role,
   location,
   rating,
@@ -15,7 +15,7 @@ const ReviewWidget = ({
       {/* NAME, ROLE, LOCATION */}
       <FlexBetween>
         <Typography variant="h4" fontWeight="500">
-          {companyName} - {role}
+          {name} - {role}
         </Typography>
         <Typography variant="h4" fontWeight="500">
           {location}
@@ -35,4 +35,4 @@ const ReviewWidget = ({
   );
 };
 
-export default ReviewWidget;
+export default InternshipWidget;

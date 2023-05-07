@@ -4,7 +4,7 @@ export const createInternshipReview = async(req, res) => {
   try {
     const { userId, schoolId } = req.params;
     const {
-      companyName, 
+      name, 
       role,
       location,
       rating,
@@ -14,7 +14,7 @@ export const createInternshipReview = async(req, res) => {
     const newInternship = new Internship({ 
       userId, 
       schoolId,
-      companyName, 
+      name, 
       role,
       location,
       rating,

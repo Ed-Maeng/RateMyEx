@@ -10,7 +10,7 @@ const InternshipSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    companyName: {
+    name: {
       type: String,
       required: true,
       max: 50,

@@ -15,18 +15,18 @@ const ReviewPage = () => {
         textAlign="center"
       >
         <Typography
-            fontWeight="bold"
-            fontSize="clamp(1rem, 1.5rem, 1.5rem)"
-            color="primary"
-            onClick={() => navigate("/internships")}
-            sx={{
-              "&:hover": {
-                cursor: "pointer",
-              },
-            }}
-          >
-            Review Internship
-          </Typography>
+          fontWeight="bold"
+          fontSize="clamp(1rem, 1.5rem, 1.5rem)"
+          color="primary"
+          onClick={() => navigate("/")}
+          sx={{
+            "&:hover": {
+              cursor: "pointer",
+            },
+          }}
+        >
+          Leave Your Review Here
+        </Typography>
       </Box>
 
       <Box

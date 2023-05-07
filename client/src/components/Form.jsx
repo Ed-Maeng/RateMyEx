@@ -11,7 +11,12 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setLogin } from "../state/auth";
-import * as InitialSchema from "./InitialSchema";
+import {
+  initialValuesLogin,
+  initialValuesRegister,
+  loginSchema,
+  registerSchema
+} from "./InitialSchema";
 
 const Form = () => {
   const [pageType, setPageType] = useState("login");
@@ -90,8 +95,8 @@ const Form = () => {
   return (
     <Formik
       onSubmit={handleFormSubmit}
-      initialValues={isLogin ? InitialSchema.initialValuesLogin : InitialSchema.initialValuesRegister}
-      validationSchema={isLogin ? InitialSchema.loginSchema : InitialSchema.registerSchema}
+      initialValues={isLogin ? initialValuesLogin : initialValuesRegister}
+      validationSchema={isLogin ? loginSchema : registerSchema}
     >
       {({
         values,

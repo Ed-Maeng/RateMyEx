@@ -68,18 +68,18 @@ export const registerSchema = yup.object().shape({
   password: yup.string().required("required"),
 });
 
-export const loginSchema = yup.object().shape({
-  email: yup.string().email("invalid email").required("required"),
-  password: yup.string().required("required"),
-});
-
-// LOGIN SCHEMA
 export const initialValuesRegister = {
   firstName: "",
   lastName: "",
   email: "",
   password: "",
 };
+
+// LOGIN SCHEMA
+export const loginSchema = yup.object().shape({
+  email: yup.string().email("invalid email").required("required"),
+  password: yup.string().required("required"),
+});
 
 export const initialValuesLogin = {
   email: "",

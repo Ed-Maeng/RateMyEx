@@ -2,7 +2,7 @@ import { Box, Button, useTheme } from '@mui/material';
 import Navbar from '../../components/Navbar';
 import ReviewWidgets from '../widgets/ReviewsWidget';
 
-const InternshipPage = () => {
+const DormPage = () => {
   const theme = useTheme();
   const primaryMain = theme.palette.primary.main;
 
@@ -50,4 +50,4 @@ const InternshipPage = () => {
   )
 }
  
-export default InternshipPage;
+export default DormPage;

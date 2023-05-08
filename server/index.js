@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import authRoutes from "./routes/auth.js";
 import internshipRoutes from "./routes/internship.js";
 import schoolRoutes from "./routes/school.js";
+import dormRoutes from "./routes/dorm.js";
 
 /* CONFIGURATIONS */
 const app = express();
@@ -18,6 +19,8 @@ dotenv.config();
 app.use("/auth", authRoutes);
 app.use("/school", schoolRoutes);
 app.use("/internship", internshipRoutes);
+app.use("/dorm", dormRoutes);
+
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;

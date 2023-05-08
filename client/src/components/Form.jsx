@@ -10,32 +10,13 @@ import { Formik } from "formik";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import * as yup from "yup";
 import { setLogin } from "../state/auth";
-
-const registerSchema = yup.object().shape({
-  firstName: yup.string().required("required"),
-  lastName: yup.string().required("required"),
-  email: yup.string().email("invalid email").required("required"),
-  password: yup.string().required("required"),
-});
-
-const loginSchema = yup.object().shape({
-  email: yup.string().email("invalid email").required("required"),
-  password: yup.string().required("required"),
-});
-
-const initialValuesRegister = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  password: "",
-};
-
-const initialValuesLogin = {
-  email: "",
-  password: "",
-};
+import {
+  initialValuesLogin,
+  initialValuesRegister,
+  loginSchema,
+  registerSchema
+} from "./InitialSchema";
 
 const Form = () => {
   const [pageType, setPageType] = useState("login");
@@ -78,7 +59,7 @@ const Form = () => {
     onSubmitProps.resetForm();
 
     // Find a better way to handle errors
-    if (loggedInResponse.status == 200) {
+    if (loggedInResponse.status === 200) {
       dispatch(
         setLogin({
           user: loggedIn.user,

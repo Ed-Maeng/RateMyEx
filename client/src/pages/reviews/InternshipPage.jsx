@@ -43,7 +43,7 @@ const InternshipPage = () => {
         justifyContent="space-between"
       >
         <Box m="auto" flexBasis={"50%"}>
-          <ReviewWidgets schoolId={"64532269581c4972867914a9"} />
+          <ReviewWidgets schoolId={"64532269581c4972867914a9"} page="internship" />
         </Box>
       </Box>
     </Box>

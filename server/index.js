@@ -19,7 +19,7 @@ dotenv.config();
 app.use("/auth", authRoutes);
 app.use("/school", schoolRoutes);
 app.use("/internship", internshipRoutes);
-app.use("/dorm", dormRoutes);
+app.use("/dorms", dormRoutes);
 
 
 /* MONGOOSE SETUP */

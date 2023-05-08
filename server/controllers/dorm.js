@@ -5,17 +5,15 @@ export const createDormReview = async(req, res) => {
     const { userId, schoolId } = req.params;
     const {
       name, 
-      role,
       location,
       rating,
       comment 
     } = req.body;
 
-    const newInternship = new Dorm({ 
+    const newDorm = new Dorm({ 
       userId, 
       schoolId,
       name, 
-      role,
       location,
       rating,
       comment 

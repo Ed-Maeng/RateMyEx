@@ -15,11 +15,6 @@ const DormSchema = new mongoose.Schema(
       required: true,
       max: 50,
     },
-    role: { //TODO: Replace role to different type of name (e.g. specific_dorm_name?)
-      type: String,
-      required: true,
-      max: 50,
-    },
     location: {
       type: String,
       min: 2,

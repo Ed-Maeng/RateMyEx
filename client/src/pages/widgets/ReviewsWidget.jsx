@@ -15,7 +15,7 @@ const ReviewsWidget = ({ schoolId, page }) => {
 
   // All Page Types
   const isInternship = page === "internship";
-  const isDorm = page === "dorm";
+  const isDorm = page === "dorms";
   const isProfessor = page === "professor";
   const isClub = page === "club";
 

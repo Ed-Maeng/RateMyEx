@@ -20,9 +20,9 @@ const ReviewForm = () => {
   const isDorm = location.pathname === "/dorms/review";
   const isProfessor = location.pathname === "/Professors/review";
 
-  const saveReview = async (values, onSubmitProps) => {    
+  const saveReview = async (values, onSubmitProps) => {  
     const savedReviewResponse = await fetch(
-      `http://localhost:4000/internship/${_id}/64532269581c4972867914a9`,
+      `http://localhost:4000/${location.pathname.split("/")[1]}/${_id}/64532269581c4972867914a9`, //TODO: Verify this dynamic path works for all pages - currently only tested in dorms
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

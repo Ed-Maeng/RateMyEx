@@ -1,11 +1,13 @@
-import { Box, useTheme } from "@mui/material";
+import { Box, Grid, Rating, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { setCurrentSection } from "../state/auth";
 
 // Pages & Components
+import FlexBetween from "../components/FlexBetween";
 import Navbar from "../components/Navbar";
+import WidgetWrapper from "../components/WidgetWrapper";
 
 const SectionPage = () => {
   const dispatch = useDispatch();
@@ -16,7 +18,7 @@ const SectionPage = () => {
   const [sections, setSections] = useState([]);
 
   // Types of Colors & Reviews
-  const primaryMain = useTheme().palette.primary.main;
+  const backgroundAlt = useTheme().palette.background.alt;
   const reviewType = useLocation().pathname.split("/")[1];
 
   const getSections = async () => {
@@ -37,37 +39,51 @@ const SectionPage = () => {
   return (
     <Box>
       <Navbar />
-      {
-        sections.map((section) => (
-            <Box
-              key={section._id}
-              width="100%"
-              padding="0.75rem"
-              display={"flex"}
-              justifyContent="center"
-            >
-              <Box
+
+      <Box
+        width="100%"
+        padding="2rem 6%"
+        display={"flex"}
+        gap="0.5rem"
+        justifyContent="space-between"
+      >
+        <Box m="auto" flexBasis={"50%"}>
+          {
+            sections.map((section) => (
+              <Grid 
+                m="1rem 0"
+                container spacing={2}
+                key={section._id}
                 onClick={() => {
                   dispatch(setCurrentSection({ currentSection: section }));
                   navigate(`/${reviewType}/reviews`)
                 }}
-                variant="contained" 
-                sx={{
-                  backgroundColor: primaryMain,
-                  width: "150px",
-                  borderRadius: "0.25rem",
-                  p: "0.25rem 1rem",
-                  "&:hover": {
-                    backgroundColor: primaryMain
-                  }
-                }}
+                padding="1.5rem 1.5rem 0.75rem 1.5rem"
+                backgroundColor={backgroundAlt}
+                borderRadius="0.75rem"
               >
-                {section.name}
-              </Box>
-            </Box>
-          )
-        )
-      }
+                {/* PICTURE */}
+                <Grid item xs={2}>
+                  <Typography>{"picture"}</Typography>
+                </Grid>
+
+                {/* SECTION NAME, TOTAL & AVERAGE RATING */}
+                <Grid item xs={10}>
+                  <Box>
+                    <Typography variant="h3" fontWeight="500">
+                      {section.name}
+                    </Typography>
+                    <Rating name="read-only" value={5} readOnly />
+                    <Typography>
+                      {"1 Reviews"}
+                    </Typography>
+                  </Box>
+                </Grid>
+              </Grid>
+            ))
+          }
+        </Box>
+      </Box>
     </Box>
   );
 }

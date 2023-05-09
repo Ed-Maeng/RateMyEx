@@ -1,4 +1,6 @@
 import { Rating, Typography } from "@mui/material";
+
+// Pages & Components
 import FlexBetween from "../../components/FlexBetween";
 import WidgetWrapper from "../../components/WidgetWrapper";
 

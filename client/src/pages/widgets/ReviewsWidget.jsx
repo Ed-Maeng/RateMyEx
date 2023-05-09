@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 // All Review Widgets
@@ -9,16 +9,13 @@ import InternshipWidget from "./InternshipWidget";
 import ProfessorWidget from "./ProfessorWidget";
 
 const ReviewsWidget = () => {
-  const dispatch = useDispatch();
-  const location = useLocation();
-
   // State of Token, Reviews & Current Section
   const token = useSelector((state) => state.token);
   const currentSection = useSelector((state) => state.currentSection);
   const [reviews, setReviews] = useState([]);
 
   // Types of Reviews
-  const reviewType = location.pathname.split("/")[1]
+  const reviewType = useLocation().pathname.split("/")[1]
   const isInternship = reviewType === "internships";
   const isDorm = reviewType === "dorms";
   const isProfessor = reviewType === "professors";

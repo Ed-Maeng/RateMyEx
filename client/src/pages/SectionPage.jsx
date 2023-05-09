@@ -32,7 +32,7 @@ const SectionPage = () => {
 
   useEffect(() => {
     getSections();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [reviewType]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Box>

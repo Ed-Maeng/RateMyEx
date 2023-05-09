@@ -5,9 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { setCurrentSection } from "../state/auth";
 
 // Pages & Components
-import FlexBetween from "../components/FlexBetween";
 import Navbar from "../components/Navbar";
-import WidgetWrapper from "../components/WidgetWrapper";
 
 const SectionPage = () => {
   const dispatch = useDispatch();

@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 // Pages & Components
-import FlexBetween from '../components/FlexBetween';
 import Navbar from '../components/Navbar';
 import ReviewWidgets from './widgets/ReviewsWidget';
 

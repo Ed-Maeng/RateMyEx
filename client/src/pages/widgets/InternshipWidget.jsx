@@ -3,7 +3,6 @@ import FlexBetween from "../../components/FlexBetween";
 import WidgetWrapper from "../../components/WidgetWrapper";
 
 const InternshipWidget = ({
-  name, 
   role,
   location,
   rating,
@@ -12,10 +11,10 @@ const InternshipWidget = ({
   
   return (
     <WidgetWrapper m="1rem 0">
-      {/* NAME, ROLE, LOCATION */}
+      {/* ROLE, LOCATION */}
       <FlexBetween>
         <Typography variant="h4" fontWeight="500">
-          {name} - {role}
+          {role}
         </Typography>
         <Typography variant="h4" fontWeight="500">
           {location}

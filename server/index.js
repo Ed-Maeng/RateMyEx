@@ -5,9 +5,9 @@ import mongoose from "mongoose";
 
 /* ROUTERS */
 import authRoutes from "./routes/auth.js";
+import dormRoutes from "./routes/dorm.js";
 import internshipRoutes from "./routes/internship.js";
 import schoolRoutes from "./routes/school.js";
-import dormRoutes from "./routes/dorm.js";
 
 /* CONFIGURATIONS */
 const app = express();
@@ -17,10 +17,9 @@ dotenv.config();
 
 /* ROUTES */
 app.use("/auth", authRoutes);
-app.use("/school", schoolRoutes);
-app.use("/internship", internshipRoutes);
+app.use("/schools", schoolRoutes);
+app.use("/internships", internshipRoutes);
 app.use("/dorms", dormRoutes);
-
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { setReviews } from "../../state/auth";
 
 // All Review Widgets
@@ -8,21 +9,27 @@ import DormWidget from "./DormWidget";
 import InternshipWidget from "./InternshipWidget";
 import ProfessorWidget from "./ProfessorWidget";
 
-const ReviewsWidget = ({ schoolId, page }) => {
-  const dispatch = useDispatch();
+const ReviewsWidget = () => {
   const reviews = useSelector((state) => state.reviews);
+  const reviewSection = useSelector((state) => state.reviewSection);
   const token = useSelector((state) => state.token);
+  const dispatch = useDispatch();
+  const location = useLocation();
 
   // All Page Types
-  const isInternship = page === "internship";
-  const isDorm = page === "dorms";
-  const isProfessor = page === "professor";
-  const isClub = page === "club";
+  const reviewType = location.pathname.split("/")[1]
+  const isInternship = reviewType === "internships";
+  const isDorm = reviewType === "dorms";
+  const isProfessor = reviewType === "professors";
+  const isClub = reviewType === "clubs";
 
   const getReviews = async () => {
-    const response = await fetch(`http://localhost:4000/${page}/${schoolId}`, {
-      method: "GET",
-    });
+    const response = await fetch(
+      `http://localhost:4000/${reviewType}/reviews/${reviewSection._id}`, 
+      {
+        method: "GET",
+      }
+    );
 
     const data = await response.json();
     dispatch(setReviews({ reviews: data }));
@@ -39,7 +46,6 @@ const ReviewsWidget = ({ schoolId, page }) => {
         reviews.map(
           ({
             _id,
-            name, 
             role,
             location,
             rating,
@@ -47,7 +53,6 @@ const ReviewsWidget = ({ schoolId, page }) => {
           }) => (
             <InternshipWidget
               key={_id}
-              name={name}
               role={role}
               location={location}
               rating={rating}
@@ -62,14 +67,12 @@ const ReviewsWidget = ({ schoolId, page }) => {
         reviews.map(
           ({
             _id,
-            name, 
             location,
             rating,
             comment,
           }) => (
             <DormWidget
               key={_id}
-              name={name}
               location={location}
               rating={rating}
               comment={comment}
@@ -83,7 +86,6 @@ const ReviewsWidget = ({ schoolId, page }) => {
         reviews.map(
           ({
             _id,
-            name,
             className,
             location,
             rating,
@@ -91,7 +93,6 @@ const ReviewsWidget = ({ schoolId, page }) => {
           }) => (
             <ProfessorWidget
               key={_id}
-              name={name}
               className={className}
               location={location}
               rating={rating}
@@ -106,13 +107,11 @@ const ReviewsWidget = ({ schoolId, page }) => {
         reviews.map(
           ({
             _id,
-            name,
             rating,
             comment,
           }) => (
             <ClubWidget
               key={_id}
-              name={name}
               rating={rating}
               comment={comment}
             />
@@ -121,6 +120,6 @@ const ReviewsWidget = ({ schoolId, page }) => {
       } 
     </>
   );
-};
+}
 
 export default ReviewsWidget;

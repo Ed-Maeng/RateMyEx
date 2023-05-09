@@ -25,6 +25,12 @@ const UserSchema = new mongoose.Schema(
       required: true,
       min: 5,
     },
+    schoolName: {
+      type: String,
+      required: true,
+      max: 50,
+      unique: true,
+    },
   },
   { timestamps: true }
 );

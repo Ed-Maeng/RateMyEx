@@ -2,11 +2,7 @@ import mongoose from "mongoose";
 
 const InternshipSchema = new mongoose.Schema(
   {
-    userId: {
-      type: String,
-      required: true
-    },
-    schoolId: {
+    schoolName: {
       type: String,
       required: true
     },
@@ -15,27 +11,12 @@ const InternshipSchema = new mongoose.Schema(
       required: true,
       max: 50,
     },
-    role: {
-      type: String,
-      required: true,
-      max: 50,
-    },
-    location: {
-      type: String,
-      min: 2,
-      max: 50,
-    },
-    rating: {
-      type: Number,
-      required: true,
-    },
-    comment: {
-      type: String,
-      required: true,
-    },
   },
   { timestamps: true }
 );
+
+// Unique Index (School Name, Internship Name)
+InternshipSchema.index({ "schoolName": 1, "name": 1}, { "unique": true });
 
 const Internship = mongoose.model("Internship", InternshipSchema);
 export default Internship;

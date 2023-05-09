@@ -1,10 +1,13 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ReviewForm from "../components/ReviewForm";
 
 const ReviewFormPage = () => {
   const navigate = useNavigate();
   const theme = useTheme();
+
+  // Types of Reviews
+  const reviewType = useLocation().pathname.split("/")[1]
 
   return (
     <Box>
@@ -18,7 +21,7 @@ const ReviewFormPage = () => {
           fontWeight="bold"
           fontSize="clamp(1rem, 1.5rem, 1.5rem)"
           color="primary"
-          onClick={() => navigate("/")}
+          onClick={() => navigate(`/${reviewType}/reviews`)}
           sx={{
             "&:hover": {
               cursor: "pointer",

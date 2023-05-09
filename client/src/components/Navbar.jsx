@@ -13,12 +13,15 @@ import { setLogout } from "../state/auth";
 import FlexBetween from "./FlexBetween";
 
 const Navbar = () => {
-  const isAuth = Boolean(useSelector((state) => state.token));
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
-
   const theme = useTheme();
+
+  // State of User & Boolean Authentication
+  const user = useSelector((state) => state.user);
+  const isAuth = Boolean(useSelector((state) => state.token));
+
+  // Types of Colors
   const primaryMain = theme.palette.primary.main;
   const neutralLight = theme.palette.neutral.light;
   const alt = theme.palette.background.alt;

@@ -4,9 +4,7 @@ const initialState = {
   user: null,
   token: null,
   school: null,
-  reviewSection: null,
-  sections: [],
-  reviews: [],
+  currentSection: null,
 };
 
 export const authSlice = createSlice({
@@ -24,17 +22,11 @@ export const authSlice = createSlice({
     setSchool: (state, action) => {
       state.school = action.payload.school;
     },
-    setSections: (state, action) => {
-      state.sections = action.payload.sections;
-    },
-    setReviewSection: (state, action) => {
-      state.reviewSection = action.payload.reviewSection;
-    },
-    setReviews: (state, action) => {
-      state.reviews = action.payload.reviews;
+    setCurrentSection: (state, action) => {
+      state.currentSection = action.payload.currentSection;
     },
   },
 });
 
-export const { setLogin, setLogout, setSchool, setSections, setReviewSection, setReviews } = authSlice.actions;
+export const { setLogin, setLogout, setSchool, setCurrentSection } = authSlice.actions;
 export default authSlice.reducer;

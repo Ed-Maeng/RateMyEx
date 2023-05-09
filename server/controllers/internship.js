@@ -59,7 +59,7 @@ export const getInternshipReviews = async(req, res) => {
 export const getUserInternshipReviews = async(req, res) => {
   try {
     const { internshipId, userId } = req.params;
-    const internshipReviews = await Internship.find({ internshipId, userId });
+    const internshipReviews = await InternshipReview.find({ internshipId, userId });
     res.status(200).json(internshipReviews);
   } catch (err) {
     res.status(404).json({ message: err.message });

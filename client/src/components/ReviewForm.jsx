@@ -11,20 +11,21 @@ import * as InitialSchema from "./InitialSchema";
 
 const ReviewForm = () => {
   const { palette } = useTheme();
-  const user = useSelector((state) => state.reviewSection);
-  const reviewSection = useSelector((state) => state.reviewSection);
   const navigate = useNavigate();
-  const location = useLocation();
 
-  // All Path Types
-  const reviewType = location.pathname.split("/")[1]
+  // State of User & Current Section
+  const user = useSelector((state) => state.user);
+  const currentSection = useSelector((state) => state.currentSection);
+
+  // Types of Reviews
+  const reviewType = useLocation().pathname.split("/")[1]
   const isInternship = reviewType === "internships";
   const isDorm = reviewType === "dorms";
   const isProfessor = reviewType === "professor";
 
   const saveReview = async (values, onSubmitProps) => {  
     const savedReviewResponse = await fetch(
-      `http://localhost:4000/${reviewType}/${reviewSection._id}/${user._id}`,
+      `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -37,7 +38,6 @@ const ReviewForm = () => {
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
-    console.log(values)
     await saveReview(values, onSubmitProps);
   };
 

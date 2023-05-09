@@ -36,7 +36,7 @@ function App() {
               <Route path="/dorms/reviews" element={<ReviewPage />} />
               <Route path="/professors/reviews" element={<ReviewPage />} />
 
-              { /* Review Form Page */ }
+              { /* Review Form */ }
               <Route path="/internships/form" element={<ReviewFormPage />} />
               <Route path="/dorms/form" element={<ReviewFormPage />} />
               <Route path="/professors/form" element={<ReviewFormPage />} />

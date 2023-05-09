@@ -1,7 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { setReviews } from "../../state/auth";
 
 // All Review Widgets
 import ClubWidget from "./ClubWidget";
@@ -10,13 +9,15 @@ import InternshipWidget from "./InternshipWidget";
 import ProfessorWidget from "./ProfessorWidget";
 
 const ReviewsWidget = () => {
-  const reviews = useSelector((state) => state.reviews);
-  const reviewSection = useSelector((state) => state.reviewSection);
-  const token = useSelector((state) => state.token);
   const dispatch = useDispatch();
   const location = useLocation();
 
-  // All Page Types
+  // State of Token, Reviews & Current Section
+  const token = useSelector((state) => state.token);
+  const currentSection = useSelector((state) => state.currentSection);
+  const [reviews, setReviews] = useState([]);
+
+  // Types of Reviews
   const reviewType = location.pathname.split("/")[1]
   const isInternship = reviewType === "internships";
   const isDorm = reviewType === "dorms";
@@ -25,14 +26,14 @@ const ReviewsWidget = () => {
 
   const getReviews = async () => {
     const response = await fetch(
-      `http://localhost:4000/${reviewType}/reviews/${reviewSection._id}`, 
+      `http://localhost:4000/${reviewType}/reviews/${currentSection._id}`, 
       {
         method: "GET",
       }
     );
 
     const data = await response.json();
-    dispatch(setReviews({ reviews: data }));
+    setReviews(data);
   };
 
   useEffect(() => {

@@ -1,21 +1,23 @@
 import { Box, useTheme } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { setReviewSection, setSections } from "../state/auth";
+import { setCurrentSection } from "../state/auth";
 
 // Pages & Components
 import Navbar from "../components/Navbar";
 
 const SectionPage = () => {
-  const school = useSelector((state) => state.school);
-  const sections = useSelector((state) => state.sections);
-  const theme = useTheme();
-  const primaryMain = theme.palette.primary.main;
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const location = useLocation();
-  const reviewType = location.pathname.split("/")[1];
+  const navigate = useNavigate();
+
+  // State of School & Sections
+  const school = useSelector((state) => state.school); // TODO: Be able to search through schools to find school specific reviews
+  const [sections, setSections] = useState([]);
+
+  // Types of Colors & Reviews
+  const primaryMain = useTheme().palette.primary.main;
+  const reviewType = useLocation().pathname.split("/")[1];
 
   const getSections = async () => {
     const response = await fetch(
@@ -25,7 +27,7 @@ const SectionPage = () => {
       }
     );
     const data = await response.json();
-    dispatch(setSections({ sections: data }));
+    setSections(data);
   };
 
   useEffect(() => {
@@ -46,7 +48,7 @@ const SectionPage = () => {
             >
               <Box
                 onClick={() => {
-                  dispatch(setReviewSection({ reviewSection: section }));
+                  dispatch(setCurrentSection({ currentSection: section }));
                   navigate(`/${reviewType}/reviews`)
                 }}
                 variant="contained" 

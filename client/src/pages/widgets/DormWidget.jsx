@@ -3,7 +3,6 @@ import FlexBetween from "../../components/FlexBetween";
 import WidgetWrapper from "../../components/WidgetWrapper";
 
 const DormWidget = ({
-  name, 
   location,
   rating,
   comment,
@@ -11,11 +10,8 @@ const DormWidget = ({
   
   return (
     <WidgetWrapper m="1rem 0">
-      {/* NAME, LOCATION */}
+      {/* LOCATION */}
       <FlexBetween>
-        <Typography variant="h4" fontWeight="500">
-          {name}
-        </Typography>
         <Typography variant="h4" fontWeight="500">
           {location}
         </Typography>

@@ -7,10 +7,9 @@ import { themeSettings } from "./theme";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
+import ReviewFormPage from "./pages/ReviewFormPage";
 import ReviewPage from "./pages/ReviewPage";
-import DormPage from "./pages/reviews/DormPage";
-import InternshipPage from "./pages/reviews/InternshipPage";
-import ProfessorPage from "./pages/reviews/ProfessorPage";
+import SectionPage from "./pages/SectionPage";
 
 function App() {
   const theme = createTheme(themeSettings());
@@ -27,16 +26,20 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/profile" element={<ProfilePage />} />
 
-              { /* Review Pages */ }
-              <Route path="/internships" element={<InternshipPage />} />
-              <Route path="/dorms" element={<DormPage />} />
-              <Route path="/professors" element={<ProfessorPage />} />
+              { /* Section Pages */ }
+              <Route path="/internships" element={<SectionPage />} />
+              <Route path="/dorms" element={<SectionPage />} />
+              <Route path="/professors" element={<SectionPage />} />
 
-              { /* Write Review */ }
-              <Route path="/internships/review" element={<ReviewPage />} />
-              <Route path="/dorms/review" element={<ReviewPage />} />
-              <Route path="/professors/review" element={<ReviewPage />} />
-              <Route path="/clubs/review" element={<ReviewPage />} />
+              { /* Review Pages */ }
+              <Route path="/internships/reviews" element={<ReviewPage />} />
+              <Route path="/dorms/reviews" element={<ReviewPage />} />
+              <Route path="/professors/reviews" element={<ReviewPage />} />
+
+              { /* Review Form */ }
+              <Route path="/internships/form" element={<ReviewFormPage />} />
+              <Route path="/dorms/form" element={<ReviewFormPage />} />
+              <Route path="/professors/form" element={<ReviewFormPage />} />
             </Routes>
           </div>
         </ThemeProvider>

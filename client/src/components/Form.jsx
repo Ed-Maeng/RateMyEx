@@ -19,10 +19,12 @@ import {
 } from "./InitialSchema";
 
 const Form = () => {
-  const [pageType, setPageType] = useState("login");
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // Types of Pages (Login or Register)
+  const [pageType, setPageType] = useState("login");
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
 

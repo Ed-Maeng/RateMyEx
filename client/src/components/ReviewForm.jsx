@@ -11,18 +11,21 @@ import * as InitialSchema from "./InitialSchema";
 
 const ReviewForm = () => {
   const { palette } = useTheme();
-  const { _id } = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const location = useLocation();
 
-  // All Path Types
-  const isInternship = location.pathname === "/internships/review";
-  const isDorm = location.pathname === "/dorms/review";
-  const isProfessor = location.pathname === "/Professors/review";
+  // State of User & Current Section
+  const user = useSelector((state) => state.user);
+  const currentSection = useSelector((state) => state.currentSection);
+
+  // Types of Reviews
+  const reviewType = useLocation().pathname.split("/")[1]
+  const isInternship = reviewType === "internships";
+  const isDorm = reviewType === "dorms";
+  const isProfessor = reviewType === "professor";
 
   const saveReview = async (values, onSubmitProps) => {  
     const savedReviewResponse = await fetch(
-      `http://localhost:4000/${location.pathname.split("/")[1]}/${_id}/64532269581c4972867914a9`, //TODO: Verify this dynamic path works for all pages - currently only tested in dorms
+      `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -31,7 +34,7 @@ const ReviewForm = () => {
     );
     await savedReviewResponse.json();
     onSubmitProps.resetForm();
-    navigate("/");
+    navigate(`/${reviewType}/reviews`);
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
@@ -39,14 +42,14 @@ const ReviewForm = () => {
   };
 
   const handleSchema = () => {
-    switch(location.pathname) {
-      case "/internships/review":
+    switch(reviewType) {
+      case "internships":
         return InitialSchema.internshipSchema;
-      case "/dorms/review":
+      case "dorms":
         return InitialSchema.dormSchema;
-      case "/professors/review":
+      case "professors":
         return InitialSchema.professorSchema;
-      case "/clubs/review":
+      case "clubs":
         return InitialSchema.clubSchema;
       // Find a better way to handle default (error)
       default:
@@ -55,14 +58,14 @@ const ReviewForm = () => {
   }
 
   const handleInitialValues = () => {
-    switch(location.pathname) {
-      case "/internships/review":
+    switch(reviewType) {
+      case "internships":
         return InitialSchema.initialValuesInternship;
-      case "/dorms/review":
+      case "dorms":
         return InitialSchema.initialValuesDorm;
-      case "/professors/review":
+      case "professors":
         return InitialSchema.initialValuesProfessor;
-      case "/clubs/review":
+      case "clubs":
         return InitialSchema.initialValuesClub;
       // Find a better way to handle default (error)
       default:
@@ -90,17 +93,6 @@ const ReviewForm = () => {
           gap="30px"
           gridTemplateColumns="repeat(4, minmax(0, 1fr))"
           >
-            <TextField
-              label="Name"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={values.name}
-              name="name"
-              error={Boolean(touched.name) && Boolean(errors.name)}
-              helperText={touched.name && errors.name}
-              sx={{ gridColumn: "span 4" }}
-            />
-
             {isInternship && (
               <>
                 <TextField

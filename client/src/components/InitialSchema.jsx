@@ -2,7 +2,6 @@ import * as yup from "yup";
 
 // INTERNSHIP SCHEMA
 export const internshipSchema = yup.object().shape({
-  name: yup.string().required("required"),
   role: yup.string().required("required"),
   location: yup.string().required("required"),
   rating: yup.string().required("required"),
@@ -10,7 +9,6 @@ export const internshipSchema = yup.object().shape({
 });
 
 export const initialValuesInternship = {
-  name: "",
   role: "",
   location: "",
   rating: "",
@@ -19,14 +17,12 @@ export const initialValuesInternship = {
 
 // DORM SCHEMA
 export const dormSchema = yup.object().shape({
-  name: yup.string().required("required"),
   location: yup.string().required("required"),
   rating: yup.string().required("required"),
   comment: yup.string().required("required"),
 });
 
 export const initialValuesDorm = {
-  name: "",
   location: "",
   rating: "",
   comment: "",
@@ -34,14 +30,12 @@ export const initialValuesDorm = {
 
 // PROFESSOR SCHEMA
 export const professorSchema = yup.object().shape({
-  name: yup.string().required("required"),
   className: yup.string().required("required"),
   rating: yup.string().required("required"),
   comment: yup.string().required("required"),
 });
 
 export const initialValuesProfessor = {
-  name: "",
   className: "",
   rating: "",
   comment: "",
@@ -49,13 +43,11 @@ export const initialValuesProfessor = {
 
 // CLUB SCHEMA
 export const clubSchema = yup.object().shape({
-  name: yup.string().required("required"),
   rating: yup.string().required("required"),
   comment: yup.string().required("required"),
 });
 
 export const initialValuesClub = {
-  name: "",
   rating: "",
   comment: "",
 };

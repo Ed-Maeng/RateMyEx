@@ -2,11 +2,7 @@ import mongoose from "mongoose";
 
 const DormSchema = new mongoose.Schema(
   {
-    userId: {
-      type: String,
-      required: true
-    },
-    schoolId: {
+    schoolName: {
       type: String,
       required: true
     },
@@ -15,22 +11,12 @@ const DormSchema = new mongoose.Schema(
       required: true,
       max: 50,
     },
-    location: {
-      type: String,
-      min: 2,
-      max: 50,
-    },
-    rating: {
-      type: Number,
-      required: true,
-    },
-    comment: {
-      type: String,
-      required: true,
-    },
   },
   { timestamps: true }
 );
 
-const Internship = mongoose.model("Dorm", DormSchema);
-export default Internship;
+// Unique Index (School Name, Dorm Name)
+DormSchema.index({ "schoolName": 1, "name": 1}, { "unique": true });
+
+const Dorm = mongoose.model("Dorm", DormSchema);
+export default Dorm;

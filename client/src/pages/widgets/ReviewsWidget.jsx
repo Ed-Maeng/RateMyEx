@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setReviews } from "../../state/auth";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 // All Review Widgets
 import ClubWidget from "./ClubWidget";
@@ -8,29 +8,34 @@ import DormWidget from "./DormWidget";
 import InternshipWidget from "./InternshipWidget";
 import ProfessorWidget from "./ProfessorWidget";
 
-const ReviewsWidget = ({ schoolId, page }) => {
-  const dispatch = useDispatch();
-  const reviews = useSelector((state) => state.reviews);
+const ReviewsWidget = () => {
+  // State of Token, Reviews & Current Section
   const token = useSelector((state) => state.token);
+  const currentSection = useSelector((state) => state.currentSection);
+  const [reviews, setReviews] = useState([]);
 
-  // All Page Types
-  const isInternship = page === "internship";
-  const isDorm = page === "dorms";
-  const isProfessor = page === "professor";
-  const isClub = page === "club";
+  // Types of Reviews
+  const reviewType = useLocation().pathname.split("/")[1]
+  const isInternship = reviewType === "internships";
+  const isDorm = reviewType === "dorms";
+  const isProfessor = reviewType === "professors";
+  const isClub = reviewType === "clubs";
 
   const getReviews = async () => {
-    const response = await fetch(`http://localhost:4000/${page}/${schoolId}`, {
-      method: "GET",
-    });
+    const response = await fetch(
+      `http://localhost:4000/${reviewType}/reviews/${currentSection._id}`, 
+      {
+        method: "GET",
+      }
+    );
 
     const data = await response.json();
-    dispatch(setReviews({ reviews: data }));
+    setReviews(data);
   };
 
   useEffect(() => {
     getReviews();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [reviewType]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -39,7 +44,6 @@ const ReviewsWidget = ({ schoolId, page }) => {
         reviews.map(
           ({
             _id,
-            name, 
             role,
             location,
             rating,
@@ -47,7 +51,6 @@ const ReviewsWidget = ({ schoolId, page }) => {
           }) => (
             <InternshipWidget
               key={_id}
-              name={name}
               role={role}
               location={location}
               rating={rating}
@@ -62,14 +65,12 @@ const ReviewsWidget = ({ schoolId, page }) => {
         reviews.map(
           ({
             _id,
-            name, 
             location,
             rating,
             comment,
           }) => (
             <DormWidget
               key={_id}
-              name={name}
               location={location}
               rating={rating}
               comment={comment}
@@ -83,7 +84,6 @@ const ReviewsWidget = ({ schoolId, page }) => {
         reviews.map(
           ({
             _id,
-            name,
             className,
             location,
             rating,
@@ -91,7 +91,6 @@ const ReviewsWidget = ({ schoolId, page }) => {
           }) => (
             <ProfessorWidget
               key={_id}
-              name={name}
               className={className}
               location={location}
               rating={rating}
@@ -106,13 +105,11 @@ const ReviewsWidget = ({ schoolId, page }) => {
         reviews.map(
           ({
             _id,
-            name,
             rating,
             comment,
           }) => (
             <ClubWidget
               key={_id}
-              name={name}
               rating={rating}
               comment={comment}
             />
@@ -121,6 +118,6 @@ const ReviewsWidget = ({ schoolId, page }) => {
       } 
     </>
   );
-};
+}
 
 export default ReviewsWidget;

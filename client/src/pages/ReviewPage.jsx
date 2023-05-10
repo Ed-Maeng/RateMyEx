@@ -1,45 +1,71 @@
-import { Box, Typography, useTheme } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import ReviewForm from "../components/ReviewForm";
+import { Box, Button, Typography, useTheme } from '@mui/material';
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+
+// Pages & Components
+import Navbar from '../components/Navbar';
+import ReviewWidgets from './widgets/ReviewsWidget';
 
 const ReviewPage = () => {
-  const navigate = useNavigate();
-  const theme = useTheme();
+  // State of Current Section
+  const currentSection = useSelector((state) => state.currentSection);
+
+  // Types of Colors & Reviews
+  const primaryMain = useTheme().palette.primary.main;
+  const backgroundAlt = useTheme().palette.background.alt;
+  const reviewType = useLocation().pathname.split("/")[1];
 
   return (
     <Box>
+      <Navbar />
+
       <Box
         width="100%"
-        backgroundColor={theme.palette.background.alt}
+        backgroundColor={backgroundAlt}
         p="1rem 6%"
         textAlign="center"
       >
+        {/* TYPE OF REVIEW (FROM SECTIONS) */}
         <Typography
           fontWeight="bold"
           fontSize="clamp(1rem, 1.5rem, 1.5rem)"
           color="primary"
-          onClick={() => navigate("/")}
+        >
+          {currentSection.name}
+        </Typography>
+
+        {/* BUTTON TO ADD REVIEW */}
+        <Button
+          href={`/${reviewType}/form`}
+          variant="contained" 
           sx={{
+            backgroundColor: primaryMain,
+            width: "150px",
+            borderRadius: "0.25rem",
+            p: "0.25rem 1rem",
             "&:hover": {
-              cursor: "pointer",
-            },
+              backgroundColor: primaryMain
+            }
           }}
         >
-          Leave Your Review Here
-        </Typography>
+          Add Review
+        </Button>
       </Box>
 
+      {/* LIST OF REVIEWS */}
       <Box
-        width="50%"
-        p="2rem"
-        m="2rem auto"
-        borderRadius="1.5rem"
-        backgroundColor={theme.palette.background.alt}
+        width="100%"
+        padding="2rem 6%"
+        display={"flex"}
+        gap="0.5rem"
+        justifyContent="space-between"
       >
-        <ReviewForm />
+        <Box m="auto" flexBasis={"50%"}>
+          <ReviewWidgets />
+        </Box>
       </Box>
     </Box>
-  );
-};
-
+  )
+}
+ 
 export default ReviewPage;

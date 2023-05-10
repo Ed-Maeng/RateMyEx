@@ -8,6 +8,11 @@ const SchoolSchema = new mongoose.Schema(
       max: 50,
       unique: true,
     },
+    shortName: {
+      type: String,
+      required: true,
+      max: 50,
+    },
     location: {
       type: String,
       max: 50,

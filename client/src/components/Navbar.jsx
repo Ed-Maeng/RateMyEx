@@ -88,6 +88,21 @@ const Navbar = () => {
         >
           Professors
         </Typography>
+
+      {/* Clubs Tab */}
+      <Typography
+          fontWeight="bold"
+          fontSize="clamp(1rem, 1rem, 1rem)"
+          color="primary"
+          onClick={() => navigate("/clubs")}
+          sx={{
+            "&:hover": {
+              cursor: "pointer",
+            },
+          }}
+        >
+          Clubs
+        </Typography>
       </FlexBetween>
 
       {/* Sign In or Menus */}

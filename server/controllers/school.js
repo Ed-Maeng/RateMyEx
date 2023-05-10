@@ -6,8 +6,10 @@ export const createSchool = async(req, res) => {
     const { name, shortName, location } = req.body;
 
     const school = await School.findOne({ name: name });
-    if (school) return res.status(409).json({ msg: "Duplicate School Name." });
-
+    if (school) {
+      return res.status(409).json({ msg: "Duplicate School Name." });
+    }
+    
     const newSchool = new School({ name, shortName, location });
     const savedSchool = await newSchool.save();
     res.status(201).json(savedSchool);

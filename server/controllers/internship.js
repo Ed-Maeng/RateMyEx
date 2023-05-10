@@ -7,7 +7,10 @@ export const createInternship = async(req, res) => {
     const { name } = req.body;
 
     const newInternship = new Internship({ schoolName, name });
-
+    if (newInternship) {
+      return res.status(409).json({ msg: "Duplicate School Name." });
+    }
+    
     const savedInternship = await newInternship.save();
     res.status(201).json(savedInternship);
   } catch (err) {

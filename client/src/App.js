@@ -30,16 +30,19 @@ function App() {
               <Route path="/internships" element={<SectionPage />} />
               <Route path="/dorms" element={<SectionPage />} />
               <Route path="/professors" element={<SectionPage />} />
+              <Route path="/clubs" element={<SectionPage />} />
 
               { /* Review Pages */ }
               <Route path="/internships/reviews" element={<ReviewPage />} />
               <Route path="/dorms/reviews" element={<ReviewPage />} />
               <Route path="/professors/reviews" element={<ReviewPage />} />
+              <Route path="/clubs/reviews" element={<ReviewPage />} />
 
               { /* Review Form */ }
               <Route path="/internships/form" element={<ReviewFormPage />} />
               <Route path="/dorms/form" element={<ReviewFormPage />} />
               <Route path="/professors/form" element={<ReviewFormPage />} />
+              <Route path="/clubs/form" element={<ReviewFormPage />} />
             </Routes>
           </div>
         </ThemeProvider>

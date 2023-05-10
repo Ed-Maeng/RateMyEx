@@ -7,6 +7,9 @@ export const createDorm = async(req, res) => {
     const { name } = req.body;
 
     const newDorm = new Dorm({ schoolName, name });
+    if (newDorm) {
+      return res.status(409).json({ msg: "Duplicate School Name." });
+    }
 
     const savedDorm = await newDorm.save();
     res.status(201).json(savedDorm);

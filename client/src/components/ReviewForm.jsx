@@ -1,12 +1,18 @@
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import {
   Box,
   Button,
   TextField,
+  Typography,
   useTheme,
 } from "@mui/material";
 import { Formik } from "formik";
+import Dropzone from "react-dropzone";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+
+// Components & Schema
+import FlexBetween from "../components/FlexBetween";
 import * as InitialSchema from "./InitialSchema";
 
 const ReviewForm = () => {
@@ -87,6 +93,7 @@ const ReviewForm = () => {
         handleBlur,
         handleChange,
         handleSubmit,
+        setFieldValue
       }) => (
         <form onSubmit={handleSubmit}>
           <Box
@@ -159,6 +166,40 @@ const ReviewForm = () => {
               helperText={touched.comment && errors.comment}
               sx={{ gridColumn: "span 4" }}
             />
+
+            <Box
+                gridColumn="span 4"
+                border={`1px solid ${palette.neutral.medium}`}
+                borderRadius="5px"
+                p="1rem"
+              >
+                <Dropzone
+                  acceptedFiles=".jpg,.jpeg,.png"
+                  multiple={false}
+                  onDrop={(acceptedFiles) =>
+                    setFieldValue("picture", acceptedFiles[0])
+                  }
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <Box
+                      {...getRootProps()}
+                      border={`2px dashed ${palette.primary.main}`}
+                      p="1rem"
+                      sx={{ "&:hover": { cursor: "pointer" } }}
+                    >
+                      <input {...getInputProps()} />
+                      {!values.picture ? (
+                        <p>Add Picture Here</p>
+                      ) : (
+                        <FlexBetween>
+                          <Typography>{values.picture.name}</Typography>
+                          <EditOutlinedIcon />
+                        </FlexBetween>
+                      )}
+                    </Box>
+                  )}
+                </Dropzone>
+              </Box>
           </Box>
 
           {/* Submit Button */}

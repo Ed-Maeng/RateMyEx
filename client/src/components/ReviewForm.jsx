@@ -22,6 +22,7 @@ const ReviewForm = () => {
   const isInternship = reviewType === "internships";
   const isDorm = reviewType === "dorms";
   const isProfessor = reviewType === "professor";
+  const isClub = reviewType === "clubs";
 
   const saveReview = async (values, onSubmitProps) => {  
     const savedReviewResponse = await fetch(

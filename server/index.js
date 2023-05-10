@@ -8,6 +8,7 @@ import authRoutes from "./routes/auth.js";
 import dormRoutes from "./routes/dorm.js";
 import internshipRoutes from "./routes/internship.js";
 import schoolRoutes from "./routes/school.js";
+import clubRoutes from "./routes/club.js";
 
 /* CONFIGURATIONS */
 const app = express();
@@ -20,6 +21,7 @@ app.use("/auth", authRoutes);
 app.use("/schools", schoolRoutes);
 app.use("/internships", internshipRoutes);
 app.use("/dorms", dormRoutes);
+app.use("/clubs", clubRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;

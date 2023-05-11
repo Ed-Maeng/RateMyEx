@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema(
   {
+    userId: {
+      type: String,
+      required: true
+    },
     firstName: {
       type: String,
       required: true,
@@ -24,12 +28,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       min: 5,
-    },
-    schoolName: {
-      type: String,
-      required: true,
-      max: 50,
-      unique: true,
     },
   },
   { timestamps: true }

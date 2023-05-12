@@ -30,7 +30,19 @@ const ReviewForm = () => {
   const isProfessor = reviewType === "professor";
   const isClub = reviewType === "clubs";
 
-  const saveReview = async (values, onSubmitProps) => {  
+  const saveReview = async (values) => {  
+    const savedReviewResponse = await fetch(
+      `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      }
+    );
+    await savedReviewResponse.json();
+  };
+
+  const saveReviewWithImage = async (values) => {  
     const formData = new FormData();
     for (let value in values) {
       if (value !== "files") {
@@ -50,13 +62,16 @@ const ReviewForm = () => {
       }
     );
     await savedReviewResponse.json();
-    onSubmitProps.resetForm();
-    navigate(`/${reviewType}/reviews`);
-    navigate(0);
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
-    await saveReview(values, onSubmitProps);
+    if (isInternship || isDorm || isClub) {
+      await saveReviewWithImage(values);
+    } else {
+      await saveReview(values);
+    }
+    onSubmitProps.resetForm();
+    navigate(`/${reviewType}/reviews`);
   };
 
   const handleSchema = () => {

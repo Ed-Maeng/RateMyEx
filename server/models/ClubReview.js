@@ -23,6 +23,14 @@ const ClubReviewSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    imageNames: {
+      type: Array,
+      default: [],
+    },
+    imageUrls: {
+      type: Array,
+      default: [],
+    },
   },
   { timestamps: true }
 );

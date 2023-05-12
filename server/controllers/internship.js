@@ -1,7 +1,9 @@
-import crypto from "crypto";
-import sharp from "sharp";
 import Internship from "../models/Internship.js";
 import InternshipReview from "../models/InternshipReview.js";
+
+// Imports for S3 & Files
+import crypto from "crypto";
+import sharp from "sharp";
 import { getObjectSignedUrl, uploadFile } from "../s3.js";
 
 const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');

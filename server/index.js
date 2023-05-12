@@ -5,6 +5,8 @@ import mongoose from "mongoose";
 import multer from "multer";
 
 /* ROUTES */
+import { createClub, createClubReview } from "./controllers/club.js";
+import { createDorm, createDormReview } from "./controllers/dorm.js";
 import { createInternship, createInternshipReview } from "./controllers/internship.js";
 import { createSchool } from "./controllers/school.js";
 
@@ -29,6 +31,10 @@ const upload = multer({ storage: storage });
 app.post("/schools", upload.single("file"), createSchool);
 app.post("/internships/:schoolName", upload.single("file"), createInternship);
 app.post("/internships/:internshipId/:userId", upload.array("files[]", 3), createInternshipReview);
+app.post("/dorms/:schoolName", upload.single("file"), createDorm);
+app.post("/dorms/:dormId/:userId", upload.array("files[]", 3), createDormReview);
+app.post("/clubs/:schoolName", upload.single("file"), createClub);
+app.post("/clubs/:clubId/:userId", upload.array("files[]", 3), createClubReview);
 
 /* ROUTES */
 app.use("/auth", authRoutes);

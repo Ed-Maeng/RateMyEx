@@ -6,6 +6,7 @@ export const internshipSchema = yup.object().shape({
   location: yup.string().required("required"),
   rating: yup.string().required("required"),
   comment: yup.string().required("required"),
+  files: yup.array().required("required"),
 });
 
 export const initialValuesInternship = {
@@ -13,6 +14,7 @@ export const initialValuesInternship = {
   location: "",
   rating: "",
   comment: "",
+  files: [],
 };
 
 // DORM SCHEMA

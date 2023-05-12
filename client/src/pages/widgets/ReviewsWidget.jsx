@@ -48,6 +48,7 @@ const ReviewsWidget = () => {
             location,
             rating,
             comment,
+            imageUrls,
           }) => (
             <InternshipWidget
               key={_id}
@@ -55,6 +56,7 @@ const ReviewsWidget = () => {
               location={location}
               rating={rating}
               comment={comment}
+              imageUrls={imageUrls}
             />
           )
         )

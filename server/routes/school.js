@@ -1,8 +1,9 @@
 import express from "express";
-import { createSchool } from "../controllers/school.js";
+import { getSchool, getSchools } from "../controllers/school.js";
 
 const router = express.Router();
 
-router.post("/", createSchool);
+router.get("/", getSchools);
+router.get("/:schoolName", getSchool);
 
 export default router;

@@ -10,14 +10,14 @@ const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex
 
 export const createDorm = async(req, res) => {
   try {
-    const { schoolName } = req.params;
+    const { schoolId } = req.params;
     const { name } = req.body;
     const file = req.file;
     const imageName = generateFileName();
 
-    const dorm = await Dorm.findOne({ schoolName, name });
+    const dorm = await Dorm.findOne({ schoolId, name });
     if (dorm) {
-      return res.status(409).json({ msg: "Duplicate Dorm Name in Same School." });
+      return res.status(409).json({ msg: "Duplicate Dorm Name in Same School" });
     }
 
     const fileBuffer = await sharp(file.buffer)
@@ -26,7 +26,7 @@ export const createDorm = async(req, res) => {
 
     await uploadFile(fileBuffer, imageName, file.mimetype);
 
-    const newDorm = new Dorm({ schoolName, name, imageName });
+    const newDorm = new Dorm({ schoolId, name, imageName });
     const savedDorm = await newDorm.save();
     res.status(201).json(savedDorm);
   } catch (err) {
@@ -70,8 +70,8 @@ export const createDormReview = async(req, res) => {
 
 export const getDorms = async(req, res) => {
   try {
-    const { schoolName } = req.params;
-    const dorms = await Dorm.find({ schoolName });
+    const { schoolId } = req.params;
+    const dorms = await Dorm.find({ schoolId });
 
     for (let dorm of dorms) {
       dorm.imageUrl = await getObjectSignedUrl(dorm.imageName);

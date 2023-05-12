@@ -40,8 +40,10 @@ const Form = () => {
     const savedUser = await savedUserResponse.json();
     onSubmitProps.resetForm();
 
-    if (savedUserResponse.status === 201) {
-      setPageType("login");
+    if (savedUser.status === 201) {
+      // TODO: Send Email Verification
+      navigate("/");
+      // TODO: Show "Sent Email Verification"
     } else {
       console.log(savedUser.msg);
     }

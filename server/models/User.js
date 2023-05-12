@@ -27,10 +27,13 @@ const UserSchema = new mongoose.Schema(
     },
     schoolName: {
       type: String,
-      required: true,
-      max: 50,
-      unique: true,
+      required: true
     },
+    isConfirmed: {
+      type: Boolean,
+      default: false,
+      required: true
+    }
   },
   { timestamps: true }
 );

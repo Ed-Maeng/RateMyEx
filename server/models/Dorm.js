@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const DormSchema = new mongoose.Schema(
   {
-    schoolName: {
+    schoolId: {
       type: String,
       required: true
     },
@@ -33,8 +33,8 @@ const DormSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Unique Index (School Name, Dorm Name)
-DormSchema.index({ "schoolName": 1, "name": 1}, { "unique": true });
+// Unique Index (School ID, Dorm Name)
+DormSchema.index({ "schoolId": 1, "name": 1}, { "unique": true });
 
 const Dorm = mongoose.model("Dorm", DormSchema);
 export default Dorm;

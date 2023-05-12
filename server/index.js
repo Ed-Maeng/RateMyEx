@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import multer from "multer";
+import { verifyToken } from "./middleware/auth.js";
 
 /* ROUTES */
 import { createClub, createClubReview } from "./controllers/club.js";
@@ -29,12 +30,12 @@ const upload = multer({ storage: storage });
 
 /* ROUTES WITH S3 & FILE */
 app.post("/schools", upload.single("file"), createSchool);
-app.post("/internships/:schoolName", upload.single("file"), createInternship);
-app.post("/internships/:internshipId/:userId", upload.array("files[]", 3), createInternshipReview);
-app.post("/dorms/:schoolName", upload.single("file"), createDorm);
-app.post("/dorms/:dormId/:userId", upload.array("files[]", 3), createDormReview);
-app.post("/clubs/:schoolName", upload.single("file"), createClub);
-app.post("/clubs/:clubId/:userId", upload.array("files[]", 3), createClubReview);
+app.post("/internships/:schoolId", upload.single("file"), createInternship);
+app.post("/internships/:internshipId/:userId", verifyToken, upload.array("files[]", 3), createInternshipReview);
+app.post("/dorms/:schoolId", upload.single("file"), createDorm);
+app.post("/dorms/:dormId/:userId", verifyToken, upload.array("files[]", 3), createDormReview);
+app.post("/clubs/:schoolId", upload.single("file"), createClub);
+app.post("/clubs/:clubId/:userId", verifyToken, upload.array("files[]", 3), createClubReview);
 
 /* ROUTES */
 app.use("/auth", authRoutes);

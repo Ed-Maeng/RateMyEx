@@ -19,8 +19,9 @@ const ReviewForm = () => {
   const { palette } = useTheme();
   const navigate = useNavigate();
 
-  // State of User & Current Section
+  // State of User, Token & Current Section
   const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
   const currentSection = useSelector((state) => state.currentSection);
 
   // Types of Reviews
@@ -35,7 +36,10 @@ const ReviewForm = () => {
       `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify(values),
       }
     );
@@ -58,6 +62,7 @@ const ReviewForm = () => {
       `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}`,
       {
         method: "POST",
+        headers: { "Authorization": `Bearer ${token}` },
         body: formData,
       }
     );
@@ -210,11 +215,12 @@ const ReviewForm = () => {
                     {...getRootProps()}
                     border={`2px dashed ${palette.primary.main}`}
                     p="1rem"
+                    textAlign="center"
                     sx={{ "&:hover": { cursor: "pointer" } }}
                   >
                     <input {...getInputProps()} />
-                    {!values.files ? (
-                      <p>Add Picture Here</p>
+                    {values.files.length === 0 ? (
+                      <Typography alignItems="center">Add Picture Here</Typography>
                     ) : (
                       <FlexBetween>
                         <Box>

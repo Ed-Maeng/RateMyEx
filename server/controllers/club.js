@@ -10,14 +10,14 @@ const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex
 
 export const createClub = async(req, res) => {
   try {
-    const { schoolName } = req.params;
+    const { schoolId } = req.params;
     const { name } = req.body;
     const file = req.file;
     const imageName = generateFileName();
 
-    const club = await Club.findOne({ schoolName, name });
+    const club = await Club.findOne({ schoolId, name });
     if (club) {
-      return res.status(409).json({ msg: "Duplicate Club Name in Same School." });
+      return res.status(409).json({ msg: "Duplicate Club Name in Same School" });
     }
 
     const fileBuffer = await sharp(file.buffer)
@@ -26,7 +26,7 @@ export const createClub = async(req, res) => {
 
     await uploadFile(fileBuffer, imageName, file.mimetype);
 
-    const newClub = new Club({ schoolName, name, imageName });
+    const newClub = new Club({ schoolId, name, imageName });
     const savedClub = await newClub.save();
     res.status(201).json(savedClub);
   } catch (err) {
@@ -71,8 +71,8 @@ export const createClubReview = async(req, res) => {
 
 export const getClubs = async(req, res) => {
   try {
-    const { schoolName } = req.params;
-    const clubs = await Club.find({ schoolName });
+    const { schoolId } = req.params;
+    const clubs = await Club.find({ schoolId });
 
     for (let club of clubs) {
       club.imageUrl = await getObjectSignedUrl(club.imageName);

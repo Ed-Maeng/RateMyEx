@@ -11,6 +11,24 @@ const InternshipSchema = new mongoose.Schema(
       required: true,
       max: 50,
     },
+    totalReviews: {
+      type: Number,
+      default: 0,
+      required: true,
+    },
+    averageRating: {
+      type: Number,
+      default: 0,
+      required: true,
+    },
+    imageName: {
+      type: String,
+      default: "",
+    },
+    imageUrl: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );

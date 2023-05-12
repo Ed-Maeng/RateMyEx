@@ -17,6 +17,10 @@ const SchoolSchema = new mongoose.Schema(
       type: String,
       max: 50,
     },
+    imageName: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );

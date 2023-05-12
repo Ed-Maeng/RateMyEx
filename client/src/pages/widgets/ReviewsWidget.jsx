@@ -48,6 +48,7 @@ const ReviewsWidget = () => {
             location,
             rating,
             comment,
+            imageUrls,
           }) => (
             <InternshipWidget
               key={_id}
@@ -55,6 +56,7 @@ const ReviewsWidget = () => {
               location={location}
               rating={rating}
               comment={comment}
+              imageUrls={imageUrls}
             />
           )
         )
@@ -68,12 +70,14 @@ const ReviewsWidget = () => {
             location,
             rating,
             comment,
+            imageUrls,
           }) => (
             <DormWidget
               key={_id}
               location={location}
               rating={rating}
               comment={comment}
+              imageUrls={imageUrls}
             />
           )
         )
@@ -107,11 +111,13 @@ const ReviewsWidget = () => {
             _id,
             rating,
             comment,
+            imageUrls,
           }) => (
             <ClubWidget
               key={_id}
               rating={rating}
               comment={comment}
+              imageUrls={imageUrls}
             />
           )
         )

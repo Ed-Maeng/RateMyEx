@@ -83,6 +83,10 @@ export const verifyEmail = async (req, res) => {
       { isVerified: true }
     );
 
+    if (!user.isVerified) {
+      return res.status(400).json({ msg: "Invalid token was sent." });
+    }
+
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     res.status(200).json({ token, user });
   } catch (err) {

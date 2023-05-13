@@ -35,7 +35,7 @@ const EmailVerification = () => {
     verifyEmail();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-
+  /* TODO: Create a loading page (if needed)  */
   return (
     <></>
   );

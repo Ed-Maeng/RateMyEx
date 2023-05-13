@@ -17,7 +17,7 @@ export const createClub = async(req, res) => {
 
     const club = await Club.findOne({ schoolId, name });
     if (club) {
-      return res.status(409).json({ msg: "Duplicate Club Name in Same School" });
+      return res.status(409).json({ msg: "Duplicate Club Name in Same School." });
     }
 
     const fileBuffer = await sharp(file.buffer)

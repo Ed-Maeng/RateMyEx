@@ -17,7 +17,7 @@ export const createDorm = async(req, res) => {
 
     const dorm = await Dorm.findOne({ schoolId, name });
     if (dorm) {
-      return res.status(409).json({ msg: "Duplicate Dorm Name in Same School" });
+      return res.status(409).json({ msg: "Duplicate Dorm Name in Same School." });
     }
 
     const fileBuffer = await sharp(file.buffer)

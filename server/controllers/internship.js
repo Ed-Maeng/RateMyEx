@@ -17,7 +17,7 @@ export const createInternship = async(req, res) => {
 
     const internship = await Internship.findOne({ schoolId, name });
     if (internship) {
-      return res.status(409).json({ msg: "Duplicate Internship Name in Same School" });
+      return res.status(409).json({ msg: "Duplicate Internship Name in Same School." });
     }
 
     const fileBuffer = await sharp(file.buffer)

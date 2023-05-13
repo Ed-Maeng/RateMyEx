@@ -37,15 +37,14 @@ const Form = () => {
         body: JSON.stringify(values),
       }
     );
-    const savedUser = await savedUserResponse.json();
+    const registeredUser = await savedUserResponse.json();
     onSubmitProps.resetForm();
 
-    if (savedUser.status === 201) {
-      // TODO: Send Email Verification
+    if (savedUserResponse.status === 201) {
       navigate("/");
       // TODO: Show "Sent Email Verification"
     } else {
-      console.log(savedUser.msg);
+      console.log(registeredUser.msg);
     }
   };
 
@@ -62,7 +61,6 @@ const Form = () => {
     const loggedIn = await loggedInResponse.json();
     onSubmitProps.resetForm();
 
-    // Find a better way to handle errors
     if (loggedInResponse.status === 200) {
       dispatch(
         setLogin({
@@ -71,6 +69,9 @@ const Form = () => {
         })
       );
       navigate("/");
+    } else if (loggedInResponse.status === 401) {
+      // TODO: Tell user to verify email
+      console.log(loggedIn.msg);
     } else {
       console.log(loggedIn.msg);
     }

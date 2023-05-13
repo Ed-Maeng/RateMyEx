@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { themeSettings } from "./theme";
 
 // Pages & Components
+import EmailVerification from "./components/EmailVerification";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -21,6 +22,9 @@ function App() {
           <div className="pages">
             <CssBaseline />
             <Routes>
+              { /* Email Verification Page */ }
+              <Route path="/verifyemail/:emailToken" element={<EmailVerification />} />
+
               { /* User Pages */ }            
               <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<LoginPage />} />

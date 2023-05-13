@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
 // Components & Schema
-import FlexBetween from "../components/FlexBetween";
+import FlexBetween from "../FlexBetween";
 import * as InitialSchema from "./InitialSchema";
 
 const ReviewForm = () => {

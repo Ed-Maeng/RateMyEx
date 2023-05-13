@@ -104,7 +104,7 @@ export const login = async (req, res) => {
       return res.status(400).json({ msg: "User does not exist." });
     }
     // Check if user has verified email
-    if (!user.isConfirmed) {
+    if (!user.isVerified) {
       return res.status(401).json({ msg: "Please verify email before logging in." });
     }
 

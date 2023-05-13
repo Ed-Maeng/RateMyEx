@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { themeSettings } from "./theme";
 
 // Pages & Components
-import EmailVerification from "./components/EmailVerification";
+import EmailVerification from "./components/Verification/EmailVerification";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";

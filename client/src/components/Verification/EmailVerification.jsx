@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { setLogin } from "../state/auth";
+import { setLogin } from "../../state/auth";
 
 const EmailVerification = () => {
   const dispatch = useDispatch();

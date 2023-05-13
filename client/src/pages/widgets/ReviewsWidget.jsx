@@ -9,8 +9,7 @@ import InternshipWidget from "./InternshipWidget";
 import ProfessorWidget from "./ProfessorWidget";
 
 const ReviewsWidget = () => {
-  // State of Token, Reviews & Current Section
-  const token = useSelector((state) => state.token);
+  // State of Reviews & Current Section
   const currentSection = useSelector((state) => state.currentSection);
   const [reviews, setReviews] = useState([]);
 

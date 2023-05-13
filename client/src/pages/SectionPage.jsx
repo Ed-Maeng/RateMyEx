@@ -1,6 +1,6 @@
 import { Box, CardMedia, Grid, Rating, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { setCurrentSection } from "../state/auth";
 
@@ -11,8 +11,7 @@ const SectionPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // State of School & Sections
-  const school = useSelector((state) => state.school); // TODO: Be able to search through schools to find school specific reviews
+  // State of School, & Sections
   const [sections, setSections] = useState([]);
 
   // Types of Colors & Reviews
@@ -21,7 +20,7 @@ const SectionPage = () => {
 
   const getSections = async () => {
     const response = await fetch(
-      `http://localhost:4000/${reviewType}/UCLA`,
+      `http://localhost:4000/${reviewType}/645d9c2677833ef3f86da1a3`,
       {
         method: "GET",
       }

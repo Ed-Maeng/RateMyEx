@@ -5,21 +5,7 @@ const SchoolSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      max: 50,
       unique: true,
-    },
-    shortName: {
-      type: String,
-      required: true,
-      max: 50,
-    },
-    location: {
-      type: String,
-      max: 50,
-    },
-    imageName: {
-      type: String,
-      default: "",
     },
   },
   { timestamps: true }

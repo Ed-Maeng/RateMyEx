@@ -14,33 +14,33 @@ const s3Client = new S3Client({
     region: process.env.AWS_BUCKET_REGION
 });
 
-export function uploadFile(fileBuffer, fileName, mimetype) {
+export async function uploadFile(fileBuffer, fileName, mimetype) {
   const uploadParams = {
     Bucket: bucketName,
     Body: fileBuffer,
     Key: fileName,
     ContentType: mimetype
-  }
+  };
 
-  return s3Client.send(new PutObjectCommand(uploadParams));
-}
+  return await s3Client.send(new PutObjectCommand(uploadParams));
+};
 
-export function deleteFile(fileName) {
+export async function deleteFile(fileName) {
   const deleteParams = {
     Bucket: bucketName,
     Key: fileName,
-  }
+  };
 
-  return s3Client.send(new DeleteObjectCommand(deleteParams));
-}
+  return await s3Client.send(new DeleteObjectCommand(deleteParams));
+};
 
 export async function getObjectSignedUrl(key) {
   const params = {
     Bucket: bucketName,
     Key: key
-  }
+  };
   
   const command = new GetObjectCommand(params);
   const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
   return url;
-}
+};

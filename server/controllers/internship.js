@@ -10,12 +10,12 @@ const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex
 
 export const createInternship = async(req, res) => {
   try {
-    const { schoolName } = req.params;
+    const { schoolId } = req.params;
     const { name } = req.body;
     const file = req.file;
     const imageName = generateFileName();
 
-    const internship = await Internship.findOne({ schoolName, name });
+    const internship = await Internship.findOne({ schoolId, name });
     if (internship) {
       return res.status(409).json({ msg: "Duplicate Internship Name in Same School." });
     }
@@ -26,7 +26,7 @@ export const createInternship = async(req, res) => {
 
     await uploadFile(fileBuffer, imageName, file.mimetype);
 
-    const newInternship = new Internship({ schoolName, name, imageName });
+    const newInternship = new Internship({ schoolId, name, imageName });
     const savedInternship = await newInternship.save();
     res.status(201).json(savedInternship);
   } catch (err) {
@@ -71,8 +71,8 @@ export const createInternshipReview = async(req, res) => {
 
 export const getInternships = async(req, res) => {
   try {
-    const { schoolName } = req.params;
-    const internships = await Internship.find({ schoolName });
+    const { schoolId } = req.params;
+    const internships = await Internship.find({ schoolId });
 
     for (let internship of internships) {
       internship.imageUrl = await getObjectSignedUrl(internship.imageName);

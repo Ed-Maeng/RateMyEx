@@ -7,7 +7,7 @@ import {
 
 const router = express.Router();
 
-router.get("/:schoolName", getDorms);
+router.get("/:schoolId", getDorms);
 router.get("/reviews/:dormId", getDormReviews);
 router.get("/reviews/:dormId/:userId", getUserDormReviews);
 

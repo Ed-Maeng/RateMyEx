@@ -43,6 +43,7 @@ app.use("/schools", schoolRoutes);
 app.use("/internships", internshipRoutes);
 app.use("/dorms", dormRoutes);
 app.use("/clubs", clubRoutes);
+app.use("/users", userRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;

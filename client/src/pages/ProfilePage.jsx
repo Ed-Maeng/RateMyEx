@@ -19,20 +19,19 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function ProfilePage() {
+  const user = useSelector((state) => state.user);
   const currentSection = useSelector((state) => state.currentSection);
   const [userInfo, setUserInfo] = useState([]);
 
   const getUserInfo = async () => {
-    console.log(currentSection._id)
     const response = await fetch(
-      `http://localhost:4000/users/${currentSection._id}`,
+      `http://localhost:4000/users/${user._id}`,
       {
         method: "GET",
       }
     );
     
     const data = await response.json();
-    console.log(data)
     setUserInfo(data);
   };
 

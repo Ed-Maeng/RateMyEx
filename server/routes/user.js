@@ -8,9 +8,9 @@ import {
 
 const router = express.Router();
 
-router.get("/:userId", getUser);
-router.get("/internships/:userId/:internshipId", getUserInternshipReviews);
-router.get("/clubs/:userId/:clubId", getUserClubReviews);
-router.get("/dorms/:userId/:dormId", getUserDormReviews);
+router.get("/:_id", getUser);
+router.get("/internships/:_id/:internshipId", getUserInternshipReviews);
+router.get("/clubs/:_id/:clubId", getUserClubReviews);
+router.get("/dorms/:_id/:dormId", getUserDormReviews);
 
 export default router;

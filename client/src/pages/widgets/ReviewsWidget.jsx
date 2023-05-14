@@ -9,8 +9,7 @@ import InternshipWidget from "./InternshipWidget";
 import ProfessorWidget from "./ProfessorWidget";
 
 const ReviewsWidget = () => {
-  // State of Token, Reviews & Current Section
-  const token = useSelector((state) => state.token);
+  // State of Reviews & Current Section
   const currentSection = useSelector((state) => state.currentSection);
   const [reviews, setReviews] = useState([]);
 
@@ -48,6 +47,7 @@ const ReviewsWidget = () => {
             location,
             rating,
             comment,
+            imageUrls,
           }) => (
             <InternshipWidget
               key={_id}
@@ -55,6 +55,7 @@ const ReviewsWidget = () => {
               location={location}
               rating={rating}
               comment={comment}
+              imageUrls={imageUrls}
             />
           )
         )
@@ -68,12 +69,14 @@ const ReviewsWidget = () => {
             location,
             rating,
             comment,
+            imageUrls,
           }) => (
             <DormWidget
               key={_id}
               location={location}
               rating={rating}
               comment={comment}
+              imageUrls={imageUrls}
             />
           )
         )
@@ -107,11 +110,13 @@ const ReviewsWidget = () => {
             _id,
             rating,
             comment,
+            imageUrls,
           }) => (
             <ClubWidget
               key={_id}
               rating={rating}
               comment={comment}
+              imageUrls={imageUrls}
             />
           )
         )

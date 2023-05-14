@@ -12,15 +12,16 @@ import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
 // Components & Schema
-import FlexBetween from "../components/FlexBetween";
+import FlexBetween from "../FlexBetween";
 import * as InitialSchema from "./InitialSchema";
 
 const ReviewForm = () => {
   const { palette } = useTheme();
   const navigate = useNavigate();
 
-  // State of User & Current Section
+  // State of User, Token & Current Section
   const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
   const currentSection = useSelector((state) => state.currentSection);
 
   // Types of Reviews
@@ -30,22 +31,52 @@ const ReviewForm = () => {
   const isProfessor = reviewType === "professor";
   const isClub = reviewType === "clubs";
 
-  const saveReview = async (values, onSubmitProps) => {  
+  const saveReview = async (values) => {  
     const savedReviewResponse = await fetch(
       `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify(values),
       }
     );
     await savedReviewResponse.json();
-    onSubmitProps.resetForm();
-    navigate(`/${reviewType}/reviews`);
+  };
+
+  const saveReviewWithImage = async (values) => {  
+    const formData = new FormData();
+    for (let value in values) {
+      if (value !== "files") {
+        formData.append(value, values[value]);
+      }
+    }
+    // Append all files
+    for (let file of values["files"]) {
+      formData.append("files[]", file);
+    }
+
+    const savedReviewResponse = await fetch(
+      `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}`,
+      {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${token}` },
+        body: formData,
+      }
+    );
+    await savedReviewResponse.json();
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
-    await saveReview(values, onSubmitProps);
+    if (isInternship || isDorm || isClub) {
+      await saveReviewWithImage(values);
+    } else {
+      await saveReview(values);
+    }
+    onSubmitProps.resetForm();
+    navigate(`/${reviewType}/reviews`);
   };
 
   const handleSchema = () => {
@@ -168,38 +199,44 @@ const ReviewForm = () => {
             />
 
             <Box
-                gridColumn="span 4"
-                border={`1px solid ${palette.neutral.medium}`}
-                borderRadius="5px"
-                p="1rem"
+              gridColumn="span 4"
+              border={`1px solid ${palette.neutral.medium}`}
+              borderRadius="5px"
+              p="1rem"
+            >
+              <Dropzone
+                acceptedFiles=".jpg,.jpeg,.png"
+                onDrop={(acceptedFiles) =>
+                  setFieldValue("files", acceptedFiles)
+                }
               >
-                <Dropzone
-                  acceptedFiles=".jpg,.jpeg,.png"
-                  multiple={false}
-                  onDrop={(acceptedFiles) =>
-                    setFieldValue("picture", acceptedFiles[0])
-                  }
-                >
-                  {({ getRootProps, getInputProps }) => (
-                    <Box
-                      {...getRootProps()}
-                      border={`2px dashed ${palette.primary.main}`}
-                      p="1rem"
-                      sx={{ "&:hover": { cursor: "pointer" } }}
-                    >
-                      <input {...getInputProps()} />
-                      {!values.picture ? (
-                        <p>Add Picture Here</p>
-                      ) : (
-                        <FlexBetween>
-                          <Typography>{values.picture.name}</Typography>
-                          <EditOutlinedIcon />
-                        </FlexBetween>
-                      )}
-                    </Box>
-                  )}
-                </Dropzone>
-              </Box>
+                {({ getRootProps, getInputProps }) => (
+                  <Box
+                    {...getRootProps()}
+                    border={`2px dashed ${palette.primary.main}`}
+                    p="1rem"
+                    textAlign="center"
+                    sx={{ "&:hover": { cursor: "pointer" } }}
+                  >
+                    <input {...getInputProps()} />
+                    {values.files.length === 0 ? (
+                      <Typography alignItems="center">Add Picture Here</Typography>
+                    ) : (
+                      <FlexBetween>
+                        <Box>
+                          {values.files.map((file) => (
+                            <Typography key={file.name} display="block">
+                              {file.name}
+                            </Typography>
+                          ))}
+                        </Box>
+                        <EditOutlinedIcon />
+                      </FlexBetween>
+                    )}
+                  </Box>
+                )}
+              </Dropzone>
+            </Box>
           </Box>
 
           {/* Submit Button */}

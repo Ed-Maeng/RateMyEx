@@ -6,6 +6,7 @@ export const internshipSchema = yup.object().shape({
   location: yup.string().required("required"),
   rating: yup.string().required("required"),
   comment: yup.string().required("required"),
+  files: yup.array().required("required"),
 });
 
 export const initialValuesInternship = {
@@ -13,6 +14,7 @@ export const initialValuesInternship = {
   location: "",
   rating: "",
   comment: "",
+  files: [],
 };
 
 // DORM SCHEMA
@@ -20,12 +22,14 @@ export const dormSchema = yup.object().shape({
   location: yup.string().required("required"),
   rating: yup.string().required("required"),
   comment: yup.string().required("required"),
+  files: yup.array().required("required"),
 });
 
 export const initialValuesDorm = {
   location: "",
   rating: "",
   comment: "",
+  files: [],
 };
 
 // PROFESSOR SCHEMA
@@ -33,23 +37,27 @@ export const professorSchema = yup.object().shape({
   className: yup.string().required("required"),
   rating: yup.string().required("required"),
   comment: yup.string().required("required"),
+  files: yup.array().required("required"),
 });
 
 export const initialValuesProfessor = {
   className: "",
   rating: "",
   comment: "",
+  files: [],
 };
 
 // CLUB SCHEMA
 export const clubSchema = yup.object().shape({
   rating: yup.string().required("required"),
   comment: yup.string().required("required"),
+  files: yup.array().required("required"),
 });
 
 export const initialValuesClub = {
   rating: "",
   comment: "",
+  files: [],
 };
 
 // REGISTER SCHEMA

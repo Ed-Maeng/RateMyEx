@@ -1,6 +1,6 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Form from "../components/Form";
+import Form from "../components/Form/Form";
 
 const LoginPage = () => {
   const navigate = useNavigate();

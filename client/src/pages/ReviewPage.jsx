@@ -34,6 +34,7 @@ const ReviewPage = () => {
           {currentSection.name}
         </Typography>
 
+        { /* TODO: Only allow verified users to write reviews */ }
         {/* BUTTON TO ADD REVIEW */}
         <Button
           href={`/${reviewType}/form`}

@@ -1,7 +1,5 @@
 import express from "express";
 import {
-  createDorm,
-  createDormReview,
   getDormReviews,
   getDorms,
   getUserDormReviews
@@ -9,9 +7,7 @@ import {
 
 const router = express.Router();
 
-router.post("/:schoolName", createDorm);
-router.post("/:dormId/:userId", createDormReview);
-router.get("/:schoolName", getDorms);
+router.get("/:schoolId", getDorms);
 router.get("/reviews/:dormId", getDormReviews);
 router.get("/reviews/:dormId/:userId", getUserDormReviews);
 

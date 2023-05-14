@@ -1,6 +1,6 @@
-import { Box, Grid, Rating, Typography, useTheme } from "@mui/material";
+import { Box, CardMedia, Grid, Rating, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { setCurrentSection } from "../state/auth";
 
@@ -11,8 +11,7 @@ const SectionPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // State of School & Sections
-  const school = useSelector((state) => state.school); // TODO: Be able to search through schools to find school specific reviews
+  // State of School, & Sections
   const [sections, setSections] = useState([]);
 
   // Types of Colors & Reviews
@@ -21,7 +20,7 @@ const SectionPage = () => {
 
   const getSections = async () => {
     const response = await fetch(
-      `http://localhost:4000/${reviewType}/UCLA`,
+      `http://localhost:4000/${reviewType}/645d9c2677833ef3f86da1a3`,
       {
         method: "GET",
       }
@@ -45,7 +44,7 @@ const SectionPage = () => {
         gap="0.5rem"
         justifyContent="space-between"
       >
-        <Box m="auto" flexBasis={"50%"}>
+        <Box m="auto" flexBasis={"20%"}>
           {
             sections.map((section) => (
               <Grid 
@@ -59,21 +58,30 @@ const SectionPage = () => {
                 padding="1.5rem 1.5rem 0.75rem 1.5rem"
                 backgroundColor={backgroundAlt}
                 borderRadius="0.75rem"
+                sx={{ "&:hover": { cursor: "pointer" } }}
               >
-                {/* PICTURE */}
-                <Grid item xs={2}>
-                  <Typography>{"picture"}</Typography>
+                {/* IMAGE */}
+                <Grid item xs={3}>
+                  {section.imageUrl && (
+                    <CardMedia
+                      image={section.imageUrl}
+                      style={{
+                        height: 0,
+                        paddingTop: '100%',
+                      }}
+                    />
+                  )}
                 </Grid>
 
                 {/* SECTION NAME, TOTAL & AVERAGE RATING */}
-                <Grid item xs={10}>
+                <Grid item xs={9}>
                   <Box>
                     <Typography variant="h3" fontWeight="500">
                       {section.name}
                     </Typography>
-                    <Rating name="read-only" value={5} readOnly />
+                    <Rating name="read-only" value={section.totalReviews} readOnly />
                     <Typography>
-                      {"1 Reviews"}
+                      {section.averageRating + " Reviews"}
                     </Typography>
                   </Box>
                 </Grid>

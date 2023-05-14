@@ -10,7 +10,7 @@ import { Formik } from "formik";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setLogin } from "../state/auth";
+import { setLogin } from "../../state/auth";
 import {
   initialValuesLogin,
   initialValuesRegister,
@@ -29,7 +29,7 @@ const Form = () => {
   const isRegister = pageType === "register";
 
   const register = async (values, onSubmitProps) => {    
-    const savedUserResponse = await fetch(
+    const registerResponse = await fetch(
       "http://localhost:4000/auth/register",
       {
         method: "POST",
@@ -37,13 +37,14 @@ const Form = () => {
         body: JSON.stringify(values),
       }
     );
-    const savedUser = await savedUserResponse.json();
+    const registeredUser = await registerResponse.json();
     onSubmitProps.resetForm();
 
-    if (savedUserResponse.status === 201) {
-      setPageType("login");
+    if (registerResponse.status === 201) {
+      navigate("/");
+      // TODO: Show "Sent Email Verification"
     } else {
-      console.log(savedUser.msg);
+      console.log(registeredUser.msg);
     }
   };
 
@@ -60,7 +61,6 @@ const Form = () => {
     const loggedIn = await loggedInResponse.json();
     onSubmitProps.resetForm();
 
-    // Find a better way to handle errors
     if (loggedInResponse.status === 200) {
       dispatch(
         setLogin({
@@ -69,6 +69,9 @@ const Form = () => {
         })
       );
       navigate("/");
+    } else if (loggedInResponse.status === 401) {
+      // TODO: Show "Need to Verify Email"
+      console.log(loggedIn.msg);
     } else {
       console.log(loggedIn.msg);
     }
@@ -191,6 +194,8 @@ const Form = () => {
             >
               {isLogin ? "LOGIN" : "REGISTER"}
             </Button>
+
+            { /* Click to Change from Logging In to Register (vice versa) */ }
             <Typography
               onClick={() => {
                 setPageType(isLogin ? "register" : "login");

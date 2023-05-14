@@ -1,4 +1,5 @@
-import { Rating, Typography } from "@mui/material";
+import { CardMedia, ImageList, Rating, Typography } from "@mui/material";
+import { v4 as uuidv4 } from 'uuid';
 
 // Pages & Components
 import FlexBetween from "../../components/FlexBetween";
@@ -9,6 +10,7 @@ const InternshipWidget = ({
   location,
   rating,
   comment,
+  imageUrls,
 }) => {
   
   return (
@@ -32,6 +34,20 @@ const InternshipWidget = ({
       <Typography m="0.5rem 0">
         {comment}
       </Typography>
+
+      {/* IMAGES */}
+      <ImageList sx={{ width: "auto", height: "auto" }} cols={3}>
+        {imageUrls.map((imageUrl) => (
+          <CardMedia
+            key={uuidv4()}
+            image={imageUrl}
+            style={{
+              height: 0,
+              paddingTop: '50%',
+            }}
+          />  
+        ))}
+      </ImageList>
     </WidgetWrapper>
   );
 };

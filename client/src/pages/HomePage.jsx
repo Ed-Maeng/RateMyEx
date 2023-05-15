@@ -1,12 +1,7 @@
-import SchoolIcon from '@mui/icons-material/School';
 import {
   Autocomplete,
   Box,
-  IconButton,
-  InputAdornment,
-  InputBase,
   TextField,
-  useTheme
 } from "@mui/material";
 import { useEffect, useState } from 'react';
 import { useDispatch } from "react-redux";

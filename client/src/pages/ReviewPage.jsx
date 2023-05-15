@@ -10,10 +10,10 @@ const ReviewPage = () => {
   // State of Current Section
   const currentSection = useSelector((state) => state.currentSection);
 
-  // Types of Colors & Reviews
+  // Types of Colors & Review Types
   const primaryMain = useTheme().palette.primary.main;
   const backgroundAlt = useTheme().palette.background.alt;
-  const reviewType = useLocation().pathname.split("/")[1];
+  const reviewType = useLocation().pathname.split("/")[2];
 
   return (
     <Box>
@@ -37,7 +37,7 @@ const ReviewPage = () => {
         { /* TODO: Only allow verified users to write reviews */ }
         {/* BUTTON TO ADD REVIEW */}
         <Button
-          href={`/${reviewType}/form`}
+          href={`/school/${reviewType}/form`}
           variant="contained" 
           sx={{
             backgroundColor: primaryMain,

@@ -148,7 +148,7 @@ export default function ProfilePage() {
           </Box>
         </WidgetWrapper>
 
-        {/* TODO: Write all User's reviews */}     
+        {/* TODO: Write all User's reviews */}
       </Box>
     </Box>
   );

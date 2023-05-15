@@ -43,66 +43,6 @@ const Navbar = () => {
         >
           RateMyEx
         </Typography>
-        
-        {/* Internship Tab */}
-        <Typography
-          fontWeight="bold"
-          fontSize="clamp(1rem, 1rem, 1rem)"
-          color="primary"
-          onClick={() => navigate("/internships")}
-          sx={{
-            "&:hover": {
-              cursor: "pointer",
-            },
-          }}
-        >
-          Internships
-        </Typography>
-
-        {/* Dorms Tab */}
-        <Typography
-          fontWeight="bold"
-          fontSize="clamp(1rem, 1rem, 1rem)"
-          color="primary"
-          onClick={() => navigate("/dorms")}
-          sx={{
-            "&:hover": {
-              cursor: "pointer",
-            },
-          }}
-        >
-          Dorms
-        </Typography>
-
-        {/* Professors Tab */}
-        <Typography
-          fontWeight="bold"
-          fontSize="clamp(1rem, 1rem, 1rem)"
-          color="primary"
-          onClick={() => navigate("/professors")}
-          sx={{
-            "&:hover": {
-              cursor: "pointer",
-            },
-          }}
-        >
-          Professors
-        </Typography>
-
-      {/* Clubs Tab */}
-      <Typography
-          fontWeight="bold"
-          fontSize="clamp(1rem, 1rem, 1rem)"
-          color="primary"
-          onClick={() => navigate("/clubs")}
-          sx={{
-            "&:hover": {
-              cursor: "pointer",
-            },
-          }}
-        >
-          Clubs
-        </Typography>
       </FlexBetween>
 
       {/* Sign In or Menus */}

@@ -1,6 +1,6 @@
 import { Box, CardMedia, Grid, Rating, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { setCurrentSection } from "../state/auth";
 
@@ -12,15 +12,16 @@ const SectionPage = () => {
   const navigate = useNavigate();
 
   // State of School, & Sections
+  const school = useSelector((state) => state.school);
   const [sections, setSections] = useState([]);
 
-  // Types of Colors & Reviews
+  // Types of Colors &  Review Types
   const backgroundAlt = useTheme().palette.background.alt;
-  const reviewType = useLocation().pathname.split("/")[1];
+  const reviewType = useLocation().pathname.split("/")[2];
 
   const getSections = async () => {
     const response = await fetch(
-      `http://localhost:4000/${reviewType}/645d9c2677833ef3f86da1a3`,
+      `http://localhost:4000/${reviewType}/${school._id}`,
       {
         method: "GET",
       }
@@ -53,7 +54,7 @@ const SectionPage = () => {
                 key={section._id}
                 onClick={() => {
                   dispatch(setCurrentSection({ currentSection: section }));
-                  navigate(`/${reviewType}/reviews`)
+                  navigate(`/school/${reviewType}/reviews`)
                 }}
                 padding="1.5rem 1.5rem 0.75rem 1.5rem"
                 backgroundColor={backgroundAlt}

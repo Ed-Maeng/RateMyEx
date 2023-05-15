@@ -24,8 +24,8 @@ const ReviewForm = () => {
   const token = useSelector((state) => state.token);
   const currentSection = useSelector((state) => state.currentSection);
 
-  // Types of Reviews
-  const reviewType = useLocation().pathname.split("/")[1]
+  // Review Types
+  const reviewType = useLocation().pathname.split("/")[2];
   const isInternship = reviewType === "internships";
   const isDorm = reviewType === "dorms";
   const isProfessor = reviewType === "professor";
@@ -76,7 +76,7 @@ const ReviewForm = () => {
       await saveReview(values);
     }
     onSubmitProps.resetForm();
-    navigate(`/${reviewType}/reviews`);
+    navigate(`/school/${reviewType}/reviews`);
   };
 
   const handleSchema = () => {

@@ -7,7 +7,7 @@ const ReviewFormPage = () => {
   const theme = useTheme();
 
   // Types of Reviews
-  const reviewType = useLocation().pathname.split("/")[1]
+  const reviewType = useLocation().pathname.split("/")[2];
 
   return (
     <Box>
@@ -21,7 +21,7 @@ const ReviewFormPage = () => {
           fontWeight="bold"
           fontSize="clamp(1rem, 1.5rem, 1.5rem)"
           color="primary"
-          onClick={() => navigate(`/${reviewType}/reviews`)}
+          onClick={() => navigate(`/school/${reviewType}/reviews`)}
           sx={{
             "&:hover": {
               cursor: "pointer",

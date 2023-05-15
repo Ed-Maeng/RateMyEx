@@ -13,8 +13,8 @@ const ReviewsWidget = () => {
   const currentSection = useSelector((state) => state.currentSection);
   const [reviews, setReviews] = useState([]);
 
-  // Types of Reviews
-  const reviewType = useLocation().pathname.split("/")[1]
+  // Types of Review Types
+  const reviewType = useLocation().pathname.split("/")[2];
   const isInternship = reviewType === "internships";
   const isDorm = reviewType === "dorms";
   const isProfessor = reviewType === "professors";

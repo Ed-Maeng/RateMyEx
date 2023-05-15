@@ -1,17 +1,23 @@
-import SchoolIcon from '@mui/icons-material/School';
-import { Autocomplete, Box, IconButton, InputAdornment, InputBase, TextField, useTheme } from "@mui/material";
-
+import {
+  Autocomplete,
+  Box,
+  TextField,
+} from "@mui/material";
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setSchool } from '../state/auth';
+
+// Components
 import FlexBetween from "../components/FlexBetween";
 import Navbar from "../components/Navbar";
 
 const HomePage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // State of schools & Colors
   const [schools, setSchools] = useState([]);
-  const neutralLight = useTheme().palette.neutral.light;
 
   const getSchools = async () => {
     const response = await fetch(
@@ -47,6 +53,10 @@ const HomePage = () => {
           { /* Search Bar */ }
           <Autocomplete
             id="schools"
+            onChange={(event, school) => {
+              dispatch(setSchool({ school }));
+              navigate("/school")
+            }}
             options={schools}
             noOptionsText={"No School Found"}
             getOptionLabel={(schools) => `${schools.name} (${schools.shortName})`}

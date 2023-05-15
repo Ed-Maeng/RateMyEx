@@ -10,6 +10,7 @@ import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import ReviewFormPage from "./pages/ReviewFormPage";
 import ReviewPage from "./pages/ReviewPage";
+import SchoolPage from "./pages/SchoolPage";
 import SectionPage from "./pages/SectionPage";
 
 function App() {
@@ -27,26 +28,27 @@ function App() {
 
               { /* User Pages */ }            
               <Route path="/" element={<HomePage />} />
+              <Route path="/school" element={<SchoolPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/profile" element={<ProfilePage />} />
 
               { /* Section Pages */ }
-              <Route path="/internships" element={<SectionPage />} />
-              <Route path="/dorms" element={<SectionPage />} />
-              <Route path="/professors" element={<SectionPage />} />
-              <Route path="/clubs" element={<SectionPage />} />
+              <Route path="school/internships" element={<SectionPage />} />
+              <Route path="school/dorms" element={<SectionPage />} />
+              <Route path="school/professors" element={<SectionPage />} />
+              <Route path="school/clubs" element={<SectionPage />} />
 
               { /* Review Pages */ }
-              <Route path="/internships/reviews" element={<ReviewPage />} />
-              <Route path="/dorms/reviews" element={<ReviewPage />} />
-              <Route path="/professors/reviews" element={<ReviewPage />} />
-              <Route path="/clubs/reviews" element={<ReviewPage />} />
+              <Route path="school/internships/reviews" element={<ReviewPage />} />
+              <Route path="school/dorms/reviews" element={<ReviewPage />} />
+              <Route path="school/professors/reviews" element={<ReviewPage />} />
+              <Route path="school/clubs/reviews" element={<ReviewPage />} />
 
               { /* Review Form */ }
-              <Route path="/internships/form" element={<ReviewFormPage />} />
-              <Route path="/dorms/form" element={<ReviewFormPage />} />
-              <Route path="/professors/form" element={<ReviewFormPage />} />
-              <Route path="/clubs/form" element={<ReviewFormPage />} />
+              <Route path="school/internships/form" element={<ReviewFormPage />} />
+              <Route path="school/dorms/form" element={<ReviewFormPage />} />
+              <Route path="school/professors/form" element={<ReviewFormPage />} />
+              <Route path="school/clubs/form" element={<ReviewFormPage />} />
             </Routes>
           </div>
         </ThemeProvider>

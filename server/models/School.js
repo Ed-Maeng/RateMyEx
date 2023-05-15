@@ -7,6 +7,14 @@ const SchoolSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    shortName: {
+      type: String,
+      default: "",
+    },
+    location: {
+      type: String,
+      default: "",    
+    },
   },
   { timestamps: true }
 );

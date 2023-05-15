@@ -96,13 +96,3 @@ export const getDormReviews = async(req, res) => {
     res.status(404).json({ message: err.message });
   }
 }
-
-export const getUserDormReviews = async(req, res) => {
-  try {
-    const { dormId, userId } = req.params;
-    const dormReviews = await DormReview.find({ dormId, userId });
-    res.status(200).json(dormReviews);
-  } catch (err) {
-    res.status(404).json({ message: err.message });
-  }
-}

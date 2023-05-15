@@ -1,77 +1,155 @@
-import { Typography, useTheme, Button, Modal, Avatar, Stack } from "@mui/material";
-import Grid from '@mui/material/Unstable_Grid2';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
-import { BoxProps } from "@mui/material/Box";
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+  LocationOnOutlined,
+  ManageAccountsOutlined,
+  WorkOutlineOutlined,
+} from "@mui/icons-material";
+import CheckIcon from '@mui/icons-material/Check';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import {
+  Avatar,
+  Box,
+  Divider,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { isValidElement, useEffect, useState } from "react";
 
+// Components
+import FlexBetween from "../components/FlexBetween";
 import Navbar from "../components/Navbar";
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
+import WidgetWrapper from "../components/WidgetWrapper";
 
 export default function ProfilePage() {
+  // State of User, Token & User Reviews
   const user = useSelector((state) => state.user);
-  const currentSection = useSelector((state) => state.currentSection);
-  const [userInfo, setUserInfo] = useState([]);
+  const token = useSelector((state) => state.token);
+  const [userReviews, setUserReviews] = useState([]);
 
-  const getUserInfo = async () => {
-    const response = await fetch(
-      `http://localhost:4000/users/${user._id}`,
+  // Theme & Colors
+  const { palette } = useTheme();
+  const main = palette.neutral.main;
+  const dark = palette.neutral.dark;
+  const medium = palette.neutral.medium;
+
+  const getUserReviews = async () => {
+    const internshipResponse = await fetch(
+      `http://localhost:4000/schools`,
       {
         method: "GET",
+        "Authorization": `Bearer ${token}`,
       }
     );
-    
-    const data = await response.json();
-    setUserInfo(data);
+    const dormResponse = await fetch(
+      `http://localhost:4000/schools`,
+      {
+        method: "GET",
+        "Authorization": `Bearer ${token}`,
+      }
+    );
+    const clubResponse = await fetch(
+      `http://localhost:4000/schools`,
+      {
+        method: "GET",
+        "Authorization": `Bearer ${token}`,
+      }
+    );
+
+    const internshipReviews = await internshipResponse.json();
+    const dormReviews = await dormResponse.json();
+    const clubReviews = await clubResponse.json();
+    const reviews = Object.assign(internshipReviews, dormReviews, clubReviews);
+    setUserReviews(reviews);
   };
 
-  useEffect(() => { getUserInfo(); }); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    getUserReviews();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box>
       <Navbar />
-      <Grid container spacing={2} sx={{ width: "60%", margin: "5% 10% 10% 5%" }}>
-        <Grid>
-          <Item>
-            <Avatar
-              sx={{ width: "10em", height: "10em", margin: "auto" }}
-              src="TODO: add profile picture"
-            />
-          </Item>
-        </Grid>
-        <Grid xs={10}>
-          <Stack sapcing={2}>
-            <Item>
-              <Typography variant="h4" fontWeight="500">
-                Name: {userInfo.firstName + " " + userInfo.lastName}
+
+      <Box
+        width="100%"
+        padding="2rem 6%"
+        display={"flex"}
+        gap="0.5rem"
+        justifyContent="space-between"
+      >
+        <WidgetWrapper>
+          {/* FIRST ROW */}
+          <FlexBetween
+            gap="0.5rem"
+            pb="1.1rem"
+          >
+            <FlexBetween gap="1rem">
+              <Avatar />
+              <Box>
+                <Typography
+                  variant="h4"
+                  color={dark}
+                  fontWeight="500"
+                >
+                  {user.firstName} {user.lastName}
+                </Typography>
+              </Box>
+            </FlexBetween>
+            <ManageAccountsOutlined />
+          </FlexBetween>
+
+          <Divider />
+
+          {/* SECOND ROW */}
+          <Box p="1rem 0">
+            <Typography fontSize="1rem" color={main} fontWeight="500" mb="1rem">
+              Profile
+            </Typography>
+
+            <Box display="flex" alignItems="center" gap="1rem" mb="1rem">
+              <MailOutlineIcon fontSize="large" sx={{ color: main }} />
+              <Typography color={main}>{user.email}</Typography>
+            </Box>
+
+            <Box display="flex" alignItems="center" gap="1rem" mb="1rem">
+              <LocationOnOutlined fontSize="large" sx={{ color: main }} />
+              <Typography color={main}>{user.schoolName}</Typography>
+            </Box>
+            
+            <Box display="flex" alignItems="center" gap="1rem" mb="1rem">
+              <WorkOutlineOutlined fontSize="large" sx={{ color: main }} />
+              <Typography color={main}>{"Student"}</Typography>
+            </Box>
+
+            <Box display="flex" alignItems="center" gap="1rem" mb="1rem">
+              <CheckIcon fontSize="large" sx={{ color: main }} />
+              <Typography color={main}>{"Verified"}</Typography>
+            </Box>
+          </Box>
+
+          <Divider />
+
+          {/* THIRD ROW
+              TODO: Add number of reviews and likes to User Schema */}
+          <Box p="1rem 0">
+            <FlexBetween mb="0.5rem">
+              <Typography color={medium}>Number of Reviews</Typography>
+              <Typography color={main} fontWeight="500">
+                {0}
               </Typography>
-            </Item>
-            <Item>
-              <Typography variant="h4" fontWeight="500">
-                Email: {userInfo.email}
+            </FlexBetween>
+            <FlexBetween>
+              <Typography color={medium}>Number of Likes</Typography>
+              <Typography color={main} fontWeight="500">
+                {0}
               </Typography>
-            </Item>
-            <Item>
-              <Typography variant="h4" fontWeight="500">
-                School: {userInfo.schoolName}
-              </Typography>
-            </Item>
-          </Stack>
-        </Grid>
-        <Grid xs={4}>
-          
-        </Grid>
-      </Grid>
+            </FlexBetween>
+          </Box>
+        </WidgetWrapper>
+
+        {/* TODO: Write all User's reviews */}     
+      </Box>
     </Box>
   );
 }

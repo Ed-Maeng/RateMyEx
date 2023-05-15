@@ -1,10 +1,95 @@
+import SchoolIcon from '@mui/icons-material/School';
+import { Autocomplete, Box, IconButton, InputAdornment, InputBase, TextField, useTheme } from "@mui/material";
+
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import FlexBetween from "../components/FlexBetween";
 import Navbar from "../components/Navbar";
 
 const HomePage = () => {
+  const dispatch = useDispatch();
+
+  // State of schools & Colors
+  const [schools, setSchools] = useState([]);
+  const neutralLight = useTheme().palette.neutral.light;
+
+  const getSchools = async () => {
+    const response = await fetch(
+      `http://localhost:4000/schools`,
+      {
+        method: "GET",
+      }
+    );
+    const data = await response.json();
+    setSchools(data);
+  };
+
+  useEffect(() => {
+    getSchools();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
-    <>
+    <Box>
       <Navbar />
-    </>
+      <Box
+        width="100%"
+        padding="2rem 6%"
+        display={"flex"}
+        gap="0.5rem"
+        justifyContent="space-between"
+      >
+        <FlexBetween
+          borderRadius="20px"
+          gap="3rem"
+          padding="0.1rem 1.5rem"
+          m="auto"
+        >
+          { /* Search Bar */ }
+          <Autocomplete
+            id="schools"
+            options={schools}
+            noOptionsText={"No School Found"}
+            getOptionLabel={(schools) => `${schools.name} (${schools.shortName})`}
+            isOptionEqualToValue={(option, value) => option.name === value.name}
+            sx={{ 
+              width: 750
+            }}
+            renderOption={(props, schools) => (
+              <Box component="li" {...props} key={schools._id}>
+                {schools.name + " (" + schools.shortName + ")"}
+              </Box>
+            )}
+            renderInput={(params) => 
+              <TextField
+                {...params}
+                label="Search for your school"
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "50px",
+                    legend: {
+                      marginLeft: "30px"
+                    }
+                  },
+                  "& .MuiAutocomplete-inputRoot": {
+                    paddingLeft: "20px !important",
+                    borderRadius: "50px"
+                  },
+                  "& .MuiInputLabel-outlined": {
+                    paddingLeft: "20px"
+                  },
+                  "& .MuiInputLabel-shrink": {
+                    marginLeft: "20px",
+                    paddingLeft: "10px",
+                    paddingRight: 0,
+                    background: "white"
+                  },
+                }}
+              />
+            }
+          />
+        </FlexBetween>
+      </Box>
+    </Box>
   );
 }
  

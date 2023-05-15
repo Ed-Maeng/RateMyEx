@@ -17,6 +17,7 @@ import clubRoutes from "./routes/club.js";
 import dormRoutes from "./routes/dorm.js";
 import internshipRoutes from "./routes/internship.js";
 import schoolRoutes from "./routes/school.js";
+import userRoutes from "./routes/user.js";
 
 /* CONFIGURATIONS */
 const app = express();

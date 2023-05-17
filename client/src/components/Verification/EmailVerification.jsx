@@ -1,12 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { setLogin } from "../../state/auth";
+import Dialogs from "../Dialogs";
 
 const EmailVerification = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
+  // State of Email Token for verification
   const { emailToken } = useParams();
+
+  // Types of Open Dialogs
+  const [verifiedOpen, setVerifiedOpen] = useState(false);
+  const [notVerifiedOpen, setNotVerifiedOpen] = useState(false);
 
   const verifyEmail = async () => {  
     const verifyEmailResponse = await fetch(
@@ -25,19 +31,23 @@ const EmailVerification = () => {
           token: verifiedUser.token,
         })
       );
+      setVerifiedOpen(true);
     } else {
-      console.log(verifiedUser.msg);
+      setNotVerifiedOpen(true);
     }
-    navigate("/");
   };
 
   useEffect(() => {
     verifyEmail();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  /* TODO: Create a loading page (if needed)  */
+  /* TODO: Create a loading page (if needed) */
   return (
-    <></>
+    <>
+      {/* Warning Dialogs */}
+      <Dialogs open={verifiedOpen} setOpen={setVerifiedOpen} type="verified" />
+      <Dialogs open={notVerifiedOpen} setOpen={setNotVerifiedOpen} type="not-verified" />
+    </>
   );
 }
  

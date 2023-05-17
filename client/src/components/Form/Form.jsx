@@ -10,13 +10,14 @@ import { Formik } from "formik";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setLogin } from "../../state/auth";
 import {
   initialValuesLogin,
   initialValuesRegister,
   loginSchema,
   registerSchema
-} from "./InitialSchema";
+} from "../../constants/InitialSchema";
+import { setLogin } from "../../state/auth";
+import Dialogs from "../Dialogs";
 
 const Form = () => {
   const { palette } = useTheme();
@@ -28,6 +29,19 @@ const Form = () => {
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
 
+  // Types of Open Dialogs
+  const [sentVerifyOpen, setSentVerifyOpen] = useState(false);
+  const [userAlreadyFoundOpen, setUserAlreadyFoundOpen] = useState(false);
+  const [schoolEmailNotFoundOpen, setschoolEmailNotFoundOpen] = useState(false);
+
+  const [userNotFoundOpen, setUserNotFoundOpen] = useState(false);  
+  const [needVerifyOpen, setNeedVerifyOpen] = useState(false);
+  const [wrongPasswordOpen, setWrongPasswordOpen] = useState(false);
+
+
+  const [defaultOpen, setDefaultdOpen] = useState(false);
+
+
   const register = async (values, onSubmitProps) => {    
     const registerResponse = await fetch(
       "http://localhost:4000/auth/register",
@@ -37,14 +51,18 @@ const Form = () => {
         body: JSON.stringify(values),
       }
     );
-    const registeredUser = await registerResponse.json();
+    await registerResponse.json();
     onSubmitProps.resetForm();
 
     if (registerResponse.status === 201) {
-      navigate("/");
-      // TODO: Show "Sent Email Verification"
+      setSentVerifyOpen(true);
+    } else if (registerResponse.status === 409) {
+      setUserAlreadyFoundOpen(true);
+      setPageType("login");
+    } else if (registerResponse.status === 400) {
+      setschoolEmailNotFoundOpen(true);
     } else {
-      console.log(registeredUser.msg);
+      setDefaultdOpen(true);
     }
   };
 
@@ -68,12 +86,15 @@ const Form = () => {
           token: loggedIn.token,
         })
       );
-      navigate("/");
+    } else if (loggedInResponse.status === 404) {
+      setUserNotFoundOpen(true);
+      setPageType("register");
     } else if (loggedInResponse.status === 401) {
-      // TODO: Show "Need to Verify Email"
-      console.log(loggedIn.msg);
+      setNeedVerifyOpen(true);
+    } else if (loggedInResponse.status === 400) {
+      setWrongPasswordOpen(true);
     } else {
-      console.log(loggedIn.msg);
+      setDefaultdOpen(true);
     }
   };
 
@@ -215,6 +236,20 @@ const Form = () => {
                 : "Already have an account? Login here."}
             </Typography>
           </Box>
+          
+          {/* Warning Dialogs */}
+          { /* REGISTER */ }
+          <Dialogs open={sentVerifyOpen} setOpen={setSentVerifyOpen} type="sent-verify" />
+          <Dialogs open={userAlreadyFoundOpen} setOpen={setUserAlreadyFoundOpen} type="user-found" />
+          <Dialogs open={schoolEmailNotFoundOpen} setOpen={setschoolEmailNotFoundOpen} type="no-school-email" />
+
+          { /* LOG IN */ }
+          <Dialogs open={userNotFoundOpen} setOpen={setUserNotFoundOpen} type="no-user" />
+          <Dialogs open={needVerifyOpen} setOpen={setNeedVerifyOpen} type="need-verify" />
+          <Dialogs open={wrongPasswordOpen} setOpen={setWrongPasswordOpen} type="wrong-password" />
+
+          { /* DEFAULT */ }
+          <Dialogs open={defaultOpen} setOpen={setDefaultdOpen} type="default" />
         </form>
       )}
     </Formik>

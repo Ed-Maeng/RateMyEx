@@ -83,10 +83,6 @@ export const verifyEmail = async (req, res) => {
       { isVerified: true }
     );
 
-    if (!user.isVerified) {
-      return res.status(400).json({ msg: "Invalid token was sent." });
-    }
-
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     res.status(200).json({ token, user });
   } catch (err) {
@@ -101,7 +97,7 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email: email });
     // Check if email doesn't exist in our DB
     if (!user) {
-      return res.status(400).json({ msg: "User does not exist." });
+      return res.status(404).json({ msg: "User does not exist." });
     }
     // Check if user has verified email
     if (!user.isVerified) {

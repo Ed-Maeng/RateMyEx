@@ -33,6 +33,11 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
       required: true
+    },
+    numberOfReviews: {
+      type: Number,
+      default: 0,
+      required: true
     }
   },
   { timestamps: true }

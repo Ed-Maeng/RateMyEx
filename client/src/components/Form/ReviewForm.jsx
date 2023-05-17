@@ -12,8 +12,8 @@ import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
 // Components & Schema
+import * as InitialSchema from "../../constants/InitialSchema";
 import FlexBetween from "../FlexBetween";
-import * as InitialSchema from "./InitialSchema";
 
 const ReviewForm = () => {
   const { palette } = useTheme();
@@ -91,7 +91,7 @@ const ReviewForm = () => {
         return InitialSchema.clubSchema;
       // Find a better way to handle default (error)
       default:
-        return "No Schema"
+        return "No Schema";
     }
   }
 

@@ -6,7 +6,7 @@ const ReviewFormPage = () => {
   const navigate = useNavigate();
   const theme = useTheme();
 
-  // Types of Reviews
+  // Review Types
   const reviewType = useLocation().pathname.split("/")[2];
 
   return (

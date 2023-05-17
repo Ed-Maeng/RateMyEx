@@ -1,5 +1,10 @@
-import { CardMedia, ImageList, Rating, Typography } from "@mui/material";
-import { v4 as uuidv4 } from 'uuid';
+import { Button, CardMedia, ImageList, Rating, Typography } from "@mui/material";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
+
+// Pages & Components
+import Dialogs from '../../components/Dialogs';
 import FlexBetween from "../../components/FlexBetween";
 import WidgetWrapper from "../../components/WidgetWrapper";
 
@@ -9,6 +14,13 @@ const DormWidget = ({
   comment,
   imageUrls,
 }) => {
+    // State of User & Show More & Open
+    const user = useSelector((state) => state.user);
+    const [showMore, setShowMore] = useState(false);
+
+    // Types of Open Dialogs
+    const [signInOpen, setSignInOpen] = useState(false);
+    const [hasReviewOpen, setHasReviewOpen] = useState(false);
   
   return (
     <WidgetWrapper m="1rem 0">
@@ -25,9 +37,29 @@ const DormWidget = ({
       </FlexBetween>
 
       {/* COMMENT */}
-      <Typography m="0.5rem 0">
-        {comment}
-      </Typography>
+      { (comment.length > 100) 
+        ? 
+        <Typography m="0.5rem 0">
+          {showMore ? comment : `${comment.substring(0, 100)} ...`}
+          <Button 
+            onClick={() =>
+              !user ? setSignInOpen(true) :
+              (user.numberOfReviews < 1) ? setHasReviewOpen(true) :
+              setShowMore(!showMore)
+            }
+          >
+            {showMore ? "Show less" : "Show more"}
+          </Button>
+        </Typography> 
+        :
+        <Typography m="0.5rem 0">
+          {comment}
+        </Typography> 
+      }
+
+      {/* Warning Dialogs */}
+      <Dialogs open={signInOpen} setOpen={setSignInOpen} type="not-signin" />
+      <Dialogs open={hasReviewOpen} setOpen={setHasReviewOpen} type="no-review" />
 
       {/* IMAGES */}
       <ImageList sx={{ width: "auto", height: "auto" }} cols={3}>

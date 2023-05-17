@@ -82,6 +82,7 @@ const Form = () => {
           token: loggedIn.token,
         })
       );
+      navigate("/");
     } else if (loggedInResponse.status === 404) {
       setUserNotFoundOpen(true);
       setPageType("register");

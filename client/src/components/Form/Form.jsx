@@ -33,14 +33,10 @@ const Form = () => {
   const [sentVerifyOpen, setSentVerifyOpen] = useState(false);
   const [userAlreadyFoundOpen, setUserAlreadyFoundOpen] = useState(false);
   const [schoolEmailNotFoundOpen, setschoolEmailNotFoundOpen] = useState(false);
-
   const [userNotFoundOpen, setUserNotFoundOpen] = useState(false);  
   const [needVerifyOpen, setNeedVerifyOpen] = useState(false);
   const [wrongPasswordOpen, setWrongPasswordOpen] = useState(false);
-
-
   const [defaultOpen, setDefaultdOpen] = useState(false);
-
 
   const register = async (values, onSubmitProps) => {    
     const registerResponse = await fetch(

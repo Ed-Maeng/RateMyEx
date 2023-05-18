@@ -32,7 +32,7 @@ const SectionPage = () => {
 
   useEffect(() => {
     getSections();
-  }, [reviewType]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Box>
@@ -66,6 +66,7 @@ const SectionPage = () => {
                   {section.imageUrl && (
                     <CardMedia
                       image={section.imageUrl}
+                      loading="lazy"
                       style={{
                         height: 0,
                         paddingTop: '100%',

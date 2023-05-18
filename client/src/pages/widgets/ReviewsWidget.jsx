@@ -34,7 +34,7 @@ const ReviewsWidget = () => {
 
   useEffect(() => {
     getReviews();
-  }, [reviewType]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

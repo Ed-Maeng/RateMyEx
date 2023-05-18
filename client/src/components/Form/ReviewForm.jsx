@@ -92,7 +92,7 @@ const ReviewForm = () => {
       // Find a better way to handle default (error)
       default:
         return "No Schema";
-    }
+    };
   }
 
   const handleInitialValues = () => {
@@ -108,7 +108,7 @@ const ReviewForm = () => {
       // Find a better way to handle default (error)
       default:
         return "No Initial Values"
-    }
+    };
   }
 
   return (

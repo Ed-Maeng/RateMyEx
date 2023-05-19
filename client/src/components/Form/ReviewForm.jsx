@@ -28,7 +28,7 @@ const ReviewForm = () => {
   const reviewType = useLocation().pathname.split("/")[2];
   const isInternship = reviewType === "internships";
   const isDorm = reviewType === "dorms";
-  const isProfessor = reviewType === "professor";
+  const isProfessor = reviewType === "professors";
   const isClub = reviewType === "clubs";
 
   const saveReview = async (values) => {  

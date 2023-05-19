@@ -91,6 +91,7 @@ const ReviewsWidget = () => {
             location,
             rating,
             comment,
+            imageUrls
           }) => (
             <ProfessorWidget
               key={_id}
@@ -98,6 +99,7 @@ const ReviewsWidget = () => {
               location={location}
               rating={rating}
               comment={comment}
+              imageUrls={imageUrls}
             />
           )
         )

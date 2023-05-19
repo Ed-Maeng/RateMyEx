@@ -9,6 +9,7 @@ import { verifyToken } from "./middleware/auth.js";
 import { createClub, createClubReview } from "./controllers/club.js";
 import { createDorm, createDormReview } from "./controllers/dorm.js";
 import { createInternship, createInternshipReview } from "./controllers/internship.js";
+import { createProfessor, createProfessorReview } from "./controllers/professor.js";
 import { createSchool } from "./controllers/school.js";
 
 /* ROUTERS */
@@ -16,6 +17,7 @@ import authRoutes from "./routes/auth.js";
 import clubRoutes from "./routes/club.js";
 import dormRoutes from "./routes/dorm.js";
 import internshipRoutes from "./routes/internship.js";
+import professorRoutes from "./routes/professor.js";
 import schoolRoutes from "./routes/school.js";
 import userRoutes from "./routes/user.js";
 
@@ -37,11 +39,14 @@ app.post("/dorms/:schoolId", upload.single("file"), createDorm);
 app.post("/dorms/:dormId/:userId", verifyToken, upload.array("files[]", 3), createDormReview);
 app.post("/clubs/:schoolId", upload.single("file"), createClub);
 app.post("/clubs/:clubId/:userId", verifyToken, upload.array("files[]", 3), createClubReview);
+app.post("/professors/:schoolId", upload.single("file"), createProfessor);
+app.post("/professors/:professorId/:userId", verifyToken, upload.array("files[]", 3), createProfessorReview);
 
 /* ROUTES */
 app.use("/auth", authRoutes);
 app.use("/schools", schoolRoutes);
 app.use("/internships", internshipRoutes);
+app.use("/professors", professorRoutes);
 app.use("/dorms", dormRoutes);
 app.use("/clubs", clubRoutes);
 app.use("/users", userRoutes);

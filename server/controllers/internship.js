@@ -63,6 +63,13 @@ export const createInternshipReview = async(req, res) => {
     });
 
     const savedInternshipReview = await newInternshipReview.save();
+
+    // Update Internship `totalReviews` and `totalRatings`
+    await Internship.updateOne(
+      {_id: internshipId}, 
+      { $inc: { totalReviews: 1, totalRatings: rating }
+    });
+
     res.status(201).json(savedInternshipReview);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -95,5 +102,15 @@ export const getInternshipReviews = async(req, res) => {
     res.status(200).json(internshipReviews);
   } catch (err) {
     res.status(404).json({ message: err.message });
+  }
+}
+
+export const updateInternship = async(req, res) => {
+  try {
+    const { internshipId } = req.params;
+    const internship = await Internship.findOneAndUpdate({_id: internshipId}, {...req.body});
+    res.status(200).json(internship);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 }

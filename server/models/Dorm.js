@@ -16,7 +16,7 @@ const DormSchema = new mongoose.Schema(
       default: 0,
       required: true,
     },
-    averageRating: {
+    totalRatings: {
       type: Number,
       default: 0,
       required: true,

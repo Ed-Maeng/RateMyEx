@@ -11,7 +11,7 @@ const SectionPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // State of School, & Sections
+  // State of School, & Sections 
   const school = useSelector((state) => state.school);
   const [sections, setSections] = useState([]);
 
@@ -54,7 +54,7 @@ const SectionPage = () => {
                 key={section._id}
                 onClick={() => {
                   dispatch(setCurrentSection({ currentSection: section }));
-                  navigate(`/school/${reviewType}/reviews`)
+                  navigate(`/school/${reviewType}/reviews`);
                 }}
                 padding="1.5rem 1.5rem 0.75rem 1.5rem"
                 backgroundColor={backgroundAlt}
@@ -81,9 +81,14 @@ const SectionPage = () => {
                     <Typography variant="h3" fontWeight="500">
                       {section.name}
                     </Typography>
-                    <Rating name="read-only" value={section.totalReviews} readOnly />
+                    <Rating 
+                      name="read-only"
+                      precision={0.1}
+                      value={(section.totalReviews > 0) ? (section.totalRatings * 1.0 / section.totalReviews) : 0}
+                      readOnly 
+                    />
                     <Typography>
-                      {section.averageRating + " Reviews"}
+                      {section.totalReviews + " Reviews"}
                     </Typography>
                   </Box>
                 </Grid>

@@ -63,6 +63,13 @@ export const createClubReview = async(req, res) => {
     });
 
     const savedClubReview = await newClubReview.save();
+
+    // Update Club `totalReviews` and `totalRatings`
+    await Club.updateOne(
+      {_id: clubId}, 
+      { $inc: { totalReviews: 1, totalRatings: rating }
+    });
+
     res.status(201).json(savedClubReview);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -105,5 +112,15 @@ export const getUserClubReviews = async(req, res) => {
     res.status(200).json(clubReviews);
   } catch (err) {
     res.status(404).json({ message: err.message });
+  }
+}
+
+export const updateClub = async(req, res) => {
+  try {
+    const { clubId } = req.params;
+    const club = await Club.findOneAndUpdate({_id: clubId}, {...req.body});
+    res.status(200).json(club);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 }

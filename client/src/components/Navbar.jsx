@@ -1,6 +1,8 @@
+import RateReviewIcon from '@mui/icons-material/RateReview';
 import {
   Button,
   FormControl,
+  Grid,
   InputBase,
   MenuItem,
   Select,
@@ -15,35 +17,34 @@ import FlexBetween from "./FlexBetween";
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const theme = useTheme();
+  const { palette } = useTheme();
 
   // State of User & Boolean Authentication
   const user = useSelector((state) => state.user);
   const isAuth = Boolean(useSelector((state) => state.token));
 
-  // Types of Colors
-  const primaryMain = theme.palette.primary.main;
-  const neutralLight = theme.palette.neutral.light;
-  const alt = theme.palette.background.alt;
-
   return (
-    <FlexBetween padding="1rem 10%" backgroundColor={alt}>
-      <FlexBetween gap="2rem">
-        {/* Logo */}
-        <Typography
-          fontWeight="bold"
-          fontSize="clamp(1rem, 1.5rem, 1.5rem)"
-          color="primary"
-          onClick={() => navigate("/")}
-          sx={{
-            "&:hover": {
-              cursor: "pointer",
-            },
-          }}
-        >
-          RateMyEx
-        </Typography>
-      </FlexBetween>
+    <FlexBetween padding="1rem 10%">
+      <Grid container direction="row" alignItems="center">
+        <Grid item>
+          <Typography
+            fontWeight="bold"
+            fontSize="clamp(1rem, 1.5rem, 1.5rem)"
+            color="primary"
+            onClick={() => navigate("/")}
+            sx={{
+              "&:hover": {
+                cursor: "pointer",
+              },
+            }}
+          >
+            ratemyex
+          </Typography>
+        </Grid>
+        <Grid item>
+          <RateReviewIcon />
+        </Grid>
+      </Grid>
 
       {/* Sign In or Menus */}
       <FlexBetween gap="2rem">
@@ -53,7 +54,7 @@ const Navbar = () => {
             <Select
               value={user.firstName}
               sx={{
-                backgroundColor: neutralLight,
+                backgroundColor: palette.neutral.light,
                 width: "150px",
                 borderRadius: "0.25rem",
                 p: "0.25rem 1rem",
@@ -62,7 +63,7 @@ const Navbar = () => {
                   width: "3rem",
                 },
                 "& .MuiSelect-select:focus": {
-                  backgroundColor: neutralLight,
+                  backgroundColor: palette.neutral.light,
                 },
               }}
               input={<InputBase />}
@@ -80,12 +81,12 @@ const Navbar = () => {
             href="/login"
             variant="contained" 
             sx={{
-              backgroundColor: primaryMain,
+              backgroundColor: palette.primary.main,
               width: "150px",
               borderRadius: "0.25rem",
               p: "0.25rem 1rem",
               "&:hover": {
-                backgroundColor: primaryMain
+                backgroundColor: palette.primary.secondary,
               }
             }}
           >

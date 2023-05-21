@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
 // Pages & Components
+import { useTheme } from "@emotion/react";
 import Dialogs from '../../components/Dialogs';
 import FlexBetween from "../../components/FlexBetween";
 import WidgetWrapper from "../../components/WidgetWrapper";
@@ -15,6 +16,8 @@ const InternshipWidget = ({
   comment,
   imageUrls,
 }) => {
+  const { palette } = useTheme();
+
   // State of User & Show More & Open
   const user = useSelector((state) => state.user);
   const [showMore, setShowMore] = useState(false);
@@ -41,11 +44,15 @@ const InternshipWidget = ({
       </FlexBetween>
 
       {/* COMMENT */}
-      { (comment.length > 100) 
+      {(comment.length > 100) 
         ? 
         <Typography m="0.5rem 0">
           {showMore ? comment : `${comment.substring(0, 100)} ...`}
-          <Button 
+          <Button
+            sx={{
+              height: 30,
+              color: palette.button.default,
+            }}
             onClick={() =>
               !user ? setSignInOpen(true) :
               (user.numberOfReviews < 1) ? setHasReviewOpen(true) :
@@ -66,7 +73,7 @@ const InternshipWidget = ({
       <Dialogs open={hasReviewOpen} setOpen={setHasReviewOpen} type="no-review" />
 
       {/* IMAGES */}
-      <ImageList sx={{ width: "auto", height: "auto" }} cols={3}>
+      <ImageList sx={{ width: 750, height: "auto" }} cols={3}>
         {imageUrls.map((imageUrl) => (
           <CardMedia
             key={uuidv4()}

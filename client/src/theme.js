@@ -2,7 +2,7 @@
 export const colorTokens = {
   grey: {
     0: "#FFFFFF",
-    10: "#F6F6F6",
+    10: "#F9F9F9",
     50: "#F0F0F0",
     100: "#E0E0E0",
     200: "#C2C2C2",
@@ -16,17 +16,17 @@ export const colorTokens = {
     1000: "#000000",
   },
   primary: {
-    50: "#E6FBFF",
-    100: "#CCF7FE",
-    200: "#99EEFD",
+    50: "#FFFFFF",
+    100: "#E4E6EB",
+    200: "#B0B3BB",
     300: "#66E6FC",
     400: "#33DDFB",
-    500: "#00D5FA",
-    600: "#00A0BC",
-    700: "#006B7D",
-    800: "#00353F",
-    900: "#001519",
+    500: "#121212",
   },
+  button: {
+    0: "#1F51FF",
+    50: "#7182aa",
+  }
 };
 
 // mui theme settings
@@ -34,10 +34,13 @@ export const themeSettings = () => {
   return {
     palette: {
       primary: {
-        dark: colorTokens.primary[700],
         main: colorTokens.primary[500],
+        secondary: colorTokens.primary[200],
         light: colorTokens.primary[50],
-        contrastText: colorTokens.primary[50],
+      },
+      button: {
+        default: colorTokens.button[0],
+        alt: colorTokens.button[50],
       },
       neutral: {
         dark: colorTokens.grey[700],
@@ -47,8 +50,8 @@ export const themeSettings = () => {
         light: colorTokens.grey[50],
       },
       background: {
-        default: colorTokens.grey[10],
-        alt: colorTokens.grey[0],
+        default: colorTokens.grey[0],
+        alt: colorTokens.grey[10],
       },
     },
     typography: {

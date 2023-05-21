@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
 // Pages & Components
+import { useTheme } from "@emotion/react";
 import Dialogs from '../../components/Dialogs';
 import FlexBetween from "../../components/FlexBetween";
 import WidgetWrapper from "../../components/WidgetWrapper";
@@ -15,6 +16,8 @@ const ProfessorWidget = ({
   comment,
   imageUrls,
 }) => {
+  const { palette } = useTheme();
+
   // State of User & Show More & Open
   const user = useSelector((state) => state.user);
   const [showMore, setShowMore] = useState(false);
@@ -45,7 +48,11 @@ const ProfessorWidget = ({
         ? 
         <Typography m="0.5rem 0">
           {showMore ? comment : `${comment.substring(0, 100)} ...`}
-          <Button 
+          <Button
+            sx={{
+              height: 30,
+              color: palette.button.default,
+            }}
             onClick={() =>
               !user ? setSignInOpen(true) :
               (user.numberOfReviews < 1) ? setHasReviewOpen(true) :

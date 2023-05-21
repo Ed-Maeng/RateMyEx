@@ -2,7 +2,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import HomeIcon from '@mui/icons-material/Home';
 import SchoolIcon from '@mui/icons-material/School';
 import WorkIcon from '@mui/icons-material/Work';
-import { Box, Chip, Typography, useTheme } from "@mui/material";
+import { Box, Chip, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -16,13 +16,12 @@ const SchoolPage = () => {
 
   // State of School & Color
   const school = useSelector((state) => state.school);
-  const backgroundAlt = useTheme().palette.background.alt;
 
   return (
     <Box>
       <Navbar />
 
-      <Box padding="1rem" backgroundColor={backgroundAlt}>
+      <Box padding="1rem">
         <Typography
           fontWeight="bold"
           fontSize="clamp(1rem, 1.5rem, 1.5rem)"
@@ -38,7 +37,6 @@ const SchoolPage = () => {
           <Chip 
             icon={<WorkIcon />} 
             label="Internships"
-            color="primary"
             style={{fontSize: '1rem'}}
             onClick={() => navigate("/school/internships")} 
           />
@@ -46,7 +44,6 @@ const SchoolPage = () => {
           <Chip 
             icon={<HomeIcon />} 
             label="Dorms" 
-            color="primary"
             style={{fontSize: '1rem'}}
             onClick={() => navigate("/school/dorms")} 
           />
@@ -54,7 +51,6 @@ const SchoolPage = () => {
           <Chip 
             icon={<GroupsIcon />} 
             label="Clubs" 
-            color="primary"
             style={{fontSize: '1rem'}}
             onClick={() => navigate("/school/clubs")} 
           />
@@ -62,7 +58,6 @@ const SchoolPage = () => {
           <Chip 
             icon={<SchoolIcon />} 
             label="Professors"
-            color="primary" 
             style={{fontSize: '1rem'}}
             onClick={() => navigate("/school/professors")} 
           />

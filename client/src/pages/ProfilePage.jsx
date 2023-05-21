@@ -102,7 +102,7 @@ export default function ProfilePage() {
           <Divider />
 
           {/* SECOND ROW */}
-          <Box p="1rem 0">
+          <Box padding="1rem 0">
             <Typography fontSize="1rem" color={main} fontWeight="500" mb="1rem">
               Profile
             </Typography>
@@ -132,7 +132,7 @@ export default function ProfilePage() {
 
           {/* THIRD ROW
               TODO: Add number of reviews and likes to User Schema */}
-          <Box p="1rem 0">
+          <Box padding="1rem 0">
             <FlexBetween mb="0.5rem">
               <Typography color={medium}>Number of Reviews</Typography>
               <Typography color={main} fontWeight="500">

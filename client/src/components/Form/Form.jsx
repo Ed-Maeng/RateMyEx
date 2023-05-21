@@ -139,6 +139,7 @@ const Form = () => {
               "& > div": { gridColumn: undefined },
             }}
           >
+            {/* TODO: Add Google OAuth for Sign In*/}
             <GoogleLogin
               clientId={'980561439678-8dkln531dm56ljkn8jcvbmslabo246ps.apps.googleusercontent.com'}
               buttonText="Login"
@@ -205,9 +206,11 @@ const Form = () => {
               sx={{
                 m: "2rem 0",
                 p: "1rem",
-                backgroundColor: palette.primary.main,
+                backgroundColor: palette.button.default,
                 color: palette.background.alt,
-                "&:hover": { color: palette.primary.main },
+                "&:hover": { 
+                  backgroundColor: palette.button.alt,
+                },
               }}
             >
               {isLogin ? "LOGIN" : "REGISTER"}
@@ -221,16 +224,16 @@ const Form = () => {
               }}
               sx={{
                 textDecoration: "underline",
-                color: palette.primary.main,
+                color: palette.button.default,
                 "&:hover": {
                   cursor: "pointer",
-                  color: palette.primary.light,
+                  color: palette.button.alt,
                 },
               }}
             >
               {isLogin
-                ? "Don't have an account? Sign Up here."
-                : "Already have an account? Login here."}
+                ? "Don't have an account? Sign Up here!"
+                : "Already have an account? Login here!"}
             </Typography>
           </Box>
           

@@ -9,6 +9,7 @@ import Navbar from '../components/Navbar';
 import ReviewWidgets from './widgets/ReviewsWidget';
 
 const ReviewPage = () => {
+  const { palette } = useTheme();
   const navigate = useNavigate();
 
   // State of Current Section & User & Open
@@ -19,8 +20,6 @@ const ReviewPage = () => {
   const [signInOpen, setSignInOpen] = useState(false);
 
   // Types of Colors & Review Types
-  const primaryMain = useTheme().palette.primary.main;
-  const backgroundAlt = useTheme().palette.background.alt;
   const reviewType = useLocation().pathname.split("/")[2];
 
   return (
@@ -29,12 +28,12 @@ const ReviewPage = () => {
 
       <Box
         width="100%"
-        backgroundColor={backgroundAlt}
-        p="1rem 6%"
+        padding="1rem"
         textAlign="center"
       >
         {/* TYPE OF REVIEW (FROM SECTIONS) */}
         <Typography
+          padding="0.5rem"
           fontWeight="bold"
           fontSize="clamp(1rem, 1.5rem, 1.5rem)"
           color="primary"
@@ -49,16 +48,16 @@ const ReviewPage = () => {
             (!user ? setSignInOpen(true) : navigate(`/school/${reviewType}/form`))
           }
           sx={{
-            backgroundColor: primaryMain,
-            width: "150px",
+            backgroundColor: palette.button.default,
+            width: "500px",
+            height: "50px",
             borderRadius: "0.25rem",
-            p: "0.25rem 1rem",
             "&:hover": {
-              backgroundColor: primaryMain
+              backgroundColor: palette.button.alt
             }
           }}
         >
-          Add Review
+          Add Review Here!
         </Button>
 
         {/* Warning Dialogs */}
@@ -68,12 +67,10 @@ const ReviewPage = () => {
       {/* LIST OF REVIEWS */}
       <Box
         width="100%"
-        padding="2rem 6%"
         display={"flex"}
-        gap="0.5rem"
         justifyContent="space-between"
       >
-        <Box m="auto" flexBasis={"50%"}>
+        <Box m="auto" flexBasis="90%">
           <ReviewWidgets />
         </Box>
       </Box>

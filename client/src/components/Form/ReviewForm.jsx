@@ -1,4 +1,5 @@
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import ImageIcon from '@mui/icons-material/Image';
 import {
   Box,
   Button,
@@ -136,6 +137,7 @@ const ReviewForm = () => {
               <>
                 <TextField
                   label="Role"
+                  variant="standard"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.role}
@@ -151,6 +153,7 @@ const ReviewForm = () => {
               <>
                 <TextField
                   label="Location"
+                  variant="standard"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.location}
@@ -166,6 +169,7 @@ const ReviewForm = () => {
               <>
                 <TextField
                   label="Class"
+                  variant="standard"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.className}
@@ -179,6 +183,7 @@ const ReviewForm = () => {
 
             <TextField
               label="Rating"
+              variant="standard"
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.rating}
@@ -189,6 +194,8 @@ const ReviewForm = () => {
             />
             <TextField
               label="Comment"
+              multiline
+              rows={6}
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.comment}
@@ -202,7 +209,7 @@ const ReviewForm = () => {
               gridColumn="span 4"
               border={`1px solid ${palette.neutral.medium}`}
               borderRadius="5px"
-              p="1rem"
+              padding="1rem"
             >
               <Dropzone
                 acceptedFiles=".jpg,.jpeg,.png"
@@ -214,13 +221,16 @@ const ReviewForm = () => {
                   <Box
                     {...getRootProps()}
                     border={`2px dashed ${palette.primary.main}`}
-                    p="1rem"
+                    padding="1rem"
                     textAlign="center"
                     sx={{ "&:hover": { cursor: "pointer" } }}
                   >
                     <input {...getInputProps()} />
                     {values.files.length === 0 ? (
-                      <Typography alignItems="center">Add Picture Here</Typography>
+                      <FlexBetween>
+                        <Typography alignItems="center">Add Picture Here</Typography>
+                        <ImageIcon />
+                      </FlexBetween>
                     ) : (
                       <FlexBetween>
                         <Box>
@@ -247,9 +257,11 @@ const ReviewForm = () => {
               sx={{
                 m: "2rem 0",
                 p: "1rem",
-                backgroundColor: palette.primary.main,
+                backgroundColor: palette.button.default,
                 color: palette.background.alt,
-                "&:hover": { color: palette.primary.main },
+                "&:hover": { 
+                  backgroundColor: palette.button.alt,
+                },
               }}
             >
               {"SUBMIT"}

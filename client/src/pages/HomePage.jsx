@@ -9,10 +9,13 @@ import { useNavigate } from "react-router-dom";
 import { setSchool } from '../state/auth';
 
 // Components
+import { useTheme } from "@emotion/react";
 import FlexBetween from "../components/FlexBetween";
 import Navbar from "../components/Navbar";
+import SearchText from "../components/SearchText";
 
 const HomePage = () => {
+  const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -50,50 +53,29 @@ const HomePage = () => {
           padding="0.1rem 1.5rem"
           m="auto"
         >
-          { /* Search Bar */ }
+          {/* Search Bar */}
           <Autocomplete
             id="schools"
             onChange={(event, school) => {
               dispatch(setSchool({ school }));
-              navigate("/school")
+              navigate("/school");
             }}
             options={schools}
             noOptionsText={"No School Found"}
             getOptionLabel={(schools) => `${schools.name} (${schools.shortName})`}
             isOptionEqualToValue={(option, value) => option.name === value.name}
-            sx={{ 
-              width: 750
+            sx={{
+              width: 750,
             }}
             renderOption={(props, schools) => (
               <Box component="li" {...props} key={schools._id}>
                 {schools.name + " (" + schools.shortName + ")"}
               </Box>
             )}
-            renderInput={(params) => 
-              <TextField
+            renderInput={(params) =>
+              <SearchText
                 {...params}
                 label="Search for your school"
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "50px",
-                    legend: {
-                      marginLeft: "30px"
-                    }
-                  },
-                  "& .MuiAutocomplete-inputRoot": {
-                    paddingLeft: "20px !important",
-                    borderRadius: "50px"
-                  },
-                  "& .MuiInputLabel-outlined": {
-                    paddingLeft: "20px"
-                  },
-                  "& .MuiInputLabel-shrink": {
-                    marginLeft: "20px",
-                    paddingLeft: "10px",
-                    paddingRight: 0,
-                    background: "white"
-                  },
-                }}
               />
             }
           />

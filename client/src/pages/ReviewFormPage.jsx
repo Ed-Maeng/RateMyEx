@@ -1,10 +1,9 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import ReviewForm from "../components/Form/ReviewForm";
 
 const ReviewFormPage = () => {
   const navigate = useNavigate();
-  const theme = useTheme();
 
   // Review Types
   const reviewType = useLocation().pathname.split("/")[2];
@@ -13,9 +12,9 @@ const ReviewFormPage = () => {
     <Box>
       <Box
         width="100%"
-        backgroundColor={theme.palette.background.alt}
-        p="1rem 6%"
+        padding="1rem 6%"
         textAlign="center"
+        pt="3rem"
       >
         <Typography
           fontWeight="bold"
@@ -28,17 +27,11 @@ const ReviewFormPage = () => {
             },
           }}
         >
-          Leave Your Review Here
+          Write Your Review
         </Typography>
       </Box>
 
-      <Box
-        width="50%"
-        p="2rem"
-        m="2rem auto"
-        borderRadius="1.5rem"
-        backgroundColor={theme.palette.background.alt}
-      >
+      <Box m="auto" width="50%">
         <ReviewForm />
       </Box>
     </Box>

@@ -1,4 +1,14 @@
-import { Box, CardMedia, Grid, Rating, Typography, useTheme } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
+import {
+  Autocomplete,
+  Box,
+  CardMedia,
+  Grid,
+  IconButton,
+  Rating,
+  Typography,
+  useTheme
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -6,6 +16,7 @@ import { setCurrentSection } from "../state/auth";
 
 // Pages & Components
 import Navbar from "../components/Navbar";
+import SearchText from "../components/SearchText";
 
 const SectionPage = () => {
   const dispatch = useDispatch();
@@ -40,11 +51,42 @@ const SectionPage = () => {
 
       <Box
         width="100%"
-        padding="2rem 6%"
+        padding="2rem"
         display={"flex"}
         gap="0.5rem"
         justifyContent="space-between"
       >
+        {/* Search Bar */}
+        <Autocomplete
+          id={`${reviewType}`}
+          onChange={(event, section) => {
+            dispatch(setCurrentSection({ currentSection: section }));
+            navigate(`/school/${reviewType}/reviews`);
+          }}
+          options={sections}
+          noOptionsText={`No ${reviewType} Found`}
+          getOptionLabel={(sections) => `${sections.name}`}
+          isOptionEqualToValue={(option, value) => option.name === value.name}
+          sx={{
+            width: 750,
+          }}
+          renderOption={(props, sections) => (
+            <Box component="li" {...props} key={sections._id}>
+              {sections.name}
+            </Box>
+          )}
+          renderInput={(params) =>
+            <SearchText
+              {...params}
+              label={`Search for ${reviewType}`}
+            />
+          }
+        />
+        {/* Add Section Button */}
+        <IconButton p="1rem" color="primary" style={{maxHeight:'40px', backgroundColor: backgroundAlt}}>
+          <AddIcon />
+        </IconButton>
+
         <Box m="auto" flexBasis={"20%"}>
           {
             sections.map((section) => (
@@ -56,7 +98,7 @@ const SectionPage = () => {
                   dispatch(setCurrentSection({ currentSection: section }));
                   navigate(`/school/${reviewType}/reviews`);
                 }}
-                padding="1.5rem 1.5rem 0.75rem 1.5rem"
+                padding="0.75rem 0.75rem 0.75rem 1.5rem"
                 backgroundColor={backgroundAlt}
                 borderRadius="0.75rem"
                 sx={{ "&:hover": { cursor: "pointer" } }}

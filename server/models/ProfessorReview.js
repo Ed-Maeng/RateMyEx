@@ -24,6 +24,10 @@ const ProfessorReviewSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    term: {
+      type: String,
+      required: true,
+    },
     comment: {
       type: String,
       required: true,

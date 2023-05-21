@@ -10,15 +10,18 @@ import { Formik } from "formik";
 import Dropzone from "react-dropzone";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 // Components & Schema
 import * as InitialSchema from "../../constants/InitialSchema";
+import LoadingComponent from "../../components/LoadingComponent";
 import FlexBetween from "../FlexBetween";
 
 const ReviewForm = () => {
   const { palette } = useTheme();
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
+  const [isClicked, setClick] = useState(false);
   // State of User, Token & Current Section
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
@@ -70,11 +73,15 @@ const ReviewForm = () => {
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
+    setLoading(true);
     if (isInternship || isDorm || isClub) {
       await saveReviewWithImage(values);
     } else {
       await saveReview(values);
     }
+    await new Promise(r => setTimeout(r, 3000)); //TODO: For testing purposes - remove later
+    setLoading(false);
+    await new Promise(r => setTimeout(r, 1000)); //TODO: For testing purposes - remove later
     onSubmitProps.resetForm();
     navigate(`/school/${reviewType}/reviews`);
   };
@@ -244,6 +251,9 @@ const ReviewForm = () => {
             <Button
               fullWidth
               type="submit"
+              onClick={() => {
+                setClick(true);
+              }}
               sx={{
                 m: "2rem 0",
                 p: "1rem",
@@ -251,8 +261,7 @@ const ReviewForm = () => {
                 color: palette.background.alt,
                 "&:hover": { color: palette.primary.main },
               }}
-            >
-              {"SUBMIT"}
+            >{loading && setClick ? <LoadingComponent /> : <>{"SUBMIT"}</>}
             </Button>
           </Box>
         </form>

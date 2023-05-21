@@ -34,6 +34,7 @@ const ReviewsWidget = () => {
     await new Promise(r => setTimeout(r, 3000)); //TODO: For testing purposes - remove later
 
     const data = await response.json();
+    console.log(data);
     setReviews(data);
     // After API call, set loading to false
     setLoading(false);

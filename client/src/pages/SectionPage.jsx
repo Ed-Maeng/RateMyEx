@@ -21,7 +21,7 @@ const SectionPage = () => {
 
   const getSections = async () => {
     const response = await fetch(
-      `http://ec2-3-239-251-252.compute-1.amazonaws.com:4000/${reviewType}/${school._id}`,
+      `http://localhost:4000/${reviewType}/${school._id}`,
       {
         method: "GET",
       }

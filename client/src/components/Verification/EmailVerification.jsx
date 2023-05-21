@@ -16,7 +16,7 @@ const EmailVerification = () => {
 
   const verifyEmail = async () => {  
     const verifyEmailResponse = await fetch(
-      `http://ec2-3-239-251-252.compute-1.amazonaws.com:4000/auth/verifyemail`,
+      `http://localhost:4000/auth/verifyemail`,
       {
         method: "POST",
         headers: { "Authorization": `Bearer ${emailToken}` },

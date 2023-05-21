@@ -7,11 +7,13 @@ import ClubWidget from "./ClubWidget";
 import DormWidget from "./DormWidget";
 import InternshipWidget from "./InternshipWidget";
 import ProfessorWidget from "./ProfessorWidget";
+import LoadingComponent from "../../components/LoadingComponent";
 
 const ReviewsWidget = () => {
   // State of Reviews & Current Section
   const currentSection = useSelector((state) => state.currentSection);
   const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // Types of Review Types
   const reviewType = useLocation().pathname.split("/")[2];
@@ -21,15 +23,20 @@ const ReviewsWidget = () => {
   const isClub = reviewType === "clubs";
 
   const getReviews = async () => {
+      // Before API call, set loading to true
+    setLoading(true);
     const response = await fetch(
-      `http://localhost:4000/${reviewType}/reviews/${currentSection._id}`, 
+      `http://localhost:4000/${reviewType}/reviews/${currentSection._id}`,
       {
         method: "GET",
       }
     );
+    await new Promise(r => setTimeout(r, 3000)); //TODO: For testing purposes - remove later
 
     const data = await response.json();
     setReviews(data);
+    // After API call, set loading to false
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -37,7 +44,7 @@ const ReviewsWidget = () => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <>
+    <>{loading ? <LoadingComponent /> : <>
       {/* INTERNSHIP WIDGET */}
       {isInternship &&
         reviews.map(
@@ -60,7 +67,7 @@ const ReviewsWidget = () => {
           )
         )
       }
-      
+
       {/* DORM WIDGET */}
       {isDorm &&
         reviews.map(
@@ -105,7 +112,7 @@ const ReviewsWidget = () => {
         )
       }
 
-      {/* CLUB WIDGET */}  
+      {/* CLUB WIDGET */}
       {isClub &&
         reviews.map(
           ({
@@ -122,7 +129,8 @@ const ReviewsWidget = () => {
             />
           )
         )
-      } 
+      }
+    </>}
     </>
   );
 }

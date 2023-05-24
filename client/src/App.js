@@ -1,6 +1,7 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, {useEffect } from 'react';
 import { themeSettings } from "./theme";
 
 // Pages & Components
@@ -15,19 +16,16 @@ import SectionPage from "./pages/SectionPage";
 
 //Google Analytics
 import ReactGA from 'react-ga';
-
-ReactGA.initialize('G-W280987CCT');
-
+const TRACKING_ID = "G-W280987CCT"; // OUR_TRACKING_ID
+ReactGA.initialize(TRACKING_ID);
 function App() {
 
   const theme = createTheme(themeSettings());
-  const location = useLocation();
-
-  // Fired on every route change
-  useEffect(() => {
-    ReactGA.pageview(location.pathname + location.search);
-  }, [location]);
   
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
+
   return (
       <div className="App">
         <BrowserRouter>

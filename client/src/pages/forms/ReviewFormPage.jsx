@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
-import ReviewForm from "../components/Form/ReviewForm";
+import ReviewForm from "../../components/forms/ReviewForm";
 
 const ReviewFormPage = () => {
   const navigate = useNavigate();

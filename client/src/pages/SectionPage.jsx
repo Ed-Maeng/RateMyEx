@@ -1,13 +1,16 @@
-import AddIcon from '@mui/icons-material/Add';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {
   Autocomplete,
+  Avatar,
   Box,
-  CardMedia,
-  Grid,
+  Divider,
   IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
   Rating,
   Typography,
-  useTheme
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,20 +18,27 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { setCurrentSection } from "../state/auth";
 
 // Pages & Components
+import Dialogs from '../components/Dialogs';
+import FlexBetween from "../components/FlexBetween";
 import Navbar from "../components/Navbar";
 import SearchText from "../components/SearchText";
+import SectionFormPage from "../pages/forms/SectionFormPage";
 
 const SectionPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // State of School, & Sections 
+  // State of School, User, & Sections 
   const school = useSelector((state) => state.school);
+  const user = useSelector((state) => state.user);
   const [sections, setSections] = useState([]);
 
-  // Types of Colors &  Review Types
-  const backgroundAlt = useTheme().palette.background.alt;
+  // Review Types
   const reviewType = useLocation().pathname.split("/")[2];
+
+  // Types of Open Dialogs
+  const [sectionFormOpen, setSectionFormOpen] = useState(false);
+  const [signInOpen, setSignInOpen] = useState(false);
 
   const getSections = async () => {
     const response = await fetch(
@@ -50,11 +60,11 @@ const SectionPage = () => {
       <Navbar />
 
       <Box
-        width="100%"
-        padding="2rem"
-        display={"flex"}
-        gap="0.5rem"
-        justifyContent="space-between"
+        display="flex"
+        width="90%"
+        padding="1rem"
+        m="auto"
+        justifyContent="center"
       >
         {/* Search Bar */}
         <Autocomplete
@@ -82,63 +92,68 @@ const SectionPage = () => {
             />
           }
         />
-        {/* Add Section Button */}
-        <IconButton p="1rem" color="primary" style={{maxHeight:'40px', backgroundColor: backgroundAlt}}>
-          <AddIcon />
+
+        {/* ADD BUTTON */}
+        <IconButton 
+          onClick={() => 
+            (!user ? setSignInOpen(true) : setSectionFormOpen(true))
+          }
+          style={{height: "50px"}}
+        >
+          <AddCircleIcon fontSize="large" />
         </IconButton>
 
-        <Box m="auto" flexBasis={"20%"}>
+        {/* Form for Adding Sections */}
+        <SectionFormPage open={sectionFormOpen} setOpen={setSectionFormOpen} />
+
+        {/* Sections Recommendation */}
+        <Box px="2rem">
           {
             sections.map((section) => (
-              <Grid 
-                m="1rem 0"
-                container spacing={2}
-                key={section._id}
+              <List
+                key={section.name}
                 onClick={() => {
                   dispatch(setCurrentSection({ currentSection: section }));
                   navigate(`/school/${reviewType}/reviews`);
                 }}
-                padding="0.75rem 0.75rem 0.75rem 1.5rem"
-                backgroundColor={backgroundAlt}
-                borderRadius="0.75rem"
-                sx={{ "&:hover": { cursor: "pointer" } }}
+                sx={{
+                  "&:hover": { cursor: "pointer" },
+                }}
               >
-                {/* IMAGE */}
-                <Grid item xs={3}>
-                  {section.imageUrl && (
-                    <CardMedia
-                      image={section.imageUrl}
-                      loading="lazy"
-                      style={{
-                        height: 0,
-                        paddingTop: '100%',
-                      }}
-                    />
-                  )}
-                </Grid>
+                <ListItem>
+                  <ListItemAvatar>
+                    <Avatar alt={section.name} src={section.imageUrl} sx={{ width: 65, height: 65 }} />
+                  </ListItemAvatar>
 
-                {/* SECTION NAME, TOTAL & AVERAGE RATING */}
-                <Grid item xs={9}>
-                  <Box>
-                    <Typography variant="h3" fontWeight="500">
-                      {section.name}
-                    </Typography>
-                    <Rating 
-                      name="read-only"
-                      precision={0.1}
-                      value={(section.totalReviews > 0) ? (section.totalRatings * 1.0 / section.totalReviews) : 0}
-                      readOnly 
-                    />
-                    <Typography>
-                      {section.totalReviews + " Reviews"}
-                    </Typography>
-                  </Box>
-                </Grid>
-              </Grid>
+                  <ListItemText
+                    primary={
+                      <Box px="0.4rem">
+                        <Typography variant="h4" fontWeight="bold">
+                          {section.name}
+                        </Typography>
+                        <Rating 
+                          name="read-only"
+                          precision={0.1}
+                          value={(section.totalReviews > 0) ? (section.totalRatings * 1.0 / section.totalReviews) : 0}
+                          size="small"
+                          readOnly
+                        />
+                        <Typography variant="h6">
+                          {section.totalReviews + " Reviews"}
+                        </Typography>
+                      </Box>
+                    }
+                  />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+              </List>
             ))
           }
         </Box>
       </Box>
+
+      {/* Warning Dialogs */}
+      <Dialogs open={signInOpen} setOpen={setSignInOpen} type="not-signin" />
     </Box>
   );
 }

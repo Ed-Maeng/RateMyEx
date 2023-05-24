@@ -8,14 +8,14 @@ import {
   useTheme,
 } from "@mui/material";
 import { Formik } from "formik";
+import { useState } from "react";
 import Dropzone from "react-dropzone";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 // Components & Schema
-import * as InitialSchema from "../../constants/InitialSchema";
 import LoadingComponent from "../../components/LoadingComponent";
+import * as InitialSchema from "../../constants/InitialSchema";
 import FlexBetween from "../FlexBetween";
 
 const ReviewForm = () => {
@@ -136,9 +136,9 @@ const ReviewForm = () => {
       }) => (
         <form onSubmit={handleSubmit}>
           <Box
-          display="grid"
-          gap="30px"
-          gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+            display="grid"
+            gap="30px"
+            gridTemplateColumns="repeat(4, minmax(0, 1fr))"
           >
             {isInternship && (
               <>
@@ -273,7 +273,8 @@ const ReviewForm = () => {
                   backgroundColor: palette.button.alt,
                 },
               }}
-            >{loading && setClick ? <LoadingComponent /> : <>{"SUBMIT"}</>}
+            >
+              {loading && isClicked ? <LoadingComponent /> : <>{"SUBMIT"}</>}
             </Button>
           </Box>
         </form>

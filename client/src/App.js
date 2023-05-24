@@ -4,14 +4,14 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { themeSettings } from "./theme";
 
 // Pages & Components
-import EmailVerification from "./components/Verification/EmailVerification";
+import EmailVerification from "./components/verification/EmailVerification";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
-import ReviewFormPage from "./pages/ReviewFormPage";
 import ReviewPage from "./pages/ReviewPage";
 import SchoolPage from "./pages/SchoolPage";
 import SectionPage from "./pages/SectionPage";
+import ReviewFormPage from "./pages/forms/ReviewFormPage";
 
 function App() {
   const theme = createTheme(themeSettings());

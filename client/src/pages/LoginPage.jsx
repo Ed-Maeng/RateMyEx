@@ -1,7 +1,7 @@
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import { Box, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Form from "../components/Form/Form";
+import Form from "../components/forms/Form";
 
 const LoginPage = () => {
   const navigate = useNavigate();

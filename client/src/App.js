@@ -1,6 +1,6 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { themeSettings } from "./theme";
 
 // Pages & Components
@@ -16,18 +16,19 @@ import SectionPage from "./pages/SectionPage";
 //Google Analytics
 import ReactGA from 'react-ga';
 
+ReactGA.initialize('G-W280987CCT');
+
 function App() {
-  const history = createHistory()
-  ReactGA.initialize('G-W280987CCT');
-  history.listen((location, action) => {
-    ReactGA.pageview(location.pathname + location.search);
-    console.log(location.pathname)
-  });
 
   const theme = createTheme(themeSettings());
+  const location = useLocation();
 
+  // Fired on every route change
+  useEffect(() => {
+    ReactGA.pageview(location.pathname + location.search);
+  }, [location]);
+  
   return (
-    <Router history={history}>
       <div className="App">
         <BrowserRouter>
           <ThemeProvider theme={theme}>
@@ -65,7 +66,6 @@ function App() {
           </ThemeProvider>
         </BrowserRouter>
       </div>
-    </Router>
 
   );
 }

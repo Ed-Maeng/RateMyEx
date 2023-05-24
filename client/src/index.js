@@ -8,7 +8,6 @@ import App from './App';
 import './index.css';
 import store from "./state/store";
 
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <GoogleOAuthProvider clientId="980561439678-8dkln531dm56ljkn8jcvbmslabo246ps.apps.googleusercontent.com">

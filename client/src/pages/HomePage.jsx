@@ -1,7 +1,6 @@
 import {
   Autocomplete,
   Box,
-  TextField,
 } from "@mui/material";
 import { useEffect, useState } from 'react';
 import { useDispatch } from "react-redux";
@@ -9,13 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { setSchool } from '../state/auth';
 
 // Components
-import { useTheme } from "@emotion/react";
 import FlexBetween from "../components/FlexBetween";
 import Navbar from "../components/Navbar";
 import SearchText from "../components/SearchText";
 
 const HomePage = () => {
-  const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

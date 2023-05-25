@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { setLogin } from "../../state/auth";
 import Dialogs from "../Dialogs";
 
-import LoadingComponent from "../../components/LoadingComponent";
+import LoadingComponent from "../LoadingComponent";
 
 const EmailVerification = () => {
   const dispatch = useDispatch();

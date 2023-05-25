@@ -1,12 +1,14 @@
 import {
   Box,
   Button,
+  Divider,
   TextField,
   Typography,
   useTheme,
 } from "@mui/material";
 import { GoogleLogin } from '@react-oauth/google';
 import { Formik } from "formik";
+import jwt_decode from "jwt-decode";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -100,19 +102,31 @@ const Form = () => {
     if (isRegister) await register(values, onSubmitProps);
   };
 
-  const onSuccess = (res) => {
-    console.log('Login Success:', res);
-    dispatch(
-      setLogin({
-        user: 'test', // leave as email for now until we add user
-        token: 'test', // leave 'test' for now until we add token
-      })
-    );
+  const onSuccess = async (res) => {
+    const info = jwt_decode(res.credential);
+    console.log(info)
+    // const loggedInResponse = await fetch(
+    //   "http://localhost:4000/auth/login",
+    //   {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(values),
+    //   }
+    // );
+
+    // const loggedIn = await loggedInResponse.json();
+    
+    // dispatch(
+    //   setLogin({
+    //     user: loggedIn.user,
+    //     token: loggedIn.token,
+    //   })
+    // );
     navigate("/");
   };
 
   const onFailure = (res) => {
-    console.log('Login failed:', res);
+    setDefaultdOpen(true);
   };
 
   return (
@@ -139,16 +153,20 @@ const Form = () => {
               "& > div": { gridColumn: undefined },
             }}
           >
-            {/* TODO: Add Google OAuth for Sign In*/}
-            <GoogleLogin
-              clientId={'980561439678-8dkln531dm56ljkn8jcvbmslabo246ps.apps.googleusercontent.com'}
-              buttonText="Login"
-              onSuccess={onSuccess}
-              onFailure={onFailure}
-              cookiePolicy={'single_host_origin'}
-              style={{ marginTop: '100px' }}
-              isSignedIn={true}
-            />
+            <Box>
+              {/* Google OAuth */}
+              <GoogleLogin
+                fullWidth
+                clientId={"980561439678-8dkln531dm56ljkn8jcvbmslabo246ps.apps.googleusercontent.com"}
+                onSuccess={onSuccess}
+                onFailure={onFailure}
+                cookiePolicy={'single_host_origin'}
+              />
+
+              <Box pt="2rem">
+                <Divider variant="middle">OR</Divider>
+              </Box>
+            </Box>
 
             {isRegister && (
               <>

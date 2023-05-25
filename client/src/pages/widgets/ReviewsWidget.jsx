@@ -3,11 +3,11 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 // All Review Widgets
+import LoadingComponent from "../../components/LoadingComponent";
 import ClubWidget from "./ClubWidget";
 import DormWidget from "./DormWidget";
 import InternshipWidget from "./InternshipWidget";
 import ProfessorWidget from "./ProfessorWidget";
-import LoadingComponent from "../../components/LoadingComponent";
 
 const ReviewsWidget = () => {
   // State of Reviews & Current Section
@@ -31,10 +31,9 @@ const ReviewsWidget = () => {
         method: "GET",
       }
     );
-    await new Promise(r => setTimeout(r, 3000)); //TODO: For testing purposes - remove later
+    await new Promise(r => setTimeout(r, 500));
 
     const data = await response.json();
-    console.log(data);
     setReviews(data);
     // After API call, set loading to false
     setLoading(false);

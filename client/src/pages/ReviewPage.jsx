@@ -1,26 +1,23 @@
 import { Box, Button, Typography, useTheme } from '@mui/material';
 import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
 
 // Pages & Components
 import { useState } from 'react';
 import Dialogs from '../components/Dialogs';
 import Navbar from '../components/Navbar';
+import ReviewFormPage from './forms/ReviewFormPage';
 import ReviewWidgets from './widgets/ReviewsWidget';
 
 const ReviewPage = () => {
   const { palette } = useTheme();
-  const navigate = useNavigate();
 
   // State of Current Section & User & Open
   const currentSection = useSelector((state) => state.currentSection);
   const user = useSelector((state) => state.user);
 
   // Types of Open Dialogs
+  const [reviewFormOpen, setReviewFormOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
-
-  // Types of Colors & Review Types
-  const reviewType = useLocation().pathname.split("/")[2];
 
   return (
     <Box>
@@ -41,11 +38,11 @@ const ReviewPage = () => {
           {currentSection.name}
         </Typography>
 
-        {/* BUTTON TO ADD REVIEW */}
+        {/* ADD REVIEW BUTTON */}
         <Button
           variant="contained" 
           onClick={() => 
-            (!user ? setSignInOpen(true) : navigate(`/school/${reviewType}/form`))
+            (!user ? setSignInOpen(true) : setReviewFormOpen(true))
           }
           sx={{
             backgroundColor: palette.button.default,
@@ -59,6 +56,9 @@ const ReviewPage = () => {
         >
           Add Review Here!
         </Button>
+
+        {/* Form for Adding Sections */}
+        <ReviewFormPage open={reviewFormOpen} setOpen={setReviewFormOpen} />
 
         {/* Warning Dialogs */}
         <Dialogs open={signInOpen} setOpen={setSignInOpen} type="not-signin" />

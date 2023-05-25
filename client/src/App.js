@@ -5,11 +5,10 @@ import React, {useEffect } from 'react';
 import { themeSettings } from "./theme";
 
 // Pages & Components
-import EmailVerification from "./components/Verification/EmailVerification";
+import EmailVerification from "./components/verification/EmailVerification";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
-import ReviewFormPage from "./pages/ReviewFormPage";
 import ReviewPage from "./pages/ReviewPage";
 import SchoolPage from "./pages/SchoolPage";
 import SectionPage from "./pages/SectionPage";
@@ -48,23 +47,16 @@ function App() {
                 <Route path="school/professors" element={<SectionPage />} />
                 <Route path="school/clubs" element={<SectionPage />} />
 
-                { /* Review Pages */}
-                <Route path="school/internships/reviews" element={<ReviewPage />} />
-                <Route path="school/dorms/reviews" element={<ReviewPage />} />
-                <Route path="school/professors/reviews" element={<ReviewPage />} />
-                <Route path="school/clubs/reviews" element={<ReviewPage />} />
-
-                { /* Review Form */}
-                <Route path="school/internships/form" element={<ReviewFormPage />} />
-                <Route path="school/dorms/form" element={<ReviewFormPage />} />
-                <Route path="school/professors/form" element={<ReviewFormPage />} />
-                <Route path="school/clubs/form" element={<ReviewFormPage />} />
-              </Routes>
-            </div>
-          </ThemeProvider>
-        </BrowserRouter>
-      </div>
-
+              { /* Review Pages */ }
+              <Route path="school/internships/reviews" element={<ReviewPage />} />
+              <Route path="school/dorms/reviews" element={<ReviewPage />} />
+              <Route path="school/professors/reviews" element={<ReviewPage />} />
+              <Route path="school/clubs/reviews" element={<ReviewPage />} />
+            </Routes>
+          </div>
+        </ThemeProvider>
+      </BrowserRouter>
+    </div>
   );
 }
 

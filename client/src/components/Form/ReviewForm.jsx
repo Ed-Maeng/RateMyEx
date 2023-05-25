@@ -37,7 +37,7 @@ const ReviewForm = () => {
 
   const saveReview = async (values) => {  
     const savedReviewResponse = await fetch(
-      `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}`,
+      `http://ec2-3-237-176-139.compute-1.amazonaws.com:4000/${reviewType}/${currentSection._id}/${user._id}`,
       {
         method: "POST",
         headers: { 
@@ -63,7 +63,7 @@ const ReviewForm = () => {
     }
 
     const savedReviewResponse = await fetch(
-      `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}`,
+      `http://ec2-3-237-176-139.compute-1.amazonaws.com:4000/${reviewType}/${currentSection._id}/${user._id}`,
       {
         method: "POST",
         headers: { "Authorization": `Bearer ${token}` },

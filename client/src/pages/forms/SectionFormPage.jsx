@@ -1,11 +1,9 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, Dialog, DialogContent, IconButton, Typography, } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import SectionForm from "../../components/forms/SectionForm";
 
 const SectionFormPage = (props) => {
-  const navigate = useNavigate();
-
   // Review Types
   const reviewType = useLocation().pathname.split("/")[2];
 
@@ -33,24 +31,25 @@ const SectionFormPage = (props) => {
             padding="1rem 6%"
             textAlign="center"
             pt="10rem"
+            sx={{ textTransform: 'capitalize' }}
           >
             <Typography
               fontWeight="bold"
               fontSize="clamp(1rem, 1.5rem, 1.5rem)"
               color="primary"
-              onClick={() => navigate(`/school/${reviewType}/reviews`)}
+              onClick={() => props.setOpen(false)}
               sx={{
                 "&:hover": {
                   cursor: "pointer",
                 },
               }}
             >
-              {`Write your ${reviewType} here!`}
+              {`Write Your ${reviewType}!`}
             </Typography>
           </Box>
 
           <Box m="auto" width="50%">
-            <SectionForm />
+            <SectionForm open={props.open} setOpen={props.setOpen} />
           </Box>
         </Box>
       </DialogContent>

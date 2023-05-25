@@ -89,7 +89,7 @@ export const initialValuesLogin = {
 // SECTION FORM SCHEMA
 export const sectionFormSchema = yup.object().shape({
   name: yup.string().required("required"),
-  file: yup.string().required("required"),
+  file: yup.mixed().required("required"),
 });
 
 export const initialValuesSectionForm = {

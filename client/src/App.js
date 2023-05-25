@@ -11,7 +11,6 @@ import ProfilePage from "./pages/ProfilePage";
 import ReviewPage from "./pages/ReviewPage";
 import SchoolPage from "./pages/SchoolPage";
 import SectionPage from "./pages/SectionPage";
-import ReviewFormPage from "./pages/forms/ReviewFormPage";
 
 function App() {
   const theme = createTheme(themeSettings());
@@ -43,12 +42,6 @@ function App() {
               <Route path="school/dorms/reviews" element={<ReviewPage />} />
               <Route path="school/professors/reviews" element={<ReviewPage />} />
               <Route path="school/clubs/reviews" element={<ReviewPage />} />
-
-              { /* Review Form */ }
-              <Route path="school/internships/form" element={<ReviewFormPage />} />
-              <Route path="school/dorms/form" element={<ReviewFormPage />} />
-              <Route path="school/professors/form" element={<ReviewFormPage />} />
-              <Route path="school/clubs/form" element={<ReviewFormPage />} />
             </Routes>
           </div>
         </ThemeProvider>

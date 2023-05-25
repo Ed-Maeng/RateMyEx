@@ -11,18 +11,16 @@ import { Formik } from "formik";
 import { useState } from "react";
 import Dropzone from "react-dropzone";
 import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 // Components & Schema
 import LoadingComponent from "../../components/LoadingComponent";
 import * as InitialSchema from "../../constants/InitialSchema";
 import FlexBetween from "../FlexBetween";
 
-const ReviewForm = () => {
+const ReviewForm = (props) => {
   const { palette } = useTheme();
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [isClicked, setClick] = useState(false);
   // State of User, Token & Current Section
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
@@ -80,11 +78,12 @@ const ReviewForm = () => {
     } else {
       await saveReview(values);
     }
-    await new Promise(r => setTimeout(r, 3000)); //TODO: For testing purposes - remove later
+    await new Promise(r => setTimeout(r, 1000));
     setLoading(false);
-    await new Promise(r => setTimeout(r, 1000)); //TODO: For testing purposes - remove later
+    
     onSubmitProps.resetForm();
-    navigate(`/school/${reviewType}/reviews`);
+    window.location.reload(false);
+    props.setOpen(false);
   };
 
   const handleSchema = () => {
@@ -261,9 +260,6 @@ const ReviewForm = () => {
             <Button
               fullWidth
               type="submit"
-              onClick={() => {
-                setClick(true);
-              }}
               sx={{
                 m: "2rem 0",
                 p: "1rem",
@@ -274,7 +270,7 @@ const ReviewForm = () => {
                 },
               }}
             >
-              {loading && isClicked ? <LoadingComponent /> : <>{"SUBMIT"}</>}
+              {loading ? <LoadingComponent /> : <>{"SUBMIT"}</>}
             </Button>
           </Box>
         </form>

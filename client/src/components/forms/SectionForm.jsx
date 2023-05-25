@@ -19,7 +19,7 @@ import {
 } from "../../constants/InitialSchema";
 import FlexBetween from "../FlexBetween";
 
-const ReviewForm = () => {
+const SectionForm = (props) => {
   const { palette } = useTheme();
 
   // State of User, Token & Current Section
@@ -30,15 +30,16 @@ const ReviewForm = () => {
   const reviewType = useLocation().pathname.split("/")[2];
 
   const saveSection = async (values) => {
+    const formData = new FormData();
+    formData.append("name", values["name"]);
+    formData.append("file", values["file"][0]);
+
     const savedSectionResponse = await fetch(
       `http://localhost:4000/${reviewType}/${school._id}`,
       {
         method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
-        },
-        body: JSON.stringify(values),
+        headers: { "Authorization": `Bearer ${token}` },
+        body: formData,
       }
     );
     await savedSectionResponse.json();
@@ -47,6 +48,8 @@ const ReviewForm = () => {
   const handleFormSubmit = async (values, onSubmitProps) => {
     await saveSection(values);
     onSubmitProps.resetForm();
+    window.location.reload(false);
+    props.setOpen(false);
   };
 
   return (
@@ -148,4 +151,4 @@ const ReviewForm = () => {
   );
 };
 
-export default ReviewForm;
+export default SectionForm;

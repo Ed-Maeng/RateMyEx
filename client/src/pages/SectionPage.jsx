@@ -19,7 +19,6 @@ import { setCurrentSection } from "../state/auth";
 
 // Pages & Components
 import Dialogs from '../components/Dialogs';
-import FlexBetween from "../components/FlexBetween";
 import Navbar from "../components/Navbar";
 import SearchText from "../components/SearchText";
 import SectionFormPage from "../pages/forms/SectionFormPage";
@@ -93,7 +92,7 @@ const SectionPage = () => {
           }
         />
 
-        {/* ADD BUTTON */}
+        {/* ADD SECTION BUTTON */}
         <IconButton 
           onClick={() => 
             (!user ? setSignInOpen(true) : setSectionFormOpen(true))

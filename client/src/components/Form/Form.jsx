@@ -64,7 +64,7 @@ const Form = () => {
 
   const login = async (values, onSubmitProps) => {
     const loggedInResponse = await fetch(
-      "http://ratemyexschool.com:4000/auth/login",
+      "https://ratemyexschool.com:4000/auth/login",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

@@ -37,7 +37,7 @@ const ReviewForm = () => {
 
   const saveReview = async (values) => {  
     const savedReviewResponse = await fetch(
-      `http://ratemyexschool.com:4000/${reviewType}/${currentSection._id}/${user._id}`,
+      `https://ratemyexschool.com:4000/${reviewType}/${currentSection._id}/${user._id}`,
       {
         method: "POST",
         headers: { 
@@ -63,7 +63,7 @@ const ReviewForm = () => {
     }
 
     const savedReviewResponse = await fetch(
-      `http://ratemyexschool.com:4000/${reviewType}/${currentSection._id}/${user._id}`,
+      `https://ratemyexschool.com:4000/${reviewType}/${currentSection._id}/${user._id}`,
       {
         method: "POST",
         headers: { "Authorization": `Bearer ${token}` },

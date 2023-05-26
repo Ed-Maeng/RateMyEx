@@ -24,7 +24,7 @@ const HomePage = () => {
 
   const getSchools = async () => {
     const response = await fetch(
-      `http://ratemyexschool.com:4000/schools`,
+      `https://ratemyexschool.com:4000/schools`,
       {
         method: "GET",
       }

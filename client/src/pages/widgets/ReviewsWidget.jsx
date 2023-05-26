@@ -26,7 +26,7 @@ const ReviewsWidget = () => {
       // Before API call, set loading to true
     setLoading(true);
     const response = await fetch(
-      `https://ratemyexschool.com:4000/${reviewType}/reviews/${currentSection._id}`,
+      `http://ec2-3-237-176-139.compute-1.amazonaws.com:4000/${reviewType}/reviews/${currentSection._id}`,
       {
         method: "GET",
       }

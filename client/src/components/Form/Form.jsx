@@ -40,7 +40,7 @@ const Form = () => {
 
   const register = async (values, onSubmitProps) => {    
     const registerResponse = await fetch(
-      "https://ratemyexschool.com:4000/auth/register",
+      "http://ec2-3-237-176-139.compute-1.amazonaws.com:4000/auth/register",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -64,7 +64,7 @@ const Form = () => {
 
   const login = async (values, onSubmitProps) => {
     const loggedInResponse = await fetch(
-      "https://ratemyexschool.com:4000/auth/login",
+      "http://ec2-3-237-176-139.compute-1.amazonaws.com:4000/auth/login",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

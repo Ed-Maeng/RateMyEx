@@ -13,7 +13,7 @@ export const internshipSchema = yup.object().shape({
 
 export const initialValuesInternship = {
   industry: null,
-  jobTitle: "",
+  jobTitle: null,
   term: null,
   location: null,
   employmentType: null,
@@ -40,6 +40,7 @@ export const initialValuesDorm = {
 
 // PROFESSOR SCHEMA
 export const professorSchema = yup.object().shape({
+  term: yup.string().required("required"),
   className: yup.string().required("required"),
   rating: yup.number().required("required"),
   comment: yup.string().required("required"),
@@ -47,6 +48,7 @@ export const professorSchema = yup.object().shape({
 });
 
 export const initialValuesProfessor = {
+  term: null,
   className: "",
   rating: 0,
   comment: "",
@@ -55,12 +57,16 @@ export const initialValuesProfessor = {
 
 // CLUB SCHEMA
 export const clubSchema = yup.object().shape({
+  category: yup.string().required("required"),
+  term: yup.string().required("required"),
   rating: yup.number().required("required"),
   comment: yup.string().required("required"),
   files: yup.array().required("required"),
 });
 
 export const initialValuesClub = {
+  category: null,
+  term: null,
   rating: 0,
   comment: "",
   files: [],

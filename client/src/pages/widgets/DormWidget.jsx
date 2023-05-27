@@ -17,10 +17,6 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
-// Icons
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import WorkIcon from '@mui/icons-material/Work';
-
 // Pages & Components
 import { useTheme } from "@emotion/react";
 import Dialogs from '../../components/Dialogs';
@@ -62,20 +58,20 @@ const DormWidget = (props) => {
       </ListItem>
 
       <Grid container direction="row" px="1.5rem" pt="0.4rem" alignItems="center" spacing={1.5}>
-        {/* COMPANY NAME */}
+        {/* DORM NAME */}
         <Grid item>
           <Typography variant="h2b" sx={{ color: palette.button.default }}>
             {currentSection.name}
           </Typography>
         </Grid>
-        {/* JOB TITLE */}
+        {/* CAMPUS OPTION */}
         <Grid item>
           <Chip
             label={props.campus} 
             style={{fontSize: "0.75rem"}}
           />
         </Grid>
-        {/* EMPLOYMENT TYPE */}
+        {/* ROOMS OPTION */}
         <Grid item>
           <Chip 
             label={props.rooms} 
@@ -84,7 +80,7 @@ const DormWidget = (props) => {
         </Grid>
       </Grid>
 
-      <Box p="1.25rem">
+      <Box pt="1.25rem" px="1.25rem">
         {/* COMMENT */}
         {(props.comment.length > 100) 
           ? 
@@ -118,15 +114,13 @@ const DormWidget = (props) => {
       <Dialogs open={hasReviewOpen} setOpen={setHasReviewOpen} type="no-review" />
 
       {/* IMAGES */}
-      <ImageList sx={{ width: "auto", height: "auto" }} cols={3}>
+      <ImageList cols={5}>
         {props.imageUrls.map((imageUrl) => (
           <CardMedia
             key={uuidv4()}
             image={imageUrl}
-            style={{
-              height: 0,
-              paddingTop: '50%',
-            }}
+            component="img"
+            sx={{ padding: "0.5rem", objectFit: "contain" }}
           />  
         ))}
       </ImageList>
@@ -135,4 +129,3 @@ const DormWidget = (props) => {
 };
 
 export default DormWidget;
-

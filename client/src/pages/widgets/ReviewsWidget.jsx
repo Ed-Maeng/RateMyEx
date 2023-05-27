@@ -104,43 +104,51 @@ const ReviewsWidget = () => {
         )
       }
 
+      {/* CLUB WIDGET */}
+      {isClub &&
+        reviews?.map(
+          ({
+            _id,
+            category,
+            term,
+            rating,
+            comment,
+            imageUrls,
+            createdAt,
+          }) => (
+            <ClubWidget
+              key={_id}
+              category={category}
+              term={term}
+              rating={rating}
+              comment={comment}
+              imageUrls={imageUrls}
+              createdAt={createdAt}
+            />
+          )
+        )
+      }
+
       {/* PROFESSOR WIDGET */}
       {isProfessor &&
         reviews?.map(
           ({
             _id,
             className,
-            location,
+            term,
             rating,
             comment,
-            imageUrls
+            imageUrls,
+            createdAt,
           }) => (
             <ProfessorWidget
               key={_id}
               className={className}
-              location={location}
+              term={term}
               rating={rating}
               comment={comment}
               imageUrls={imageUrls}
-            />
-          )
-        )
-      }
-
-      {/* CLUB WIDGET */}
-      {isClub &&
-        reviews?.map(
-          ({
-            _id,
-            rating,
-            comment,
-            imageUrls,
-          }) => (
-            <ClubWidget
-              key={_id}
-              rating={rating}
-              comment={comment}
-              imageUrls={imageUrls}
+              createdAt={createdAt}
             />
           )
         )

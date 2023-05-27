@@ -143,6 +143,7 @@ const ReviewForm = (props) => {
             gap="30px"
             gridTemplateColumns="repeat(4, minmax(0, 1fr))"
           >
+            {/* RATING */}
             <Box sx={{ gridColumn: "span 4" }}>
               <Typography variant="h4b" component="legend">{`Rating (${values.rating}/5)`}</Typography>
               <Rating
@@ -160,6 +161,7 @@ const ReviewForm = (props) => {
               />
             </Box>
 
+            {/* INDUSTRY, JOB TITLE, LOCATION, EMPLOYMENT TYPE */}
             {isInternship && (
               <>
                 <Autocomplete
@@ -180,31 +182,38 @@ const ReviewForm = (props) => {
                     />
                   )}
                 />
-                <TextField
-                  label="Job Title"
-                  variant="standard"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.jobTitle}
-                  name="jobTitle"
-                  error={Boolean(touched.jobTitle) && Boolean(errors.jobTitle)}
-                  helperText={touched.jobTitle && errors.jobTitle}
-                  sx={{ gridColumn: "span 4" }}
-                />
                 <Autocomplete
-                  id="terms"
-                  options={Constants.TERMS}
-                  noOptionsText={"No Term Found"}
+                  id="jobTitles"
+                  options={Constants.JOB_TITLES}
+                  noOptionsText={"No Job Title Found"}
                   isOptionEqualToValue={(option, value) => option.value === value.value}
-                  value={values.term}
-                  onChange={(event, term) => {
-                    setFieldValue("term", term);
+                  value={values.jobTitle}
+                  onChange={(event, jobTitle) => {
+                    setFieldValue("jobTitle", jobTitle);
                   }}
-                  sx={{ gridColumn: "span 2" }}
+                  sx={{ gridColumn: "span 4" }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Term"
+                      label="Job Title"
+                      variant="standard"
+                    />
+                  )}
+                />
+                <Autocomplete
+                  id="locations"
+                  options={Constants.CITIES}
+                  noOptionsText={"No Location Found"}
+                  isOptionEqualToValue={(option, value) => option.value === value.value}
+                  value={values.location}
+                  onChange={(event, location) => {
+                    setFieldValue("location", location);
+                  }}
+                  sx={{ gridColumn: "span 4" }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Location"
                       variant="standard"
                     />
                   )}
@@ -230,6 +239,30 @@ const ReviewForm = (props) => {
               </>
             )}
 
+            {/* TERM */}
+            {(isInternship || isClub || isProfessor) && (
+                <Autocomplete
+                  id="terms"
+                  options={Constants.TERMS}
+                  noOptionsText={"No Term Found"}
+                  isOptionEqualToValue={(option, value) => option.value === value.value}
+                  value={values.term}
+                  onChange={(event, term) => {
+                    setFieldValue("term", term);
+                  }}
+                  sx={{ gridColumn: "span 2" }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Term"
+                      variant="standard"
+                    />
+                  )}
+                />
+              )
+            }
+
+            {/* CAMPUS & ROOM OPTIONS */}
             {isDorm && (
               <>
                 <Autocomplete
@@ -271,29 +304,30 @@ const ReviewForm = (props) => {
               </>
             )}
 
-            {isInternship && (
-              <>
+            {/* CATEGORY */}
+            {isClub && (
                 <Autocomplete
-                  id="locations"
-                  options={Constants.CITIES}
-                  noOptionsText={"No Location Found"}
+                  id="categories"
+                  options={Constants.CLUB_CATEGORIES}
+                  noOptionsText={"No Category Found"}
                   isOptionEqualToValue={(option, value) => option.value === value.value}
-                  value={values.location}
-                  onChange={(event, location) => {
-                    setFieldValue("location", location);
+                  value={values.category}
+                  onChange={(event, category) => {
+                    setFieldValue("category", category);
                   }}
-                  sx={{ gridColumn: "span 4" }}
+                  sx={{ gridColumn: "span 2" }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Location"
+                      label="Category"
                       variant="standard"
                     />
                   )}
                 />
-              </>
-            )}
+              )
+            }
 
+            {/* CLASS */}
             {isProfessor && (
               <>
                 <TextField
@@ -305,11 +339,12 @@ const ReviewForm = (props) => {
                   name="className"
                   error={Boolean(touched.className) && Boolean(errors.className)}
                   helperText={touched.className && errors.className}
-                  sx={{ gridColumn: "span 4" }}
+                  sx={{ gridColumn: "span 2" }}
                 />
               </>
             )}
             
+            {/* COMMENTS */}
             <TextField
               label="Comment"
               multiline
@@ -323,6 +358,7 @@ const ReviewForm = (props) => {
               sx={{ gridColumn: "span 4" }}
             />
 
+            {/* IMAGE UPLOADS */}
             {(isDorm || isClub) && (
               <Box
                 gridColumn="span 4"

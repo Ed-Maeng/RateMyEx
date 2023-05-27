@@ -21,7 +21,7 @@ export const createInternship = async(req, res) => {
     }
 
     const fileBuffer = await sharp(file.buffer)
-      .resize({ height: 1920, width: 1080, fit: "contain" })
+      .resize({ height: 200, width: 300, fit: "contain" })
       .toBuffer();
 
     await uploadFile(fileBuffer, imageName, file.mimetype);

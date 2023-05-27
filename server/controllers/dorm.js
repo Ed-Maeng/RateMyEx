@@ -21,7 +21,7 @@ export const createDorm = async(req, res) => {
     }
 
     const fileBuffer = await sharp(file.buffer)
-      .resize({ height: 1920, width: 1080, fit: "contain" })
+      .resize({ height: 200, width: 300, fit: "contain" })
       .toBuffer();
 
     await uploadFile(fileBuffer, imageName, file.mimetype);
@@ -46,7 +46,7 @@ export const createDormReview = async(req, res) => {
       imageNames.push(imageName);
       
       const fileBuffer = await sharp(file.buffer)
-        .resize({ height: 1920, width: 1080, fit: "contain" })
+        .resize({ height: 200, width: 300, fit: "contain" })
         .toBuffer();
 
       await uploadFile(fileBuffer, imageName, file.mimetype);

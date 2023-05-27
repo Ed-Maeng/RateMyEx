@@ -10,10 +10,11 @@ const ClubReviewSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    location: {
+    category: {
       type: String,
-      min: 2,
-      max: 50,
+    },
+    term: {
+      type: String,
     },
     rating: {
       type: Number,

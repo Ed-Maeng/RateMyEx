@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  getProfessor,
   getProfessorReviews,
   getProfessors,
   updateProfessor,
@@ -8,6 +9,7 @@ import {
 const router = express.Router();
 
 router.get("/:schoolId", getProfessors);
+router.get("/section/:professorId", getProfessor);
 router.get("/reviews/:professorId", getProfessorReviews);
 router.put("/:professorId", updateProfessor);
 

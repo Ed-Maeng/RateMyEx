@@ -24,7 +24,7 @@ import WidgetWrapper from "../../components/WidgetWrapper";
 
 const DormWidget = (props) => {
   const { palette } = useTheme();
-  const dateTimeAgo = moment(new Date(props.createdAt)).fromNow();
+  const dateTimeAgo = moment(new Date(props.review.createdAt)).fromNow();
 
   // State of Current Section & User & Show More & Open
   const currentSection = useSelector((state) => state.currentSection);
@@ -46,7 +46,7 @@ const DormWidget = (props) => {
         <ListItemText
           primary={
             <Grid container direction="column">
-              <Rating name="read-only" value={props.rating} size="small" readOnly />
+              <Rating name="read-only" value={props.review.rating} size="small" readOnly />
               <Grid item>
                 <Typography variant="h5b" sx={{ color: palette.neutral.main }}>
                   {"username | " + dateTimeAgo}
@@ -61,20 +61,20 @@ const DormWidget = (props) => {
         {/* DORM NAME */}
         <Grid item>
           <Typography variant="h2b" sx={{ color: palette.button.default }}>
-            {currentSection.name}
+            {props.review.name}
           </Typography>
         </Grid>
         {/* CAMPUS OPTION */}
         <Grid item>
           <Chip
-            label={props.campus} 
+            label={props.review.campus} 
             style={{fontSize: "0.75rem"}}
           />
         </Grid>
         {/* ROOMS OPTION */}
         <Grid item>
           <Chip 
-            label={props.rooms} 
+            label={props.review.rooms} 
             style={{fontSize: "0.75rem"}}
           />
         </Grid>
@@ -82,10 +82,10 @@ const DormWidget = (props) => {
 
       <Box pt="1.25rem" px="1.25rem">
         {/* COMMENT */}
-        {(props.comment.length > 100) 
+        {(props.review.comment.length > 100) 
           ? 
           <Typography variant="h3r" m="0.5rem 0">
-            {showMore ? props.comment : `${props.comment.substring(0, 100)} ...`}
+            {showMore ? props.review.comment : `${props.review.comment.substring(0, 100)} ...`}
             <Button
               sx={{
                 height: 30,
@@ -104,7 +104,7 @@ const DormWidget = (props) => {
           </Typography> 
           :
           <Typography variant="h3r" m="0.5rem 0">
-            {props.comment}
+            {props.review.comment}
           </Typography> 
         }
       </Box>
@@ -115,7 +115,7 @@ const DormWidget = (props) => {
 
       {/* IMAGES */}
       <ImageList cols={5}>
-        {props.imageUrls.map((imageUrl) => (
+        {props.review.imageUrls.map((imageUrl) => (
           <CardMedia
             key={uuidv4()}
             image={imageUrl}

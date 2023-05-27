@@ -38,6 +38,7 @@ const ReviewForm = (props) => {
   const isClub = reviewType === "clubs";
 
   const saveReview = async (values) => {
+    await Object.assign(values, { "name": currentSection.name });
     const savedReviewResponse = await fetch(
       `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}`,
       {

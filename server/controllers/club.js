@@ -21,7 +21,7 @@ export const createClub = async(req, res) => {
     }
 
     const fileBuffer = await sharp(file.buffer)
-      .resize({ height: 200, width: 300, fit: "contain" })
+      .resize({ height: 100, width: 100, fit: "inside" })
       .toBuffer();
 
     await uploadFile(fileBuffer, imageName, file.mimetype);
@@ -37,7 +37,7 @@ export const createClub = async(req, res) => {
 export const createClubReview = async(req, res) => {
   try {
     const { clubId, userId } = req.params;
-    const { category, term, rating, comment } = req.body;
+    const { name, category, term, rating, comment } = req.body;
 
     const files = req.files;
     const imageNames = [];
@@ -47,7 +47,7 @@ export const createClubReview = async(req, res) => {
       imageNames.push(imageName);
       
       const fileBuffer = await sharp(file.buffer)
-        .resize({ height: 200, width: 300, fit: "contain" })
+        .resize({ height: 200, width: 300, fit: "inside" })
         .toBuffer();
 
       await uploadFile(fileBuffer, imageName, file.mimetype);
@@ -56,6 +56,7 @@ export const createClubReview = async(req, res) => {
     const newClubReview = new ClubReview({ 
       clubId, 
       userId,
+      name,
       category,
       term,
       rating,
@@ -86,6 +87,16 @@ export const getClubs = async(req, res) => {
       club.imageUrl = await getObjectSignedUrl(club.imageName);
     }
     res.status(200).json(clubs);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+}
+
+export const getClub = async(req, res) => {
+  try {
+    const { clubId } = req.params;
+    const club = await Club.findById({ _id: clubId });
+    res.status(200).json(club);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

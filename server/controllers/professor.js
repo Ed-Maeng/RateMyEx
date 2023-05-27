@@ -23,7 +23,7 @@ export const createProfessor = async(req, res) => {
     }
 
     const fileBuffer = await sharp(file.buffer)
-      .resize({ height: 200, width: 300, fit: "contain" })
+      .resize({ height: 100, width: 100, fit: "inside" })
       .toBuffer();
 
     await uploadFile(fileBuffer, imageName, file.mimetype);
@@ -39,11 +39,12 @@ export const createProfessor = async(req, res) => {
 export const createProfessorReview = async(req, res) => {
   try {
     const { professorId, userId } = req.params;
-    const { term, className, rating, comment } = req.body;
+    const { name, term, className, rating, comment } = req.body;
 
     const newProfessorReview = new ProfessorReview({ 
       professorId, 
       userId,
+      name,
       term,
       className,
       rating,
@@ -74,6 +75,16 @@ export const getProfessors = async(req, res) => {
       professor.imageUrl = await getObjectSignedUrl(professor.imageName);
     }
     res.status(200).json(professors);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+}
+
+export const getProfessor = async(req, res) => {
+  try {
+    const { professorId } = req.params;
+    const professor = await Professor.findById({ _id: professorId });
+    res.status(200).json(professor);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

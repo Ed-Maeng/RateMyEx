@@ -22,7 +22,17 @@ import schoolRoutes from "./routes/school.js";
 import userRoutes from "./routes/user.js";
 
 /* CONFIGURATIONS */
+var fs = require('fs');
+var http = require('http');
+var https = require('https');
+var privateKey  = fs.readFileSync('sslcert/self-ssl-key.pem', 'utf8');
+var certificate = fs.readFileSync('sslcert/self-signed-cerrt.crt', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+var express = require('express');
+
 const app = express();
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
 app.use(express.json());
 app.use(cors());
 dotenv.config();

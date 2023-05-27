@@ -3,6 +3,9 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import multer from "multer";
+import fs from "fs";
+import http from "http";
+import https from "https";
 import { verifyToken } from "./middleware/auth.js";
 
 /* ROUTES */
@@ -22,13 +25,9 @@ import schoolRoutes from "./routes/school.js";
 import userRoutes from "./routes/user.js";
 
 /* CONFIGURATIONS */
-var fs = require('fs');
-var http = require('http');
-var https = require('https');
 var privateKey  = fs.readFileSync('sslcert/self-ssl-key.pem', 'utf8');
-var certificate = fs.readFileSync('sslcert/self-signed-cerrt.crt', 'utf8');
+var certificate = fs.readFileSync('sslcert/self-signed-cert.crt', 'utf8');
 var credentials = {key: privateKey, cert: certificate};
-var express = require('express');
 
 const app = express();
 var httpServer = http.createServer(app);
@@ -70,6 +69,8 @@ mongoose
   })
   .then(() => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+    httpServer.listen(8080, () => console.log(`Server Port: ${8080}`));
+    httpsServer.listen(8443, () => console.log(`Server Port: ${8443}`));
   })
   .catch((error) => {
     console.log(`${error} did not connect`);

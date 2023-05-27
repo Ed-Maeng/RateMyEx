@@ -21,7 +21,7 @@ export const createDorm = async(req, res) => {
     }
 
     const fileBuffer = await sharp(file.buffer)
-      .resize({ height: 1920, width: 1080, fit: "contain" })
+      .resize({ height: 200, width: 300, fit: "contain" })
       .toBuffer();
 
     await uploadFile(fileBuffer, imageName, file.mimetype);
@@ -37,7 +37,7 @@ export const createDorm = async(req, res) => {
 export const createDormReview = async(req, res) => {
   try {
     const { dormId, userId } = req.params;
-    const { location, rating, comment } = req.body;
+    const { campus, rooms, rating, comment } = req.body;
     const files = req.files;
     const imageNames = [];
 
@@ -46,7 +46,7 @@ export const createDormReview = async(req, res) => {
       imageNames.push(imageName);
       
       const fileBuffer = await sharp(file.buffer)
-        .resize({ height: 1920, width: 1080, fit: "contain" })
+        .resize({ height: 200, width: 300, fit: "contain" })
         .toBuffer();
 
       await uploadFile(fileBuffer, imageName, file.mimetype);
@@ -55,7 +55,8 @@ export const createDormReview = async(req, res) => {
     const newDormReview = new DormReview({ 
       dormId, 
       userId,
-      location,
+      campus,
+      rooms,
       rating,
       comment,
       imageNames
@@ -92,7 +93,7 @@ export const getDorms = async(req, res) => {
 export const getDormReviews = async(req, res) => {
   try {
     const { dormId } = req.params;
-    const dormReviews = await DormReview.find({ dormId });
+    const dormReviews = await DormReview.find({ dormId }).sort('-createdAt');;
     for (let review of dormReviews) {
       for (let imageName of review.imageNames) {
         review.imageUrls.push(await getObjectSignedUrl(imageName));

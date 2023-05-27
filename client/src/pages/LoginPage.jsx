@@ -7,38 +7,30 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   return (
-    <Box>
-      <Box width="100%" pt="3rem">
-        <Grid container direction="row" alignItems="center" justifyContent="center">
-          <Grid item>
-            <Typography
-              fontWeight="bold"
-              fontSize="clamp(1rem, 1.5rem, 1.5rem)"
-              color="primary"
-              onClick={() => navigate("/")}
-              sx={{
-                "&:hover": {
-                  cursor: "pointer",
-                },
-              }}
-            >
-              ratemyex
-            </Typography>
-          </Grid>
-          <Grid item>
-            <RateReviewIcon />
-          </Grid>
+    <Box pt="3rem">
+      {/* LOGO */}
+      <Grid container direction="row" alignItems="center" justifyContent="center">
+        <Grid item>
+          <Typography
+            variant="h1b"
+            color="primary"
+            onClick={() => navigate("/")}
+            sx={{
+              "&:hover": {
+                cursor: "pointer",
+              },
+            }}
+          >
+            Ratemyex
+          </Typography>
         </Grid>
-      </Box>
-
-      <Box
-        width="50%"
-        m="2rem auto"
-        borderRadius="1.5rem"
-      >
-        <Typography fontWeight="500" variant="h5" sx={{ mb: "1.5rem" }}>
-          Hey, Welcome Back!
-        </Typography>
+        <Grid item>
+          <RateReviewIcon />
+        </Grid>
+      </Grid>
+      
+      {/* FORM */}
+      <Box m="2rem auto" width="50%">
         <Form />
       </Box>
     </Box>

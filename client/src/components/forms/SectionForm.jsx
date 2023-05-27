@@ -108,13 +108,13 @@ const SectionForm = (props) => {
                     <input {...getInputProps()} />
                     {!values.file ? (
                       <FlexBetween>
-                        <Typography alignItems="center">Add Picture Here</Typography>
+                        <Typography variant="h3r" alignItems="center">Add Picture Here</Typography>
                         <ImageIcon />
                       </FlexBetween>
                     ) : (
                       <FlexBetween>
                         <Box>
-                          <Typography key={values.file[0].name} display="block">
+                          <Typography variant="h3r" key={values.file[0].name} display="block">
                             {values.file[0].name}
                           </Typography>
                         </Box>
@@ -142,7 +142,7 @@ const SectionForm = (props) => {
                 },
               }}
             >
-              {"SUBMIT"}
+              <Typography variant="h3b">SUBMIT</Typography>
             </Button>
           </Box>
         </form>

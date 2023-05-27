@@ -10,10 +10,8 @@ const ProfessorReviewSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    name: {
+    term: {
       type: String,
-      required: true,
-      max: 50,
     },
     className: {
       type: String,
@@ -22,10 +20,6 @@ const ProfessorReviewSchema = new mongoose.Schema(
     },
     rating: {
       type: Number,
-      required: true,
-    },
-    term: {
-      type: String,
       required: true,
     },
     comment: {

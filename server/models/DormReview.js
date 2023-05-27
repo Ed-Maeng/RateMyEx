@@ -10,10 +10,11 @@ const DormReviewSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    location: {
+    campus: {
       type: String,
-      min: 2,
-      max: 50,
+    },
+    rooms: {
+      type: String,
     },
     rating: {
       type: Number,

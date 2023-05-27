@@ -1,8 +1,10 @@
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ImageIcon from '@mui/icons-material/Image';
 import {
+  Autocomplete,
   Box,
   Button,
+  Rating,
   TextField,
   Typography,
   useTheme,
@@ -15,11 +17,13 @@ import { useLocation } from "react-router-dom";
 
 // Components & Schema
 import LoadingComponent from "../../components/LoadingComponent";
+import * as Constants from "../../constants/Constants";
 import * as InitialSchema from "../../constants/InitialSchema";
 import FlexBetween from "../FlexBetween";
 
 const ReviewForm = (props) => {
   const { palette } = useTheme();
+  // Loading & States
   const [loading, setLoading] = useState(false);
   // State of User, Token & Current Section
   const user = useSelector((state) => state.user);
@@ -33,7 +37,7 @@ const ReviewForm = (props) => {
   const isProfessor = reviewType === "professors";
   const isClub = reviewType === "clubs";
 
-  const saveReview = async (values) => {  
+  const saveReview = async (values) => {
     const savedReviewResponse = await fetch(
       `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}`,
       {
@@ -73,7 +77,7 @@ const ReviewForm = (props) => {
 
   const handleFormSubmit = async (values, onSubmitProps) => {
     setLoading(true);
-    if (isInternship || isDorm || isClub) {
+    if (isDorm || isClub) {
       await saveReviewWithImage(values);
     } else {
       await saveReview(values);
@@ -139,38 +143,191 @@ const ReviewForm = (props) => {
             gap="30px"
             gridTemplateColumns="repeat(4, minmax(0, 1fr))"
           >
+            {/* RATING */}
+            <Box sx={{ gridColumn: "span 4" }}>
+              <Typography variant="h4b" component="legend">{`Rating (${values.rating}/5)`}</Typography>
+              <Rating
+                label="Rating"
+                variant="standard"
+                onBlur={handleBlur}
+                onChange={(event, rating) => {
+                  if (rating) {
+                    setFieldValue("rating", rating);
+                  }
+                }}
+                value={values.rating}
+                max={5}
+                sx={{ fontSize: "2rem" }}
+              />
+            </Box>
+
+            {/* INDUSTRY, JOB TITLE, LOCATION, EMPLOYMENT TYPE */}
             {isInternship && (
               <>
-                <TextField
-                  label="Role"
-                  variant="standard"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.role}
-                  name="role"
-                  error={Boolean(touched.role) && Boolean(errors.role)}
-                  helperText={touched.role && errors.role}
+                <Autocomplete
+                  id="industries"
+                  options={Constants.INDUSTRIES}
+                  noOptionsText={"No Industry Found"}
+                  isOptionEqualToValue={(option, value) => option.value === value.value}
+                  value={values.industry}
+                  onChange={(event, industry) => {
+                    setFieldValue("industry", industry);
+                  }}
                   sx={{ gridColumn: "span 4" }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Industry"
+                      variant="standard"
+                    />
+                  )}
                 />
-              </>
-            )}
-
-            {(isInternship || isDorm) && (
-              <>
-                <TextField
-                  label="Location"
-                  variant="standard"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
+                <Autocomplete
+                  id="jobTitles"
+                  options={Constants.JOB_TITLES}
+                  noOptionsText={"No Job Title Found"}
+                  isOptionEqualToValue={(option, value) => option.value === value.value}
+                  value={values.jobTitle}
+                  onChange={(event, jobTitle) => {
+                    setFieldValue("jobTitle", jobTitle);
+                  }}
+                  sx={{ gridColumn: "span 4" }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Job Title"
+                      variant="standard"
+                    />
+                  )}
+                />
+                <Autocomplete
+                  id="locations"
+                  options={Constants.CITIES}
+                  noOptionsText={"No Location Found"}
+                  isOptionEqualToValue={(option, value) => option.value === value.value}
                   value={values.location}
-                  name="location"
-                  error={Boolean(touched.location) && Boolean(errors.location)}
-                  helperText={touched.location && errors.location}
+                  onChange={(event, location) => {
+                    setFieldValue("location", location);
+                  }}
                   sx={{ gridColumn: "span 4" }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Location"
+                      variant="standard"
+                    />
+                  )}
+                />
+                <Autocomplete
+                  id="employmentTypes"
+                  options={Constants.EMPLOYMENT_TYPES}
+                  noOptionsText={"No Employment Type Found"}
+                  isOptionEqualToValue={(option, value) => option.value === value.value}
+                  value={values.employmentType}
+                  onChange={(event, employmentType) => {
+                    setFieldValue("employmentType", employmentType);
+                  }}
+                  sx={{ gridColumn: "span 2" }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Employment Type"
+                      variant="standard"
+                    />
+                  )}
                 />
               </>
             )}
 
+            {/* TERM */}
+            {(isInternship || isClub || isProfessor) && (
+                <Autocomplete
+                  id="terms"
+                  options={Constants.TERMS}
+                  noOptionsText={"No Term Found"}
+                  isOptionEqualToValue={(option, value) => option.value === value.value}
+                  value={values.term}
+                  onChange={(event, term) => {
+                    setFieldValue("term", term);
+                  }}
+                  sx={{ gridColumn: "span 2" }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Term"
+                      variant="standard"
+                    />
+                  )}
+                />
+              )
+            }
+
+            {/* CAMPUS & ROOM OPTIONS */}
+            {isDorm && (
+              <>
+                <Autocomplete
+                  id="campus"
+                  options={Constants.CAMPUS_OPTIONS}
+                  noOptionsText={"No Campus Option Found"}
+                  isOptionEqualToValue={(option, value) => option.value === value.value}
+                  value={values.campus}
+                  onChange={(event, campus) => {
+                    setFieldValue("campus", campus);
+                  }}
+                  sx={{ gridColumn: "span 2" }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="On/Off Campus"
+                      variant="standard"
+                    />
+                  )}
+                />
+                <Autocomplete
+                  id="rooms"
+                  options={Constants.ROOMS_OPTIONS}
+                  noOptionsText={"No Room Option Found"}
+                  isOptionEqualToValue={(option, value) => option.value === value.value}
+                  value={values.rooms}
+                  onChange={(event, rooms) => {
+                    setFieldValue("rooms", rooms);
+                  }}
+                  sx={{ gridColumn: "span 2" }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Rooms"
+                      variant="standard"
+                    />
+                  )}
+                />
+              </>
+            )}
+
+            {/* CATEGORY */}
+            {isClub && (
+                <Autocomplete
+                  id="categories"
+                  options={Constants.CLUB_CATEGORIES}
+                  noOptionsText={"No Category Found"}
+                  isOptionEqualToValue={(option, value) => option.value === value.value}
+                  value={values.category}
+                  onChange={(event, category) => {
+                    setFieldValue("category", category);
+                  }}
+                  sx={{ gridColumn: "span 2" }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Category"
+                      variant="standard"
+                    />
+                  )}
+                />
+              )
+            }
+
+            {/* CLASS */}
             {isProfessor && (
               <>
                 <TextField
@@ -182,22 +339,12 @@ const ReviewForm = (props) => {
                   name="className"
                   error={Boolean(touched.className) && Boolean(errors.className)}
                   helperText={touched.className && errors.className}
-                  sx={{ gridColumn: "span 4" }}
+                  sx={{ gridColumn: "span 2" }}
                 />
               </>
             )}
-
-            <TextField
-              label="Rating"
-              variant="standard"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={values.rating}
-              name="rating"
-              error={Boolean(touched.rating) && Boolean(errors.rating)}
-              helperText={touched.rating && errors.rating}
-              sx={{ gridColumn: "span 4" }}
-            />
+            
+            {/* COMMENTS */}
             <TextField
               label="Comment"
               multiline
@@ -211,48 +358,51 @@ const ReviewForm = (props) => {
               sx={{ gridColumn: "span 4" }}
             />
 
-            <Box
-              gridColumn="span 4"
-              border={`1px solid ${palette.neutral.medium}`}
-              borderRadius="5px"
-              padding="1rem"
-            >
-              <Dropzone
-                acceptedFiles=".jpg,.jpeg,.png"
-                onDrop={(acceptedFiles) =>
-                  setFieldValue("files", acceptedFiles)
-                }
+            {/* IMAGE UPLOADS */}
+            {(isDorm || isClub) && (
+              <Box
+                gridColumn="span 4"
+                border={`1px solid ${palette.neutral.medium}`}
+                borderRadius="5px"
+                padding="1rem"
               >
-                {({ getRootProps, getInputProps }) => (
-                  <Box
-                    {...getRootProps()}
-                    border={`2px dashed ${palette.primary.main}`}
-                    padding="1rem"
-                    textAlign="center"
-                    sx={{ "&:hover": { cursor: "pointer" } }}
-                  >
-                    <input {...getInputProps()} />
-                    {values.files.length === 0 ? (
-                      <FlexBetween>
-                        <Typography alignItems="center">Add Picture Here</Typography>
-                        <ImageIcon />
-                      </FlexBetween>
-                    ) : (
-                      <FlexBetween>
-                        <Box>
-                          {values.files.map((file) => (
-                            <Typography key={file.name} display="block">
-                              {file.name}
-                            </Typography>
-                          ))}
-                        </Box>
-                        <EditOutlinedIcon />
-                      </FlexBetween>
-                    )}
-                  </Box>
-                )}
-              </Dropzone>
-            </Box>
+                <Dropzone
+                  acceptedFiles=".jpg,.jpeg,.png"
+                  onDrop={(acceptedFiles) =>
+                    setFieldValue("files", acceptedFiles)
+                  }
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <Box
+                      {...getRootProps()}
+                      border={`2px dashed ${palette.primary.main}`}
+                      padding="1rem"
+                      textAlign="center"
+                      sx={{ "&:hover": { cursor: "pointer" } }}
+                    >
+                      <input {...getInputProps()} />
+                      {values.files.length === 0 ? (
+                        <FlexBetween>
+                          <Typography variant="h3r" alignItems="center">Add Picture Here</Typography>
+                          <ImageIcon />
+                        </FlexBetween>
+                      ) : (
+                        <FlexBetween>
+                          <Box>
+                            {values.files.map((file) => (
+                              <Typography variant="h3r" key={file.name} display="block">
+                                {file.name}
+                              </Typography>
+                            ))}
+                          </Box>
+                          <EditOutlinedIcon />
+                        </FlexBetween>
+                      )}
+                    </Box>
+                  )}
+                </Dropzone>
+              </Box>
+            )}
           </Box>
 
           {/* Submit Button */}
@@ -270,7 +420,7 @@ const ReviewForm = (props) => {
                 },
               }}
             >
-              {loading ? <LoadingComponent /> : <>{"SUBMIT"}</>}
+              {loading ? <LoadingComponent /> : <Typography variant="h3b">SUBMIT</Typography>}
             </Button>
           </Box>
         </form>

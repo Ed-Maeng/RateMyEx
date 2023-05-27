@@ -25,8 +25,8 @@ import schoolRoutes from "./routes/school.js";
 import userRoutes from "./routes/user.js";
 
 /* CONFIGURATIONS */
-var privateKey  = fs.readFileSync('sslcert/self-ssl-key.pem', 'utf8');
-var certificate = fs.readFileSync('sslcert/self-signed-cert.crt', 'utf8');
+var privateKey  = fs.readFileSync('sslcert/privkey.pem', 'utf8');
+var certificate = fs.readFileSync('sslcert/cert.pem', 'utf8');
 var credentials = {key: privateKey, cert: certificate};
 
 const app = express();

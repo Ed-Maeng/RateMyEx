@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Divider,
+  Grid,
   TextField,
   Typography,
   useTheme,
@@ -149,9 +150,6 @@ const Form = () => {
             display="grid"
             gap="30px"
             gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-            sx={{
-              "& > div": { gridColumn: undefined },
-            }}
           >
             <Box>
               {/* Google OAuth */}
@@ -163,8 +161,10 @@ const Form = () => {
                 cookiePolicy={'single_host_origin'}
               />
 
-              <Box pt="2rem">
-                <Divider variant="middle">OR</Divider>
+              <Box pt="1rem">
+                <Divider>
+                  <Typography variant="h2b">OR</Typography>
+                </Divider>
               </Box>
             </Box>
 
@@ -231,11 +231,14 @@ const Form = () => {
                 },
               }}
             >
-              {isLogin ? "LOGIN" : "REGISTER"}
+              <Typography variant="h2b">
+                {isLogin ? "LOGIN" : "REGISTER"}
+              </Typography>
             </Button>
 
             { /* Click to Change from Logging In to Register (vice versa) */ }
             <Typography
+              variant="h5b"
               onClick={() => {
                 setPageType(isLogin ? "register" : "login");
                 resetForm();

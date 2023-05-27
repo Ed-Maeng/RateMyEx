@@ -23,8 +23,9 @@ const ReviewsWidget = () => {
   const isClub = reviewType === "clubs";
 
   const getReviews = async () => {
-      // Before API call, set loading to true
+    // Before API call, set loading to true
     setLoading(true);
+
     const response = await fetch(
       `http://localhost:4000/${reviewType}/reviews/${currentSection._id}`,
       {
@@ -35,6 +36,7 @@ const ReviewsWidget = () => {
 
     const data = await response.json();
     setReviews(data);
+    
     // After API call, set loading to false
     setLoading(false);
   };
@@ -44,25 +46,34 @@ const ReviewsWidget = () => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <>{loading ? <LoadingComponent /> : <>
+    <>
+      {/* LOADING */}
+      {loading && <LoadingComponent />}
+      
       {/* INTERNSHIP WIDGET */}
       {isInternship &&
-        reviews.map(
+        reviews?.map(
           ({
             _id,
-            role,
+            industry,
+            jobTitle,
+            term,
+            employmentType,
             location,
             rating,
             comment,
-            imageUrls,
+            createdAt,
           }) => (
             <InternshipWidget
               key={_id}
-              role={role}
+              industry={industry}
+              jobTitle={jobTitle}
+              term={term}
+              employmentType={employmentType}
               location={location}
               rating={rating}
               comment={comment}
-              imageUrls={imageUrls}
+              createdAt={createdAt}
             />
           )
         )
@@ -70,20 +81,24 @@ const ReviewsWidget = () => {
 
       {/* DORM WIDGET */}
       {isDorm &&
-        reviews.map(
+        reviews?.map(
           ({
             _id,
-            location,
+            campus,
+            rooms,
             rating,
             comment,
             imageUrls,
+            createdAt,
           }) => (
             <DormWidget
               key={_id}
-              location={location}
+              campus={campus}
+              rooms={rooms}
               rating={rating}
               comment={comment}
               imageUrls={imageUrls}
+              createdAt={createdAt}
             />
           )
         )
@@ -91,7 +106,7 @@ const ReviewsWidget = () => {
 
       {/* PROFESSOR WIDGET */}
       {isProfessor &&
-        reviews.map(
+        reviews?.map(
           ({
             _id,
             className,
@@ -114,7 +129,7 @@ const ReviewsWidget = () => {
 
       {/* CLUB WIDGET */}
       {isClub &&
-        reviews.map(
+        reviews?.map(
           ({
             _id,
             rating,
@@ -130,7 +145,6 @@ const ReviewsWidget = () => {
           )
         )
       }
-    </>}
     </>
   );
 }

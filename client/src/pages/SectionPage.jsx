@@ -4,6 +4,7 @@ import {
   Avatar,
   Box,
   Divider,
+  Grid,
   IconButton,
   List,
   ListItem,
@@ -126,10 +127,12 @@ const SectionPage = () => {
 
                   <ListItemText
                     primary={
-                      <Box px="0.4rem">
-                        <Typography variant="h4" fontWeight="bold">
-                          {section.name}
-                        </Typography>
+                      <Grid container direction="column" px="0.4rem">
+                        <Grid item>
+                          <Typography variant="h3b">
+                            {section.name}
+                          </Typography>
+                        </Grid>
                         <Rating 
                           name="read-only"
                           precision={0.1}
@@ -137,10 +140,12 @@ const SectionPage = () => {
                           size="small"
                           readOnly
                         />
-                        <Typography variant="h6">
-                          {section.totalReviews + " Reviews"}
-                        </Typography>
-                      </Box>
+                        <Grid item>
+                          <Typography variant="h6b">
+                            {section.totalReviews + " Reviews"}
+                          </Typography>
+                        </Grid>
+                      </Grid>
                     }
                   />
                 </ListItem>

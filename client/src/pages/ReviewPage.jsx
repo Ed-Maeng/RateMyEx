@@ -1,4 +1,4 @@
-import { Box, Button, Typography, useTheme } from '@mui/material';
+import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 import { useSelector } from "react-redux";
 
 // Pages & Components
@@ -23,46 +23,54 @@ const ReviewPage = () => {
     <Box>
       <Navbar />
 
-      <Box
+      <Grid
+        container
+        direction="column"
         width="100%"
         padding="1rem"
         textAlign="center"
+        spacing={1}
       >
         {/* TYPE OF REVIEW (FROM SECTIONS) */}
-        <Typography
-          padding="0.5rem"
-          fontWeight="bold"
-          fontSize="clamp(1rem, 1.5rem, 1.5rem)"
-          color="primary"
-        >
-          {currentSection.name}
-        </Typography>
+        <Grid item>
+          <Typography
+            variant="h1b"
+            padding="0.5rem"
+            color="primary"
+          >
+            {currentSection.name}
+          </Typography>
+        </Grid>
 
         {/* ADD REVIEW BUTTON */}
-        <Button
-          variant="contained" 
-          onClick={() => 
-            (!user ? setSignInOpen(true) : setReviewFormOpen(true))
-          }
-          sx={{
-            backgroundColor: palette.button.default,
-            width: "500px",
-            height: "50px",
-            borderRadius: "0.25rem",
-            "&:hover": {
-              backgroundColor: palette.button.alt
+        <Grid item>
+          <Button
+            variant="contained" 
+            onClick={() => 
+              (!user ? setSignInOpen(true) : setReviewFormOpen(true))
             }
-          }}
-        >
-          Add Review Here!
-        </Button>
+            sx={{
+              backgroundColor: palette.button.default,
+              width: "325px",
+              height: "45px",
+              borderRadius: "0.25rem",
+              "&:hover": {
+                backgroundColor: palette.button.alt
+              }
+            }}
+          >
+            <Typography variant="h4b">
+              Add Review
+            </Typography>
+          </Button>
+        </Grid>
 
         {/* Form for Adding Sections */}
         <ReviewFormPage open={reviewFormOpen} setOpen={setReviewFormOpen} />
 
         {/* Warning Dialogs */}
         <Dialogs open={signInOpen} setOpen={setSignInOpen} type="not-signin" />
-      </Box>
+      </Grid>
 
       {/* LIST OF REVIEWS */}
       <Box
@@ -70,7 +78,7 @@ const ReviewPage = () => {
         display={"flex"}
         justifyContent="space-between"
       >
-        <Box m="auto" flexBasis="90%">
+        <Box m="auto" flexBasis="75%">
           <ReviewWidgets />
         </Box>
       </Box>

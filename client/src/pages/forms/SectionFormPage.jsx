@@ -34,15 +34,8 @@ const SectionFormPage = (props) => {
             sx={{ textTransform: 'capitalize' }}
           >
             <Typography
-              fontWeight="bold"
-              fontSize="clamp(1rem, 1.5rem, 1.5rem)"
+              variant="h1b"
               color="primary"
-              onClick={() => props.setOpen(false)}
-              sx={{
-                "&:hover": {
-                  cursor: "pointer",
-                },
-              }}
             >
               {`Write Your ${reviewType}!`}
             </Typography>

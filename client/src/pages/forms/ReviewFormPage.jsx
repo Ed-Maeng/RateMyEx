@@ -24,20 +24,11 @@ const ReviewFormPage = (props) => {
         <Box>
           <Box
             width="100%"
-            padding="1rem 6%"
             textAlign="center"
-            pt="1.5rem"
           >
             <Typography
-              fontWeight="bold"
-              fontSize="clamp(1rem, 1.5rem, 1.5rem)"
+              variant="h1b"
               color="primary"
-              onClick={() => props.setOpen(false)}
-              sx={{
-                "&:hover": {
-                  cursor: "pointer",
-                },
-              }}
             >
               {`Write Your Review!`}
             </Typography>

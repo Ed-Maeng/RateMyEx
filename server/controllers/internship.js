@@ -37,29 +37,25 @@ export const createInternship = async(req, res) => {
 export const createInternshipReview = async(req, res) => {
   try {
     const { internshipId, userId } = req.params;
-    const { role, location, rating, comment } = req.body;
-    const files = req.files;
-    const imageNames = [];
-
-    files.map(async (file) => {
-      let imageName = generateFileName();
-      imageNames.push(imageName);
-      
-      const fileBuffer = await sharp(file.buffer)
-        .resize({ height: 1920, width: 1080, fit: "contain" })
-        .toBuffer();
-
-      await uploadFile(fileBuffer, imageName, file.mimetype);
-    });
+    const { 
+      industry, 
+      jobTitle, 
+      term, 
+      employmentType, 
+      location, 
+      rating, 
+      comment } = req.body;
 
     const newInternshipReview = new InternshipReview({ 
       internshipId, 
       userId,
-      role,
+      industry,
+      jobTitle,
+      term,
+      employmentType,
       location,
       rating,
       comment,
-      imageNames
     });
 
     const savedInternshipReview = await newInternshipReview.save();
@@ -93,12 +89,7 @@ export const getInternships = async(req, res) => {
 export const getInternshipReviews = async(req, res) => {
   try {
     const { internshipId } = req.params;
-    const internshipReviews = await InternshipReview.find({ internshipId });
-    for (let review of internshipReviews) {
-      for (let imageName of review.imageNames) {
-        review.imageUrls.push(await getObjectSignedUrl(imageName));
-      }
-    }
+    const internshipReviews = await InternshipReview.find({ internshipId }).sort('-createdAt');
     res.status(200).json(internshipReviews);
   } catch (err) {
     res.status(404).json({ message: err.message });

@@ -37,7 +37,7 @@ export const createDorm = async(req, res) => {
 export const createDormReview = async(req, res) => {
   try {
     const { dormId, userId } = req.params;
-    const { location, rating, comment } = req.body;
+    const { campus, rooms, rating, comment } = req.body;
     const files = req.files;
     const imageNames = [];
 
@@ -55,7 +55,8 @@ export const createDormReview = async(req, res) => {
     const newDormReview = new DormReview({ 
       dormId, 
       userId,
-      location,
+      campus,
+      rooms,
       rating,
       comment,
       imageNames
@@ -92,7 +93,7 @@ export const getDorms = async(req, res) => {
 export const getDormReviews = async(req, res) => {
   try {
     const { dormId } = req.params;
-    const dormReviews = await DormReview.find({ dormId });
+    const dormReviews = await DormReview.find({ dormId }).sort('-createdAt');;
     for (let review of dormReviews) {
       for (let imageName of review.imageNames) {
         review.imageUrls.push(await getObjectSignedUrl(imageName));

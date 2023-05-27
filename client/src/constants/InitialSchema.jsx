@@ -2,32 +2,38 @@ import * as yup from "yup";
 
 // INTERNSHIP SCHEMA
 export const internshipSchema = yup.object().shape({
-  role: yup.string().required("required"),
-  location: yup.string().required("required"),
-  rating: yup.string().required("required"),
-  comment: yup.string().required("required"),
-  files: yup.array().required("required"),
+  industry: yup.string().required("Required"),
+  jobTitle: yup.string().required("Required"),
+  term: yup.string(),
+  location: yup.string(),
+  employmentType: yup.string(),
+  rating: yup.number().required("Required"),
+  comment: yup.string().required("Required"), // .test('len', `Must be more than 100 characters`, val => val.length > 100),
 });
 
 export const initialValuesInternship = {
-  role: "",
-  location: "",
-  rating: "",
+  industry: null,
+  jobTitle: "",
+  term: null,
+  location: null,
+  employmentType: null,
+  rating: 0,
   comment: "",
-  files: [],
 };
 
 // DORM SCHEMA
 export const dormSchema = yup.object().shape({
-  location: yup.string().required("required"),
-  rating: yup.string().required("required"),
-  comment: yup.string().required("required"),
-  files: yup.array().required("required"),
+  campus: yup.string().required("Required"),
+  rooms: yup.string().required("Required"),
+  rating: yup.number().required("Required"),
+  comment: yup.string().required("Required"),
+  files: yup.array().max(3, 'Cannot be more than 3 images'),
 });
 
 export const initialValuesDorm = {
-  location: "",
-  rating: "",
+  campus: null,
+  rooms: null,
+  rating: 0,
   comment: "",
   files: [],
 };
@@ -35,27 +41,27 @@ export const initialValuesDorm = {
 // PROFESSOR SCHEMA
 export const professorSchema = yup.object().shape({
   className: yup.string().required("required"),
-  rating: yup.string().required("required"),
+  rating: yup.number().required("required"),
   comment: yup.string().required("required"),
   files: yup.array().required("required"),
 });
 
 export const initialValuesProfessor = {
   className: "",
-  rating: "",
+  rating: 0,
   comment: "",
   files: [],
 };
 
 // CLUB SCHEMA
 export const clubSchema = yup.object().shape({
-  rating: yup.string().required("required"),
+  rating: yup.number().required("required"),
   comment: yup.string().required("required"),
   files: yup.array().required("required"),
 });
 
 export const initialValuesClub = {
-  rating: "",
+  rating: 0,
   comment: "",
   files: [],
 };

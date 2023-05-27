@@ -7,11 +7,13 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 // Components
+import { useTheme } from '@emotion/react';
 import FlexBetween from "../components/FlexBetween";
 import Navbar from "../components/Navbar";
 
 
 const SchoolPage = () => {
+  const { palette } = useTheme();
   const navigate = useNavigate();
 
   // State of School & Color
@@ -21,12 +23,10 @@ const SchoolPage = () => {
     <Box>
       <Navbar />
 
-      <Box padding="1rem">
+      <Box padding="1rem" textAlign="center">
         <Typography
-          fontWeight="bold"
-          fontSize="clamp(1rem, 1.5rem, 1.5rem)"
+          variant="h1b"
           color="primary"
-          textAlign="center"
           padding="1rem"
         >
           {school.name}
@@ -34,31 +34,31 @@ const SchoolPage = () => {
 
         <FlexBetween m="auto" padding="1rem" width="60%">
           {/* Internships Tab */}
-          <Chip 
+          <Chip
             icon={<WorkIcon />} 
             label="Internships"
-            style={{fontSize: '1rem'}}
+            style={{fontSize: '0.85rem' }}
             onClick={() => navigate("/school/internships")} 
           />
           {/* Dorms Tab */}
           <Chip 
             icon={<HomeIcon />} 
             label="Dorms" 
-            style={{fontSize: '1rem'}}
+            style={{fontSize: '0.85rem'}}
             onClick={() => navigate("/school/dorms")} 
           />
           {/* Clubs Tab */}
           <Chip 
             icon={<GroupsIcon />} 
             label="Clubs" 
-            style={{fontSize: '1rem'}}
+            style={{fontSize: '0.85rem'}}
             onClick={() => navigate("/school/clubs")} 
           />
           {/* Professors Tab */}
           <Chip 
             icon={<SchoolIcon />} 
             label="Professors"
-            style={{fontSize: '1rem'}}
+            style={{fontSize: '0.85rem'}}
             onClick={() => navigate("/school/professors")} 
           />
         </FlexBetween>

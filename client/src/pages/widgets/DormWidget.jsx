@@ -1,68 +1,117 @@
-import { Button, CardMedia, ImageList, Rating, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  CardMedia,
+  Chip,
+  Grid,
+  ImageList,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Rating,
+  Typography
+} from "@mui/material";
+import moment from 'moment';
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 
+// Icons
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import WorkIcon from '@mui/icons-material/Work';
+
 // Pages & Components
 import { useTheme } from "@emotion/react";
 import Dialogs from '../../components/Dialogs';
-import FlexBetween from "../../components/FlexBetween";
 import WidgetWrapper from "../../components/WidgetWrapper";
 
-const DormWidget = ({
-  location,
-  rating,
-  comment,
-  imageUrls,
-}) => {
-    const { palette } = useTheme();
+const DormWidget = (props) => {
+  const { palette } = useTheme();
+  const dateTimeAgo = moment(new Date(props.createdAt)).fromNow();
 
-    // State of User & Show More & Open
-    const user = useSelector((state) => state.user);
-    const [showMore, setShowMore] = useState(false);
+  // State of Current Section & User & Show More & Open
+  const currentSection = useSelector((state) => state.currentSection);
+  const user = useSelector((state) => state.user);
+  const [showMore, setShowMore] = useState(false);
 
-    // Types of Open Dialogs
-    const [signInOpen, setSignInOpen] = useState(false);
-    const [hasReviewOpen, setHasReviewOpen] = useState(false);
-  
+  // Types of Open Dialogs
+  const [signInOpen, setSignInOpen] = useState(false);
+  const [hasReviewOpen, setHasReviewOpen] = useState(false);
+
   return (
     <WidgetWrapper m="1rem 0">
-      {/* LOCATION */}
-      <FlexBetween>
-        <Typography variant="h4" fontWeight="500">
-          {location}
-        </Typography>
-      </FlexBetween>
-      
-      {/* RATING */}
-      <FlexBetween m="0.25rem 0">
-        <Rating name="read-only" value={rating} readOnly />
-      </FlexBetween>
+      <ListItem>
+        {/* AVATAR */}
+        <ListItemAvatar>
+          <Avatar />
+        </ListItemAvatar>
+        {/* RATING, USERNAME, TIME AGO */}
+        <ListItemText
+          primary={
+            <Grid container direction="column">
+              <Rating name="read-only" value={props.rating} size="small" readOnly />
+              <Grid item>
+                <Typography variant="h5b" sx={{ color: palette.neutral.main }}>
+                  {"username | " + dateTimeAgo}
+                </Typography>
+              </Grid>
+            </Grid>
+          }
+        />
+      </ListItem>
 
-      {/* COMMENT */}
-      { (comment.length > 100) 
-        ? 
-        <Typography m="0.5rem 0">
-          {showMore ? comment : `${comment.substring(0, 100)} ...`}
-          <Button
-            sx={{
-              height: 30,
-              color: palette.button.default,
-            }}
-            onClick={() =>
-              !user ? setSignInOpen(true) :
-              (user.numberOfReviews < 1) ? setHasReviewOpen(true) :
-              setShowMore(!showMore)
-            }
-          >
-            {showMore ? "Show less" : "Show more"}
-          </Button>
-        </Typography> 
-        :
-        <Typography m="0.5rem 0">
-          {comment}
-        </Typography> 
-      }
+      <Grid container direction="row" px="1.5rem" pt="0.4rem" alignItems="center" spacing={1.5}>
+        {/* COMPANY NAME */}
+        <Grid item>
+          <Typography variant="h2b" sx={{ color: palette.button.default }}>
+            {currentSection.name}
+          </Typography>
+        </Grid>
+        {/* JOB TITLE */}
+        <Grid item>
+          <Chip
+            label={props.campus} 
+            style={{fontSize: "0.75rem"}}
+          />
+        </Grid>
+        {/* EMPLOYMENT TYPE */}
+        <Grid item>
+          <Chip 
+            label={props.rooms} 
+            style={{fontSize: "0.75rem"}}
+          />
+        </Grid>
+      </Grid>
+
+      <Box p="1.25rem">
+        {/* COMMENT */}
+        {(props.comment.length > 100) 
+          ? 
+          <Typography variant="h3r" m="0.5rem 0">
+            {showMore ? props.comment : `${props.comment.substring(0, 100)} ...`}
+            <Button
+              sx={{
+                height: 30,
+                color: palette.button.default,
+              }}
+              onClick={() =>
+                !user ? setSignInOpen(true) :
+                (user.numberOfReviews < 1) ? setHasReviewOpen(true) :
+                setShowMore(!showMore)
+              }
+            >
+              <Typography variant="h6b">
+                {showMore ? "Show less" : "Show more"}
+              </Typography>
+            </Button>
+          </Typography> 
+          :
+          <Typography variant="h3r" m="0.5rem 0">
+            {props.comment}
+          </Typography> 
+        }
+      </Box>
 
       {/* Warning Dialogs */}
       <Dialogs open={signInOpen} setOpen={setSignInOpen} type="not-signin" />
@@ -70,7 +119,7 @@ const DormWidget = ({
 
       {/* IMAGES */}
       <ImageList sx={{ width: "auto", height: "auto" }} cols={3}>
-        {imageUrls.map((imageUrl) => (
+        {props.imageUrls.map((imageUrl) => (
           <CardMedia
             key={uuidv4()}
             image={imageUrl}
@@ -86,3 +135,4 @@ const DormWidget = ({
 };
 
 export default DormWidget;
+

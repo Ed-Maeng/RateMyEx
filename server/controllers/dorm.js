@@ -21,7 +21,7 @@ export const createDorm = async(req, res) => {
     }
 
     const fileBuffer = await sharp(file.buffer)
-      .resize({ height: 200, width: 300, fit: "contain" })
+      .resize({ height: 100, width: 100, fit: "inside" })
       .toBuffer();
 
     await uploadFile(fileBuffer, imageName, file.mimetype);
@@ -37,7 +37,7 @@ export const createDorm = async(req, res) => {
 export const createDormReview = async(req, res) => {
   try {
     const { dormId, userId } = req.params;
-    const { campus, rooms, rating, comment } = req.body;
+    const { name, campus, rooms, rating, comment } = req.body;
     const files = req.files;
     const imageNames = [];
 
@@ -46,7 +46,7 @@ export const createDormReview = async(req, res) => {
       imageNames.push(imageName);
       
       const fileBuffer = await sharp(file.buffer)
-        .resize({ height: 200, width: 300, fit: "contain" })
+        .resize({ height: 200, width: 300, fit: "inside" })
         .toBuffer();
 
       await uploadFile(fileBuffer, imageName, file.mimetype);
@@ -55,6 +55,7 @@ export const createDormReview = async(req, res) => {
     const newDormReview = new DormReview({ 
       dormId, 
       userId,
+      name,
       campus,
       rooms,
       rating,
@@ -85,6 +86,16 @@ export const getDorms = async(req, res) => {
       dorm.imageUrl = await getObjectSignedUrl(dorm.imageName);
     }
     res.status(200).json(dorms);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+} 
+
+export const getDorm = async(req, res) => {
+  try {
+    const { dormId } = req.params;
+    const dorm = await Dorm.findById({ _id: dormId });
+    res.status(200).json(dorm);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

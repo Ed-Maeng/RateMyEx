@@ -24,7 +24,7 @@ const Navbar = () => {
   const isAuth = Boolean(useSelector((state) => state.token));
 
   return (
-    <FlexBetween padding="1rem 10%">
+    <FlexBetween padding="1rem 10%" pt="2rem">
       <Grid container direction="row" alignItems="center">
         <Grid item>
           <Typography

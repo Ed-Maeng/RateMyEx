@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { setCurrentSection } from "../../state/auth";
 
 // All Review Widgets
 import LoadingComponent from "../../components/LoadingComponent";
@@ -11,6 +12,8 @@ import ProfessorWidget from "./ProfessorWidget";
 
 const ReviewsWidget = () => {
   // State of Reviews & Current Section
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const currentSection = useSelector((state) => state.currentSection);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -21,28 +24,48 @@ const ReviewsWidget = () => {
   const isDorm = reviewType === "dorms";
   const isProfessor = reviewType === "professors";
   const isClub = reviewType === "clubs";
+  const isProfile = useLocation().pathname.split("/")[1] === "profile";
 
   const getReviews = async () => {
-    // Before API call, set loading to true
-    setLoading(true);
-
-    const response = await fetch(
+    const responseReviews = await fetch(
       `http://localhost:4000/${reviewType}/reviews/${currentSection._id}`,
       {
         method: "GET",
       }
     );
-    await new Promise(r => setTimeout(r, 500));
+    const responseCurrentSection = await fetch(
+      `http://localhost:4000/${reviewType}/section/${currentSection._id}`,
+      {
+        method: "GET",
+      }
+    );
 
+    const dataReviews = await responseReviews.json();
+    setReviews(dataReviews);
+
+    const dataCurrentSection = await responseCurrentSection.json();
+    dispatch(setCurrentSection({ currentSection: dataCurrentSection }));
+  };
+
+  const getUserReviews = async () => {
+    const response = await fetch(
+      `http://localhost:4000/users/reviews/${user._id}`,
+      {
+        method: "GET",
+      }
+    );
     const data = await response.json();
     setReviews(data);
-    
-    // After API call, set loading to false
-    setLoading(false);
   };
 
   useEffect(() => {
-    getReviews();
+    const fetchData = async () => {
+      setLoading(true);
+      isProfile ? getUserReviews() : getReviews();
+      await new Promise(r => setTimeout(r, 500));
+      setLoading(false);
+    };
+    fetchData().catch(console.error);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -51,108 +74,29 @@ const ReviewsWidget = () => {
       {loading && <LoadingComponent />}
       
       {/* INTERNSHIP WIDGET */}
-      {isInternship &&
-        reviews?.map(
-          ({
-            _id,
-            industry,
-            jobTitle,
-            term,
-            employmentType,
-            location,
-            rating,
-            comment,
-            createdAt,
-          }) => (
-            <InternshipWidget
-              key={_id}
-              industry={industry}
-              jobTitle={jobTitle}
-              term={term}
-              employmentType={employmentType}
-              location={location}
-              rating={rating}
-              comment={comment}
-              createdAt={createdAt}
-            />
-          )
-        )
-      }
+      { isInternship && reviews?.map((review) => <InternshipWidget key={review._id} review={review} />) }
 
       {/* DORM WIDGET */}
-      {isDorm &&
-        reviews?.map(
-          ({
-            _id,
-            campus,
-            rooms,
-            rating,
-            comment,
-            imageUrls,
-            createdAt,
-          }) => (
-            <DormWidget
-              key={_id}
-              campus={campus}
-              rooms={rooms}
-              rating={rating}
-              comment={comment}
-              imageUrls={imageUrls}
-              createdAt={createdAt}
-            />
-          )
-        )
-      }
+      {isDorm && reviews?.map((review) => <DormWidget key={review._id} review={review} />) }
 
       {/* CLUB WIDGET */}
-      {isClub &&
-        reviews?.map(
-          ({
-            _id,
-            category,
-            term,
-            rating,
-            comment,
-            imageUrls,
-            createdAt,
-          }) => (
-            <ClubWidget
-              key={_id}
-              category={category}
-              term={term}
-              rating={rating}
-              comment={comment}
-              imageUrls={imageUrls}
-              createdAt={createdAt}
-            />
-          )
-        )
-      }
+      {isClub && reviews?.map((review) => <ClubWidget key={review._id} review={review} />) }
 
       {/* PROFESSOR WIDGET */}
-      {isProfessor &&
-        reviews?.map(
-          ({
-            _id,
-            className,
-            term,
-            rating,
-            comment,
-            imageUrls,
-            createdAt,
-          }) => (
-            <ProfessorWidget
-              key={_id}
-              className={className}
-              term={term}
-              rating={rating}
-              comment={comment}
-              imageUrls={imageUrls}
-              createdAt={createdAt}
-            />
-          )
-        )
-      }
+      {isProfessor && reviews?.map((review) => <ProfessorWidget key={review._id} review={review} />) }
+
+      {/* PROFILE WIDGET */}
+      {isProfile && reviews?.map((review) => {
+        if (review.hasOwnProperty("internshipId")) {
+          return (<InternshipWidget key={review._id} review={review} />)
+        } else if (review.hasOwnProperty("dormId")) {
+          return (<DormWidget key={review._id} review={review} />)
+        } else if (review.hasOwnProperty("clubId")) {
+          return (<ClubWidget key={review._id} review={review} />)
+        } else if (review.hasOwnProperty("professorId")) {
+          return (<ProfessorWidget key={review._id} review={review} />)
+        }
+      })}
     </>
   );
 }

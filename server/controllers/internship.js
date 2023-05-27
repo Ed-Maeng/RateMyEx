@@ -21,7 +21,7 @@ export const createInternship = async(req, res) => {
     }
 
     const fileBuffer = await sharp(file.buffer)
-      .resize({ height: 200, width: 300, fit: "contain" })
+      .resize({ height: 100, width: 100, fit: "inside" })
       .toBuffer();
 
     await uploadFile(fileBuffer, imageName, file.mimetype);
@@ -37,7 +37,8 @@ export const createInternship = async(req, res) => {
 export const createInternshipReview = async(req, res) => {
   try {
     const { internshipId, userId } = req.params;
-    const { 
+    const {
+      name,
       industry, 
       jobTitle, 
       term, 
@@ -49,6 +50,7 @@ export const createInternshipReview = async(req, res) => {
     const newInternshipReview = new InternshipReview({ 
       internshipId, 
       userId,
+      name,
       industry,
       jobTitle,
       term,
@@ -81,6 +83,16 @@ export const getInternships = async(req, res) => {
       internship.imageUrl = await getObjectSignedUrl(internship.imageName);
     }
     res.status(200).json(internships);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+} 
+
+export const getInternship = async(req, res) => {
+  try {
+    const { internshipId } = req.params;
+    const internship = await Internship.findById({ _id: internshipId });
+    res.status(200).json(internship);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

@@ -10,6 +10,10 @@ const ProfessorReviewSchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    name: {
+      type: String,
+      required: true
+    },
     term: {
       type: String,
     },

@@ -47,14 +47,13 @@ const EmailVerification = () => {
     verifyEmail();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  /* TODO: Create a loading page (if needed) */
   return (
-    <>{loading ? <LoadingComponent /> : <>
+    <>
+      {loading ?? <LoadingComponent />}
       {/* Warning Dialogs */}
       <Dialogs open={verifiedOpen} setOpen={setVerifiedOpen} type="verified" />
       <Dialogs open={notVerifiedOpen} setOpen={setNotVerifiedOpen} type="not-verified" />
     </>
-    }/</>
   );
 }
  

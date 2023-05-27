@@ -8,7 +8,7 @@ export const internshipSchema = yup.object().shape({
   location: yup.string(),
   employmentType: yup.string(),
   rating: yup.number().required("Required"),
-  comment: yup.string().required("Required"), // .test('len', `Must be more than 100 characters`, val => val.length > 100),
+  comment: yup.string().required("Required").test('len', `Must be more than 100 characters`, val => val.length > 100),
 });
 
 export const initialValuesInternship = {
@@ -26,7 +26,7 @@ export const dormSchema = yup.object().shape({
   campus: yup.string().required("Required"),
   rooms: yup.string().required("Required"),
   rating: yup.number().required("Required"),
-  comment: yup.string().required("Required"),
+  comment: yup.string().required("Required").test('len', `Must be more than 100 characters`, val => val.length > 100),
   files: yup.array().max(3, 'Cannot be more than 3 images'),
 });
 
@@ -43,7 +43,7 @@ export const professorSchema = yup.object().shape({
   term: yup.string().required("required"),
   className: yup.string().required("required"),
   rating: yup.number().required("required"),
-  comment: yup.string().required("required"),
+  comment: yup.string().required("Required").test('len', `Must be more than 100 characters`, val => val.length > 100),
   files: yup.array().required("required"),
 });
 
@@ -60,7 +60,7 @@ export const clubSchema = yup.object().shape({
   category: yup.string().required("required"),
   term: yup.string().required("required"),
   rating: yup.number().required("required"),
-  comment: yup.string().required("required"),
+  comment: yup.string().required("Required").test('len', `Must be more than 100 characters`, val => val.length > 100),
   files: yup.array().required("required"),
 });
 

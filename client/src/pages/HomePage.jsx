@@ -24,7 +24,7 @@ const HomePage = () => {
 
   const getSchools = async () => {
     const response = await fetch(
-      `http://ec2-3-237-176-139.compute-1.amazonaws.com:4000/schools`,
+      `https://localhost:8443/schools`,
       {
         method: "GET",
       }

@@ -34,21 +34,21 @@ export default function ProfilePage() {
 
   const getUserReviews = async () => {
     const internshipResponse = await fetch(
-      `http://ec2-3-237-176-139.compute-1.amazonaws.com:4000/schools`,
+      `https://localhost:8443/schools`,
       {
         method: "GET",
         "Authorization": `Bearer ${token}`,
       }
     );
     const dormResponse = await fetch(
-      `http://ec2-3-237-176-139.compute-1.amazonaws.com:4000/schools`,
+      `https://localhost:8443/schools`,
       {
         method: "GET",
         "Authorization": `Bearer ${token}`,
       }
     );
     const clubResponse = await fetch(
-      `http://ec2-3-237-176-139.compute-1.amazonaws.com:4000/schools`,
+      `https://localhost:8443/schools`,
       {
         method: "GET",
         "Authorization": `Bearer ${token}`,

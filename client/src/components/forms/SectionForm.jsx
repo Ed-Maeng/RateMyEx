@@ -35,7 +35,7 @@ const SectionForm = (props) => {
     formData.append("file", values["file"][0]);
 
     const savedSectionResponse = await fetch(
-      `http://localhost:4000/${reviewType}/${school._id}`,
+      `https://api.ratemyexschool.com:4000/${reviewType}/${school._id}`,
       {
         method: "POST",
         headers: { "Authorization": `Bearer ${token}` },

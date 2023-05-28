@@ -40,7 +40,7 @@ const Form = () => {
 
   const register = async (values, onSubmitProps) => {    
     const registerResponse = await fetch(
-      "https://localhost:8443/auth/register",
+      "https://api.ratemyexschool.com:8443/auth/register",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -64,7 +64,7 @@ const Form = () => {
 
   const login = async (values, onSubmitProps) => {
     const loggedInResponse = await fetch(
-      "https://localhost:8443/auth/login",
+      "https://api.ratemyexschool.com:8443/auth/login",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

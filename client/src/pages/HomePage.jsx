@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setSchool } from '../state/auth';
+import fs from 'fs';
+import https from 'https';
 
 // Components
 import { useTheme } from "@emotion/react";
@@ -23,8 +25,15 @@ const HomePage = () => {
   const [schools, setSchools] = useState([]);
 
   const getSchools = async () => {
+    var options = {
+      hostname: 'api.ratemyexschool.com',
+      port: 8443,
+      path: '/schools',
+      method: 'GET',
+      key: fs.readFileSync('client/src/certificates/client-key.pem'),
+    };
     const response = await fetch(
-      `https://localhost:8443/schools`,
+      `https://api.ratemyexschool.com:8443/schools`,
       {
         method: "GET",
       }

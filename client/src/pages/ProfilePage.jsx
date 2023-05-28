@@ -34,21 +34,21 @@ export default function ProfilePage() {
 
   const getUserReviews = async () => {
     const internshipResponse = await fetch(
-      `https://localhost:8443/schools`,
+      `https://api.ratemyexschool.com:8443/schools`,
       {
         method: "GET",
         "Authorization": `Bearer ${token}`,
       }
     );
     const dormResponse = await fetch(
-      `https://localhost:8443/schools`,
+      `https://api.ratemyexschool.com:8443/schools`,
       {
         method: "GET",
         "Authorization": `Bearer ${token}`,
       }
     );
     const clubResponse = await fetch(
-      `https://localhost:8443/schools`,
+      `https://api.ratemyexschool.com:8443/schools`,
       {
         method: "GET",
         "Authorization": `Bearer ${token}`,

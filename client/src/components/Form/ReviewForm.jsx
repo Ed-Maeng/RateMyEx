@@ -37,7 +37,7 @@ const ReviewForm = () => {
 
   const saveReview = async (values) => {  
     const savedReviewResponse = await fetch(
-      `https://localhost:8443/${reviewType}/${currentSection._id}/${user._id}`,
+      `https://api.ratemyexschool.com:8443/${reviewType}/${currentSection._id}/${user._id}`,
       {
         method: "POST",
         headers: { 
@@ -63,7 +63,7 @@ const ReviewForm = () => {
     }
 
     const savedReviewResponse = await fetch(
-      `https://localhost:8443/${reviewType}/${currentSection._id}/${user._id}`,
+      `https://api.ratemyexschool.com:8443/${reviewType}/${currentSection._id}/${user._id}`,
       {
         method: "POST",
         headers: { "Authorization": `Bearer ${token}` },

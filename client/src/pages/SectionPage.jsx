@@ -32,7 +32,7 @@ const SectionPage = () => {
 
   const getSections = async () => {
     const response = await fetch(
-      `https://localhost:8443/${reviewType}/${school._id}`,
+      `https://api.ratemyexschool.com:8443/${reviewType}/${school._id}`,
       {
         method: "GET",
       }

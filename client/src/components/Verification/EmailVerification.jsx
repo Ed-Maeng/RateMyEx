@@ -20,7 +20,7 @@ const EmailVerification = () => {
   const verifyEmail = async () => {  
     setLoading(true);
     const verifyEmailResponse = await fetch(
-      `http://localhost:4000/auth/verifyemail`,
+      `https://api.ratemyexschool.com:8443/auth/verifyemail`,
       {
         method: "POST",
         headers: { "Authorization": `Bearer ${emailToken}` },

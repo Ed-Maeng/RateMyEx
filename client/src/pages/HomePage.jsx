@@ -24,7 +24,7 @@ const HomePage = () => {
 
   const getSchools = async () => {
     const response = await fetch(
-      `http://localhost:4000/schools`,
+      `https://api.ratemyexschool.com:8443/schools`,
       {
         method: "GET",
       }

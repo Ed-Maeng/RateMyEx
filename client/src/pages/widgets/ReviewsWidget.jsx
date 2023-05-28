@@ -28,13 +28,13 @@ const ReviewsWidget = () => {
 
   const getReviews = async () => {
     const responseReviews = await fetch(
-      `https://api.ratemyexschool.com:4000/${reviewType}/reviews/${currentSection._id}`,
+      `https://api.ratemyexschool.com:8443/${reviewType}/reviews/${currentSection._id}`,
       {
         method: "GET",
       }
     );
     const responseCurrentSection = await fetch(
-      `http://api.ratemyexschool.com:4000/${reviewType}/section/${currentSection._id}`,
+      `https://api.ratemyexschool.com:8443/${reviewType}/section/${currentSection._id}`,
       {
         method: "GET",
       }
@@ -49,7 +49,7 @@ const ReviewsWidget = () => {
 
   const getUserReviews = async () => {
     const response = await fetch(
-      `https://api.ratemyexschool.com:4000/users/reviews/${user._id}`,
+      `https://api.ratemyexschool.com:8443/users/reviews/${user._id}`,
       {
         method: "GET",
       }

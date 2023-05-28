@@ -107,7 +107,7 @@ const Form = () => {
     const info = jwt_decode(res.credential);
     console.log(info)
     // const loggedInResponse = await fetch(
-    //   "http://localhost:4000/auth/login",
+    //   "https://api.ratemyexschool.com:8443/auth/login",
     //   {
     //     method: "POST",
     //     headers: { "Content-Type": "application/json" },

@@ -10,15 +10,27 @@ const InternshipReviewSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    role: {
+    name: {
+      type: String,
+      required: true
+    },
+    industry: {
+      type: String,
+      required: true,
+    },
+    jobTitle: {
       type: String,
       required: true,
       max: 50,
     },
+    term: {
+      type: String,
+    },
+    employmentType: {
+      type: String,
+    },
     location: {
       type: String,
-      min: 2,
-      max: 50,
     },
     rating: {
       type: Number,
@@ -27,14 +39,7 @@ const InternshipReviewSchema = new mongoose.Schema(
     comment: {
       type: String,
       required: true,
-    },
-    imageNames: {
-      type: Array,
-      default: [],
-    },
-    imageUrls: {
-      type: Array,
-      default: [],
+      max: 500,
     },
   },
   { timestamps: true }

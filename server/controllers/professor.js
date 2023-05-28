@@ -23,7 +23,7 @@ export const createProfessor = async(req, res) => {
     }
 
     const fileBuffer = await sharp(file.buffer)
-      .resize({ height: 1920, width: 1080, fit: "contain" })
+      .resize({ height: 100, width: 100, fit: "inside" })
       .toBuffer();
 
     await uploadFile(fileBuffer, imageName, file.mimetype);
@@ -39,29 +39,16 @@ export const createProfessor = async(req, res) => {
 export const createProfessorReview = async(req, res) => {
   try {
     const { professorId, userId } = req.params;
-    const { name, className, rating, comment } = req.body;
-    const files = req.files;
-    const imageNames = [];
-
-    files.map(async (file) => {
-      let imageName = generateFileName();
-      imageNames.push(imageName);
-      
-      const fileBuffer = await sharp(file.buffer)
-        .resize({ height: 1920, width: 1080, fit: "contain" })
-        .toBuffer();
-
-      await uploadFile(fileBuffer, imageName, file.mimetype);
-    });
+    const { name, term, className, rating, comment } = req.body;
 
     const newProfessorReview = new ProfessorReview({ 
       professorId, 
       userId,
       name,
+      term,
       className,
       rating,
       comment,
-      imageNames
     });
 
     const savedProfessorReview = await newProfessorReview.save();
@@ -91,17 +78,22 @@ export const getProfessors = async(req, res) => {
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
+}
+
+export const getProfessor = async(req, res) => {
+  try {
+    const { professorId } = req.params;
+    const professor = await Professor.findById({ _id: professorId });
+    res.status(200).json(professor);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
 } 
 
 export const getProfessorReviews = async(req, res) => {
   try {
     const { professorId } = req.params;
-    const professorReviews = await ProfessorReview.find({ professorId });
-    for (let review of professorReviews) {
-      for (let imageName of review.imageNames) {
-        review.imageUrls.push(await getObjectSignedUrl(imageName));
-      }
-    }
+    const professorReviews = await ProfessorReview.find({ professorId }).sort('-createdAt');
     res.status(200).json(professorReviews);
   } catch (err) {
     res.status(404).json({ message: err.message });

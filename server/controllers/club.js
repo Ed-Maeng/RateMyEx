@@ -21,7 +21,7 @@ export const createClub = async(req, res) => {
     }
 
     const fileBuffer = await sharp(file.buffer)
-      .resize({ height: 1920, width: 1080, fit: "contain" })
+      .resize({ height: 100, width: 100, fit: "inside" })
       .toBuffer();
 
     await uploadFile(fileBuffer, imageName, file.mimetype);
@@ -37,7 +37,7 @@ export const createClub = async(req, res) => {
 export const createClubReview = async(req, res) => {
   try {
     const { clubId, userId } = req.params;
-    const { location, rating, comment } = req.body;
+    const { name, category, term, rating, comment } = req.body;
 
     const files = req.files;
     const imageNames = [];
@@ -47,7 +47,7 @@ export const createClubReview = async(req, res) => {
       imageNames.push(imageName);
       
       const fileBuffer = await sharp(file.buffer)
-        .resize({ height: 1920, width: 1080, fit: "contain" })
+        .resize({ height: 200, width: 300, fit: "inside" })
         .toBuffer();
 
       await uploadFile(fileBuffer, imageName, file.mimetype);
@@ -56,7 +56,9 @@ export const createClubReview = async(req, res) => {
     const newClubReview = new ClubReview({ 
       clubId, 
       userId,
-      location,
+      name,
+      category,
+      term,
       rating,
       comment,
       imageNames,
@@ -88,12 +90,22 @@ export const getClubs = async(req, res) => {
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
+}
+
+export const getClub = async(req, res) => {
+  try {
+    const { clubId } = req.params;
+    const club = await Club.findById({ _id: clubId });
+    res.status(200).json(club);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
 } 
 
 export const getClubReviews = async(req, res) => {
   try {
     const { clubId } = req.params;
-    const clubReviews = await ClubReview.find({ clubId });
+    const clubReviews = await ClubReview.find({ clubId }).sort('-createdAt');
     for (let review of clubReviews) {
       for (let imageName of review.imageNames) {
         review.imageUrls.push(await getObjectSignedUrl(imageName));

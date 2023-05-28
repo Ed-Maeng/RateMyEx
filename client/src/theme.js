@@ -2,17 +2,17 @@
 export const colorTokens = {
   grey: {
     0: "#FFFFFF",
-    10: "#F9F9F9",
+    10: "#F8FAFD",
     50: "#F0F0F0",
-    100: "#E0E0E0",
-    200: "#C2C2C2",
-    300: "#A3A3A3",
-    400: "#858585",
-    500: "#666666",
-    600: "#4D4D4D",
-    700: "#333333",
-    800: "#1A1A1A",
-    900: "#0A0A0A",
+    100: "#F8FAFD",
+    200: "#E7ECF3",
+    300: "#C4CBD8",
+    400: "#A7B0C0",
+    500: "#8C94A4",
+    600: "rgba(18, 18, 29, 0.6)",
+    700: "#6F7789",
+    800: "#1A1C2D",
+    900: "#12121D",
     1000: "#000000",
   },
   primary: {
@@ -24,8 +24,9 @@ export const colorTokens = {
     500: "#121212",
   },
   button: {
-    0: "#1F51FF",
-    50: "#7182aa",
+    "default": "#007FFF",
+    "signup": "#18A0FB",
+    "alt": "#7182aa",
   }
 };
 
@@ -39,8 +40,9 @@ export const themeSettings = () => {
         light: colorTokens.primary[50],
       },
       button: {
-        default: colorTokens.button[0],
-        alt: colorTokens.button[50],
+        default: colorTokens.button["default"],
+        signup: colorTokens.button["signup"],
+        alt: colorTokens.button["alt"],
       },
       neutral: {
         dark: colorTokens.grey[700],
@@ -55,31 +57,98 @@ export const themeSettings = () => {
       },
     },
     typography: {
-      fontFamily: ["Rubik", "sans-serif"].join(","),
+      fontFamily: ["Inter"],
       fontSize: 12,
-      h1: {
-        fontFamily: ["Rubik", "sans-serif"].join(","),
-        fontSize: 40,
+
+      h1b: {
+        fontFamily: ["Inter"],
+        fontWeight: 700,
+        fontSize: 30,
       },
-      h2: {
-        fontFamily: ["Rubik", "sans-serif"].join(","),
-        fontSize: 32,
+      h1r: {
+        fontFamily: ["Inter"],
+        fontWeight: 400,
+        fontSize: 28,
       },
-      h3: {
-        fontFamily: ["Rubik", "sans-serif"].join(","),
-        fontSize: 24,
+      h2b: {
+        fontFamily: ["Inter"],
+        fontWeight: 700,
+        fontSize: 18,
       },
-      h4: {
-        fontFamily: ["Rubik", "sans-serif"].join(","),
-        fontSize: 20,
+      h2r: {
+        fontFamily: ["Inter"],
+        fontWeight: 400,
+        fontSize: 18,
       },
-      h5: {
-        fontFamily: ["Rubik", "sans-serif"].join(","),
+      h3b: {
+        fontFamily: ["Inter"],
+        fontWeight: 700,
         fontSize: 16,
       },
-      h6: {
-        fontFamily: ["Rubik", "sans-serif"].join(","),
+      h3r: {
+        fontFamily: ["Inter"],
+        fontWeight: 400,
+        fontSize: 16,
+      },
+      h4b: {
+        fontFamily: ["Inter"],
+        fontWeight: 700,
+        fontSize: 15,
+      },
+      h4r: {
+        fontFamily: ["Inter"],
+        fontWeight: 400,
+        fontSize: 15,
+      },
+      h5b: {
+        fontFamily: ["Inter"],
+        fontWeight: 700,
         fontSize: 14,
+      },
+      h5r: {
+        fontFamily: ["Inter"],
+        fontWeight: 400,
+        fontSize: 14,
+      },
+      h6b: {
+        fontFamily: ["Inter"],
+        fontWeight: 700,
+        fontSize: 13,
+      },
+      h6r: {
+        fontFamily: ["Inter"],
+        fontWeight: 400,
+        fontSize: 13,
+      },
+      h7b: {
+        fontFamily: ["Inter"],
+        fontWeight: 700,
+        fontSize: 12,
+      },
+      h7r: {
+        fontFamily: ["Inter"],
+        fontWeight: 400,
+        fontSize: 12,
+      },
+      h8b: {
+        fontFamily: ["Inter"],
+        fontWeight: 'bold',
+        fontSize: 11,
+      },
+      h8r: {
+        fontFamily: ["Inter"],
+        fontWeight: 400,
+        fontSize: 11,
+      },
+      h9b: {
+        fontFamily: ["Inter"],
+        fontWeight: 700,
+        fontSize: 10,
+      },
+      h9r: {
+        fontFamily: ["Inter"],
+        fontWeight: 400,
+        fontSize: 10,
       },
     },
   };

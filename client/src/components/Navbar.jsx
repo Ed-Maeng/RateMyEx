@@ -24,12 +24,11 @@ const Navbar = () => {
   const isAuth = Boolean(useSelector((state) => state.token));
 
   return (
-    <FlexBetween padding="1rem 10%">
+    <FlexBetween padding="1rem 10%" pt="2rem">
       <Grid container direction="row" alignItems="center">
         <Grid item>
           <Typography
-            fontWeight="bold"
-            fontSize="clamp(1rem, 1.5rem, 1.5rem)"
+            variant="h1b"
             color="primary"
             onClick={() => navigate("/")}
             sx={{
@@ -38,7 +37,7 @@ const Navbar = () => {
               },
             }}
           >
-            ratemyex
+            Ratemyex
           </Typography>
         </Grid>
         <Grid item>
@@ -69,10 +68,10 @@ const Navbar = () => {
               input={<InputBase />}
             >
               <MenuItem onClick={() => navigate("/profile")} value={user.firstName}>
-                <Typography>{user.firstName}</Typography>
+                <Typography variant="h4b">{user.firstName}</Typography>
               </MenuItem>
               <MenuItem onClick={() => dispatch(setLogout())}>
-                Log Out
+              <Typography variant="h4b">Logout</Typography>
               </MenuItem>
             </Select> 
           </FormControl>
@@ -81,16 +80,16 @@ const Navbar = () => {
             href="/login"
             variant="contained" 
             sx={{
-              backgroundColor: palette.primary.main,
-              width: "150px",
+              backgroundColor: palette.button.signup,
+              width: "110px",
               borderRadius: "0.25rem",
               p: "0.25rem 1rem",
               "&:hover": {
-                backgroundColor: palette.primary.secondary,
+                backgroundColor: palette.button.alt,
               }
             }}
           >
-            Sign In
+            <Typography variant="h3b">Sign In</Typography>
           </Button>
         }
       </FlexBetween>

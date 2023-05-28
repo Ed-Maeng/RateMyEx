@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { setLogin } from "../../state/auth";
 import Dialogs from "../Dialogs";
 
-import LoadingComponent from "../../components/LoadingComponent";
+import LoadingComponent from "../LoadingComponent";
 
 const EmailVerification = () => {
   const dispatch = useDispatch();
@@ -47,14 +47,13 @@ const EmailVerification = () => {
     verifyEmail();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  /* TODO: Create a loading page (if needed) */
   return (
-    <>{loading ? <LoadingComponent /> : <>
+    <>
+      {loading ?? <LoadingComponent />}
       {/* Warning Dialogs */}
       <Dialogs open={verifiedOpen} setOpen={setVerifiedOpen} type="verified" />
       <Dialogs open={notVerifiedOpen} setOpen={setNotVerifiedOpen} type="not-verified" />
     </>
-    }/</>
   );
 }
  

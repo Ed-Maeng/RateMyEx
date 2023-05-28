@@ -2,60 +2,72 @@ import * as yup from "yup";
 
 // INTERNSHIP SCHEMA
 export const internshipSchema = yup.object().shape({
-  role: yup.string().required("required"),
-  location: yup.string().required("required"),
-  rating: yup.string().required("required"),
-  comment: yup.string().required("required"),
-  files: yup.array().required("required"),
+  industry: yup.string().required("Required"),
+  jobTitle: yup.string().required("Required"),
+  term: yup.string(),
+  location: yup.string(),
+  employmentType: yup.string(),
+  rating: yup.number().required("Required"),
+  comment: yup.string().required("Required").test('len', `Must be more than 100 characters`, val => val.length > 100),
 });
 
 export const initialValuesInternship = {
-  role: "",
-  location: "",
-  rating: "",
+  industry: null,
+  jobTitle: null,
+  term: null,
+  location: null,
+  employmentType: null,
+  rating: 0,
   comment: "",
-  files: [],
 };
 
 // DORM SCHEMA
 export const dormSchema = yup.object().shape({
-  location: yup.string().required("required"),
-  rating: yup.string().required("required"),
-  comment: yup.string().required("required"),
-  files: yup.array().required("required"),
+  campus: yup.string().required("Required"),
+  rooms: yup.string().required("Required"),
+  rating: yup.number().required("Required"),
+  comment: yup.string().required("Required").test('len', `Must be more than 100 characters`, val => val.length > 100),
+  files: yup.array().max(3, 'Cannot be more than 3 images'),
 });
 
 export const initialValuesDorm = {
-  location: "",
-  rating: "",
+  campus: null,
+  rooms: null,
+  rating: 0,
   comment: "",
   files: [],
 };
 
 // PROFESSOR SCHEMA
 export const professorSchema = yup.object().shape({
+  term: yup.string().required("required"),
   className: yup.string().required("required"),
-  rating: yup.string().required("required"),
-  comment: yup.string().required("required"),
+  rating: yup.number().required("required"),
+  comment: yup.string().required("Required").test('len', `Must be more than 100 characters`, val => val.length > 100),
   files: yup.array().required("required"),
 });
 
 export const initialValuesProfessor = {
+  term: null,
   className: "",
-  rating: "",
+  rating: 0,
   comment: "",
   files: [],
 };
 
 // CLUB SCHEMA
 export const clubSchema = yup.object().shape({
-  rating: yup.string().required("required"),
-  comment: yup.string().required("required"),
+  category: yup.string().required("required"),
+  term: yup.string().required("required"),
+  rating: yup.number().required("required"),
+  comment: yup.string().required("Required").test('len', `Must be more than 100 characters`, val => val.length > 100),
   files: yup.array().required("required"),
 });
 
 export const initialValuesClub = {
-  rating: "",
+  category: null,
+  term: null,
+  rating: 0,
   comment: "",
   files: [],
 };
@@ -84,4 +96,15 @@ export const loginSchema = yup.object().shape({
 export const initialValuesLogin = {
   email: "",
   password: "",
+};
+
+// SECTION FORM SCHEMA
+export const sectionFormSchema = yup.object().shape({
+  name: yup.string().required("required"),
+  file: yup.mixed().required("required"),
+});
+
+export const initialValuesSectionForm = {
+  name: "",
+  file: null,
 };

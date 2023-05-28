@@ -1,71 +1,32 @@
 import {
-  LocationOnOutlined,
-  ManageAccountsOutlined,
-  WorkOutlineOutlined,
-} from "@mui/icons-material";
-import CheckIcon from '@mui/icons-material/Check';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import {
   Avatar,
   Box,
   Divider,
   Typography,
   useTheme,
 } from "@mui/material";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+
+// Icons
+import CheckIcon from '@mui/icons-material/Check';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+import WorkOutlineOutlined from "@mui/icons-material/WorkOutline";
 
 // Components
 import FlexBetween from "../components/FlexBetween";
 import Navbar from "../components/Navbar";
 import WidgetWrapper from "../components/WidgetWrapper";
+import ReviewWidgets from "../pages/widgets/ReviewsWidget";
 
 export default function ProfilePage() {
   // State of User, Token & User Reviews
   const user = useSelector((state) => state.user);
-  const token = useSelector((state) => state.token);
-  const [userReviews, setUserReviews] = useState([]);
 
   // Theme & Colors
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const dark = palette.neutral.dark;
-  const medium = palette.neutral.medium;
-
-  const getUserReviews = async () => {
-    const internshipResponse = await fetch(
-      `https://api.ratemyexschool.com:8443/schools`,
-      {
-        method: "GET",
-        "Authorization": `Bearer ${token}`,
-      }
-    );
-    const dormResponse = await fetch(
-      `https://api.ratemyexschool.com:8443/schools`,
-      {
-        method: "GET",
-        "Authorization": `Bearer ${token}`,
-      }
-    );
-    const clubResponse = await fetch(
-      `https://api.ratemyexschool.com:8443/schools`,
-      {
-        method: "GET",
-        "Authorization": `Bearer ${token}`,
-      }
-    );
-
-    const internshipReviews = await internshipResponse.json();
-    const dormReviews = await dormResponse.json();
-    const clubReviews = await clubResponse.json();
-    const reviews = Object.assign(internshipReviews, dormReviews, clubReviews);
-    setUserReviews(reviews);
-  };
-
-  useEffect(() => {
-    getUserReviews();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
 
   return (
     <Box>
@@ -73,7 +34,7 @@ export default function ProfilePage() {
 
       <Box
         width="100%"
-        padding="2rem 6%"
+        padding="1rem 6%"
         display={"flex"}
         gap="0.5rem"
         justifyContent="space-between"
@@ -88,7 +49,7 @@ export default function ProfilePage() {
               <Avatar />
               <Box>
                 <Typography
-                  variant="h4"
+                  variant="h3b"
                   color={dark}
                   fontWeight="500"
                 >
@@ -96,7 +57,6 @@ export default function ProfilePage() {
                 </Typography>
               </Box>
             </FlexBetween>
-            <ManageAccountsOutlined />
           </FlexBetween>
 
           <Divider />
@@ -109,46 +69,54 @@ export default function ProfilePage() {
 
             <Box display="flex" alignItems="center" gap="1rem" mb="1rem">
               <MailOutlineIcon fontSize="large" sx={{ color: main }} />
-              <Typography color={main}>{user.email}</Typography>
+              <Typography variant="h3b" color={main}>{user.email}</Typography>
             </Box>
 
             <Box display="flex" alignItems="center" gap="1rem" mb="1rem">
-              <LocationOnOutlined fontSize="large" sx={{ color: main }} />
-              <Typography color={main}>{user.schoolName}</Typography>
+              <SchoolOutlinedIcon fontSize="large" sx={{ color: main }} />
+              <Typography variant="h3b" color={main}>{user.schoolName}</Typography>
             </Box>
             
             <Box display="flex" alignItems="center" gap="1rem" mb="1rem">
               <WorkOutlineOutlined fontSize="large" sx={{ color: main }} />
-              <Typography color={main}>{"Student"}</Typography>
+              <Typography variant="h3b" color={main}>{"Student"}</Typography>
             </Box>
 
             <Box display="flex" alignItems="center" gap="1rem" mb="1rem">
               <CheckIcon fontSize="large" sx={{ color: main }} />
-              <Typography color={main}>{"Verified"}</Typography>
+              <Typography variant="h3b" color={main}>{"Verified"}</Typography>
             </Box>
           </Box>
 
           <Divider />
 
-          {/* THIRD ROW
-              TODO: Add number of reviews and likes to User Schema */}
+          {/* THIRD ROW: Number of User's Reviews */}
           <Box padding="1rem 0">
             <FlexBetween mb="0.5rem">
-              <Typography color={medium}>Number of Reviews</Typography>
-              <Typography color={main} fontWeight="500">
-                {0}
-              </Typography>
-            </FlexBetween>
-            <FlexBetween>
-              <Typography color={medium}>Number of Likes</Typography>
-              <Typography color={main} fontWeight="500">
+              <Typography variant="h3b" color={main}>Number of Reviews</Typography>
+              <Typography variant="h3b" color={main} fontWeight="500">
                 {0}
               </Typography>
             </FlexBetween>
           </Box>
         </WidgetWrapper>
 
-        {/* TODO: Write all User's reviews */}
+        <Box
+          width="100%"
+          display={"flex"}
+          justifyContent="space-between"
+        >
+          <Box m="auto" flexBasis="85%">
+            <Typography
+              variant="h1b"
+              pt="1rem"
+              color={palette.neutral.dark}
+            >
+              {"My Reviews"}
+            </Typography>
+            <ReviewWidgets />
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

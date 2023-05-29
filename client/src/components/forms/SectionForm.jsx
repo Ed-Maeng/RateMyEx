@@ -37,7 +37,7 @@ const SectionForm = (props) => {
     }
 
     const savedSectionResponse = await fetch(
-      `http://localhost:4000/${reviewType}/${school._id}`,
+      `https://api.ratemyexschool.com:8443/${reviewType}/${school._id}`,
       {
         method: "POST",
         headers: { "Authorization": `Bearer ${token}` },

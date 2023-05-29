@@ -40,7 +40,7 @@ const ReviewForm = (props) => {
   const saveReview = async (values) => {
     await Object.assign(values, { "name": currentSection.name });
     const savedReviewResponse = await fetch(
-      `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}`,
+      `https://api.ratemyexschool.com:8443/${reviewType}/${currentSection._id}/${user._id}`,
       {
         method: "POST",
         headers: { 
@@ -67,7 +67,7 @@ const ReviewForm = (props) => {
     }
 
     const savedReviewResponse = await fetch(
-      `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}`,
+      `https://api.ratemyexschool.com:8443/${reviewType}/${currentSection._id}/${user._id}`,
       {
         method: "POST",
         headers: { "Authorization": `Bearer ${token}` },

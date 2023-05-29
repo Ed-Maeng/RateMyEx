@@ -1,5 +1,6 @@
 import Club from "../models/Club.js";
 import ClubReview from "../models/ClubReview.js";
+import User from "../models/User.js";
 
 // Imports for S3 & Files
 import crypto from "crypto";
@@ -13,18 +14,20 @@ export const createClub = async(req, res) => {
     const { schoolId } = req.params;
     const { name } = req.body;
     const file = req.file;
-    const imageName = generateFileName();
+    const imageName = file ? generateFileName() : "";
 
     const club = await Club.findOne({ schoolId, name });
     if (club) {
       return res.status(409).json({ msg: "Duplicate Club Name in Same School." });
     }
 
-    const fileBuffer = await sharp(file.buffer)
-      .resize({ height: 100, width: 100, fit: "inside" })
-      .toBuffer();
+    if (file) {
+      const fileBuffer = await sharp(file.buffer)
+        .resize({ height: 100, width: 100, fit: "inside" })
+        .toBuffer();
 
-    await uploadFile(fileBuffer, imageName, file.mimetype);
+      await uploadFile(fileBuffer, imageName, file.mimetype);
+    }
 
     const newClub = new Club({ schoolId, name, imageName });
     const savedClub = await newClub.save();
@@ -72,6 +75,12 @@ export const createClubReview = async(req, res) => {
       { $inc: { totalReviews: 1, totalRatings: rating }
     });
 
+    // Update User `numberOfReviews`
+    await User.updateOne(
+      {_id: userId}, 
+      { $inc: { numberOfReviews: 1 }}
+    );
+
     res.status(201).json(savedClubReview);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -84,7 +93,9 @@ export const getClubs = async(req, res) => {
     const clubs = await Club.find({ schoolId });
 
     for (let club of clubs) {
-      club.imageUrl = await getObjectSignedUrl(club.imageName);
+      if (club.imageName) {
+        club.imageUrl = await getObjectSignedUrl(club.imageName);
+      }
     }
     res.status(200).json(clubs);
   } catch (err) {

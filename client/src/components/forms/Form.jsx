@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Divider,
-  Grid,
   TextField,
   Typography,
   useTheme,
@@ -238,7 +237,7 @@ const Form = () => {
 
             { /* Click to Change from Logging In to Register (vice versa) */ }
             <Typography
-              variant="h5b"
+              variant="h3b"
               onClick={() => {
                 setPageType(isLogin ? "register" : "login");
                 resetForm();

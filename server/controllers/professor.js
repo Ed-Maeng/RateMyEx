@@ -1,7 +1,6 @@
-//TODO: Finish Professor Page
-
 import Professor from "../models/Professor.js";
 import ProfessorReview from "../models/ProfessorReview.js";
+import User from "../models/User.js";
 
 // Imports for S3 & Files
 import crypto from "crypto";
@@ -15,18 +14,20 @@ export const createProfessor = async(req, res) => {
     const { schoolId } = req.params;
     const { name } = req.body;
     const file = req.file;
-    const imageName = generateFileName();
+    const imageName = file ? generateFileName() : "";
 
     const professor = await Professor.findOne({ schoolId, name });
     if (professor) {
       return res.status(409).json({ msg: "Duplicate Professor Name in Same School." });
     }
 
-    const fileBuffer = await sharp(file.buffer)
-      .resize({ height: 100, width: 100, fit: "inside" })
-      .toBuffer();
+    if (file) {
+      const fileBuffer = await sharp(file.buffer)
+        .resize({ height: 100, width: 100, fit: "inside" })
+        .toBuffer();
 
-    await uploadFile(fileBuffer, imageName, file.mimetype);
+      await uploadFile(fileBuffer, imageName, file.mimetype);
+    }
 
     const newProfessor = new Professor({ schoolId, name, imageName });
     const savedProfessor = await newProfessor.save();
@@ -58,8 +59,13 @@ export const createProfessorReview = async(req, res) => {
       {_id: professorId}, 
       { $inc: { totalReviews: 1, totalRatings: rating }
     });
-    
 
+    // Update User `numberOfReviews`
+    await User.updateOne(
+      {_id: userId}, 
+      { $inc: { numberOfReviews: 1 }}
+    );
+    
     res.status(201).json(savedProfessorReview);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -72,7 +78,9 @@ export const getProfessors = async(req, res) => {
     const professors = await Professor.find({ schoolId });
 
     for (let professor of professors) {
-      professor.imageUrl = await getObjectSignedUrl(professor.imageName);
+      if (professor.imageName) {
+        professor.imageUrl = await getObjectSignedUrl(professor.imageName);
+      }
     }
     res.status(200).json(professors);
   } catch (err) {

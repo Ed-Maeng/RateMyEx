@@ -11,7 +11,7 @@ import {
   Typography
 } from "@mui/material";
 import moment from 'moment';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 // Icons
@@ -27,21 +27,36 @@ const InternshipWidget = (props) => {
   const { palette } = useTheme();
   const dateTimeAgo = moment(new Date(props.review.createdAt)).fromNow();
 
-  // State of Current Section & User & Show More & Open
-  const currentSection = useSelector((state) => state.currentSection);
+  // State of User & Show More & Open
   const user = useSelector((state) => state.user);
   const [showMore, setShowMore] = useState(false);
+  const [reviewUser, setReviewUser] = useState(null);
 
   // Types of Open Dialogs
   const [signInOpen, setSignInOpen] = useState(false);
   const [hasReviewOpen, setHasReviewOpen] = useState(false);
+
+  const getUser = async () => {
+    const responseUser = await fetch(
+      `http://localhost:4000/users/${props.review.userId}`,
+      {
+        method: "GET",
+      }
+    );
+    const dataUser = await responseUser.json();
+    setReviewUser(dataUser);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <WidgetWrapper m="1rem 0">
       <ListItem>
         {/* AVATAR */}
         <ListItemAvatar>
-          <Avatar />
+          <Avatar sx={{ bgcolor: palette.button.signup }}>{reviewUser && reviewUser.firstName[0]}</Avatar>
         </ListItemAvatar>
         {/* RATING, USERNAME, TIME AGO */}
         <ListItemText
@@ -49,9 +64,7 @@ const InternshipWidget = (props) => {
             <Grid container direction="column">
               <Rating name="read-only" value={props.review.rating} size="small" readOnly />
               <Grid item>
-                <Typography variant="h5b" sx={{ color: palette.neutral.main }}>
-                  {"username | " + dateTimeAgo}
-                </Typography>
+                <Typography variant="h5b" sx={{ color: palette.neutral.main }}>{dateTimeAgo}</Typography>
               </Grid>
             </Grid>
           }
@@ -69,7 +82,7 @@ const InternshipWidget = (props) => {
         {/* INDUSTRY */}
         <Grid item>
           <Typography variant="h6b" sx={{ display: "flex", alignItems: "center", color: palette.neutral.main }}>
-            <WorkIcon fontSize="small" style={{position: 'relative', bottom: '1px', right: '2px'}} />
+            <WorkIcon fontSize="small" style={{position: "relative", bottom: "1px", right: "2px"}} />
             {props.review.industry}
           </Typography>
         </Grid>
@@ -87,22 +100,25 @@ const InternshipWidget = (props) => {
         {/* TERM */}
         <Grid item>
           <Chip
+            variant="outlined"
             label={props.review.term}
-            style={{fontSize: "0.75rem"}}
+            style={{fontSize:"0.75rem"}}
           />
         </Grid>
         {/* JOB TITLE */}
         <Grid item>
           <Chip
+            variant="outlined"
             label={props.review.jobTitle} 
-            style={{fontSize: "0.75rem"}}
+            style={{fontSize:"0.75rem"}}
           />
         </Grid>
         {/* EMPLOYMENT TYPE */}
         <Grid item>
-          <Chip 
+          <Chip
+            variant="outlined"
             label={props.review.employmentType} 
-            style={{fontSize: "0.75rem"}}
+            style={{fontSize:"0.75rem"}}
           />
         </Grid>
       </Grid>

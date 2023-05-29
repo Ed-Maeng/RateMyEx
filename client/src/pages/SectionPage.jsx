@@ -19,12 +19,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { setCurrentSection } from "../state/auth";
 
 // Pages & Components
+import { useTheme } from '@emotion/react';
 import Dialogs from '../components/Dialogs';
 import Navbar from "../components/Navbar";
 import SearchText from "../components/SearchText";
 import SectionFormPage from "../pages/forms/SectionFormPage";
 
 const SectionPage = () => {
+  const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -109,7 +111,7 @@ const SectionPage = () => {
         {/* Sections Recommendation */}
         <Box px="2rem">
           {
-            sections.map((section) => (
+            sections?.map((section) => (
               <List
                 key={section.name}
                 onClick={() => {
@@ -122,7 +124,12 @@ const SectionPage = () => {
               >
                 <ListItem>
                   <ListItemAvatar>
-                    <Avatar alt={section.name} src={section.imageUrl} sx={{ width: 65, height: 65 }} />
+                    {section.imageUrl 
+                      ? 
+                      <Avatar alt={section.name} src={section.imageUrl} sx={{ width: 65, height: 65 }} /> 
+                      : 
+                      <Avatar sx={{ width: 65, height: 65, bgcolor: palette.button.signup }}>{section.name[0]}</Avatar>
+                    }
                   </ListItemAvatar>
 
                   <ListItemText

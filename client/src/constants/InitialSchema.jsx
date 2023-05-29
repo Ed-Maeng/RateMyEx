@@ -44,7 +44,7 @@ export const professorSchema = yup.object().shape({
   className: yup.string().required("required"),
   rating: yup.number().required("required"),
   comment: yup.string().required("Required").test('len', `Must be more than 100 characters`, val => val.length > 100),
-  files: yup.array().required("required"),
+  files: yup.array().max(3, 'Cannot be more than 3 images'),
 });
 
 export const initialValuesProfessor = {
@@ -61,7 +61,7 @@ export const clubSchema = yup.object().shape({
   term: yup.string().required("required"),
   rating: yup.number().required("required"),
   comment: yup.string().required("Required").test('len', `Must be more than 100 characters`, val => val.length > 100),
-  files: yup.array().required("required"),
+  files: yup.array().max(3, 'Cannot be more than 3 images'),
 });
 
 export const initialValuesClub = {
@@ -101,10 +101,10 @@ export const initialValuesLogin = {
 // SECTION FORM SCHEMA
 export const sectionFormSchema = yup.object().shape({
   name: yup.string().required("required"),
-  file: yup.mixed().required("required"),
+  file: yup.mixed(),
 });
 
 export const initialValuesSectionForm = {
   name: "",
-  file: null,
+  file: "",
 };

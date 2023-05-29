@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 
 // Icons
 import CheckIcon from '@mui/icons-material/Check';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import WorkOutlineOutlined from "@mui/icons-material/WorkOutline";
@@ -46,7 +47,7 @@ export default function ProfilePage() {
             pb="1.1rem"
           >
             <FlexBetween gap="1rem">
-              <Avatar />
+              <Avatar sx={{ bgcolor: palette.button.signup }}>{user.firstName[0]}</Avatar>
               <Box>
                 <Typography
                   variant="h3b"
@@ -82,10 +83,18 @@ export default function ProfilePage() {
               <Typography variant="h3b" color={main}>{"Student"}</Typography>
             </Box>
 
-            <Box display="flex" alignItems="center" gap="1rem" mb="1rem">
-              <CheckIcon fontSize="large" sx={{ color: main }} />
-              <Typography variant="h3b" color={main}>{"Verified"}</Typography>
-            </Box>
+            {user.isVerified 
+              ?
+              <Box display="flex" alignItems="center" gap="1rem" mb="1rem">
+                <CheckIcon fontSize="large" sx={{ color: main }} />
+                <Typography variant="h3b" color={main}>{"Verified"}</Typography>
+              </Box>
+              :
+              <Box display="flex" alignItems="center" gap="1rem" mb="1rem">
+                <CloseOutlinedIcon fontSize="large" sx={{ color: main }} />
+                <Typography variant="h3b" color={main}>{"Not Verified"}</Typography>
+              </Box>
+            }
           </Box>
 
           <Divider />
@@ -95,7 +104,7 @@ export default function ProfilePage() {
             <FlexBetween mb="0.5rem">
               <Typography variant="h3b" color={main}>Number of Reviews</Typography>
               <Typography variant="h3b" color={main} fontWeight="500">
-                {0}
+                {user.numberOfReviews}
               </Typography>
             </FlexBetween>
           </Box>

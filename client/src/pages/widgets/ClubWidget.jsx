@@ -26,8 +26,7 @@ const ClubWidget = (props) => {
   const { palette } = useTheme();
   const dateTimeAgo = moment(new Date(props.review.createdAt)).fromNow();
 
-  // State of Current Section & User & Show More & Open
-  const currentSection = useSelector((state) => state.currentSection);
+  // State of User & Show More & Open
   const user = useSelector((state) => state.user);
   const [showMore, setShowMore] = useState(false);
 
@@ -40,7 +39,7 @@ const ClubWidget = (props) => {
       <ListItem>
         {/* AVATAR */}
         <ListItemAvatar>
-          <Avatar />
+          <Avatar sx={{ bgcolor: palette.button.signup }}>{user.firstName[0]}</Avatar>
         </ListItemAvatar>
         {/* RATING, USERNAME, TIME AGO */}
         <ListItemText
@@ -48,9 +47,7 @@ const ClubWidget = (props) => {
             <Grid container direction="column">
               <Rating name="read-only" value={props.review.rating} size="small" readOnly />
               <Grid item>
-                <Typography variant="h5b" sx={{ color: palette.neutral.main }}>
-                  {"username | " + dateTimeAgo}
-                </Typography>
+                <Typography variant="h5b" sx={{ color: palette.neutral.main }}>{dateTimeAgo}</Typography>
               </Grid>
             </Grid>
           }
@@ -67,13 +64,15 @@ const ClubWidget = (props) => {
         {/* TERM */}
         <Grid item>
           <Chip
+            variant="outlined"
             label={props.review.term} 
             style={{fontSize: "0.75rem"}}
           />
         </Grid>
         {/* CLUB CATEGORY */}
         <Grid item>
-          <Chip 
+          <Chip
+            variant="outlined"
             label={props.review.category} 
             style={{fontSize: "0.75rem"}}
           />

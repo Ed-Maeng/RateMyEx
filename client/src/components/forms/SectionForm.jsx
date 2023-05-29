@@ -32,7 +32,9 @@ const SectionForm = (props) => {
   const saveSection = async (values) => {
     const formData = new FormData();
     formData.append("name", values["name"]);
-    formData.append("file", values["file"][0]);
+    if (values["file"]) {
+      formData.append("file", values["file"][0]);
+    }
 
     const savedSectionResponse = await fetch(
       `http://localhost:4000/${reviewType}/${school._id}`,

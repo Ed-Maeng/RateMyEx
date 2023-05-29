@@ -53,7 +53,8 @@ const ReviewForm = (props) => {
     await savedReviewResponse.json();
   };
 
-  const saveReviewWithImage = async (values) => {  
+  const saveReviewWithImage = async (values) => {
+    await Object.assign(values, { "name": currentSection.name });
     const formData = new FormData();
     for (let value in values) {
       if (value !== "files") {
@@ -241,7 +242,7 @@ const ReviewForm = (props) => {
             )}
 
             {/* TERM */}
-            {(isInternship || isClub || isProfessor) && (
+            {(isInternship || isClub) && (
                 <Autocomplete
                   id="terms"
                   options={Constants.TERMS}
@@ -262,6 +263,28 @@ const ReviewForm = (props) => {
                 />
               )
             }
+
+            {/* SCHOOL TERM */}
+            {isProfessor && (
+              <Autocomplete
+                id="terms"
+                options={Constants.SCHOOL_TERMS}
+                noOptionsText={"No Term Found"}
+                isOptionEqualToValue={(option, value) => option.value === value.value}
+                value={values.term}
+                onChange={(event, term) => {
+                  setFieldValue("term", term);
+                }}
+                sx={{ gridColumn: "span 2" }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Term"
+                    variant="standard"
+                  />
+                )}
+              />
+            )}
 
             {/* CAMPUS & ROOM OPTIONS */}
             {isDorm && (

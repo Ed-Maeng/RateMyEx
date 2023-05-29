@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { setCurrentSection } from "../../state/auth";
+import { setCurrentSection, setUser } from "../../state/auth";
 
 // All Review Widgets
 import LoadingComponent from "../../components/LoadingComponent";
@@ -33,16 +33,15 @@ const ReviewsWidget = () => {
         method: "GET",
       }
     );
+    const dataReviews = await responseReviews.json();
+    setReviews(dataReviews);
+
     const responseCurrentSection = await fetch(
       `http://localhost:4000/${reviewType}/section/${currentSection._id}`,
       {
         method: "GET",
       }
     );
-
-    const dataReviews = await responseReviews.json();
-    setReviews(dataReviews);
-
     const dataCurrentSection = await responseCurrentSection.json();
     dispatch(setCurrentSection({ currentSection: dataCurrentSection }));
   };
@@ -56,6 +55,15 @@ const ReviewsWidget = () => {
     );
     const data = await response.json();
     setReviews(data);
+
+    const responseUser = await fetch(
+      `http://localhost:4000/users/${user._id}`,
+      {
+        method: "GET",
+      }
+    );
+    const dataUser = await responseUser.json();
+    dispatch(setUser({ user: dataUser }));
   };
 
   useEffect(() => {
@@ -95,6 +103,10 @@ const ReviewsWidget = () => {
           return (<ClubWidget key={review._id} review={review} />)
         } else if (review.hasOwnProperty("professorId")) {
           return (<ProfessorWidget key={review._id} review={review} />)
+        } else {
+          /* TODO: Figure out a better way to handle error cases */
+          console.log("No ID Property in ReviewsWidget")
+          return null;
         }
       })}
     </>

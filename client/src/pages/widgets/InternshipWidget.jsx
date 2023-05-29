@@ -38,7 +38,7 @@ const InternshipWidget = (props) => {
 
   const getUser = async () => {
     const responseUser = await fetch(
-      `http://localhost:4000/users/${props.review.userId}`,
+      `https://api.ratemyexschool.com:8443/users/${props.review.userId}`,
       {
         method: "GET",
       }

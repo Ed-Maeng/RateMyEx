@@ -57,7 +57,7 @@ const ReviewsWidget = () => {
     setReviews(data);
 
     const responseUser = await fetch(
-      `http://localhost:4000/users/${user._id}`,
+      `https://api.ratemyexschool.com:8443/users/${user._id}`,
       {
         method: "GET",
       }

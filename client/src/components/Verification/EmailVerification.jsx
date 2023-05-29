@@ -27,7 +27,7 @@ const EmailVerification = () => {
       }
     );
     const verifiedUser = await verifyEmailResponse.json();
-    await new Promise(r => setTimeout(r, 3000)); //TODO: For testing purposes - remove later
+    await new Promise(r => setTimeout(r, 3000)); // TODO: For testing purposes - remove later
 
     if (verifyEmailResponse.status === 200) {
       dispatch(

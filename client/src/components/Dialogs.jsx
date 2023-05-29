@@ -75,7 +75,6 @@ const Dialogs = (props) => {
       </DialogContent>
       <DialogActions>
         <Button 
-            href="/login"
             variant="contained" 
             sx={{
               backgroundColor: palette.button.signup,

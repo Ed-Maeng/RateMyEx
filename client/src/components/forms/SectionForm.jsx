@@ -76,7 +76,7 @@ const SectionForm = (props) => {
             gridTemplateColumns="repeat(4, minmax(0, 1fr))"
           >
             <TextField
-              label="Name"
+              label="Name*"
               variant="standard"
               onBlur={handleBlur}
               onChange={handleChange}

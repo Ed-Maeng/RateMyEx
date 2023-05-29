@@ -25,12 +25,15 @@ const InternshipReviewSchema = new mongoose.Schema(
     },
     term: {
       type: String,
+      default: null,
     },
     employmentType: {
       type: String,
+      default: null,
     },
     location: {
       type: String,
+      default: null,
     },
     rating: {
       type: Number,

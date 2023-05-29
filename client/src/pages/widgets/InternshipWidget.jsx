@@ -88,23 +88,27 @@ const InternshipWidget = (props) => {
         </Grid>
         
         {/* LOCATION */}
-        <Grid item>
-          <Typography variant="h6b" sx={{ display: "flex", alignItems: "center", color: palette.neutral.main }}>
-            <LocationOnIcon fontSize="small" />
-            {props.review.location}
-          </Typography>
-        </Grid>
+        {props.review.location &&
+          <Grid item>
+            <Typography variant="h6b" sx={{ display: "flex", alignItems: "center", color: palette.neutral.main }}>
+              <LocationOnIcon fontSize="small" />
+              {props.review.location}
+            </Typography>
+          </Grid>
+        }
       </Grid>
 
       <Grid px="1rem" pt="0.75rem" container direction="row" alignItems="center" spacing={1.5}>
         {/* TERM */}
-        <Grid item>
-          <Chip
-            variant="outlined"
-            label={props.review.term}
-            style={{fontSize:"0.75rem"}}
-          />
-        </Grid>
+        {props.review.term &&
+          <Grid item>
+            <Chip
+              variant="outlined"
+              label={props.review.term}
+              style={{fontSize:"0.75rem"}}
+            />
+          </Grid>
+        }
         {/* JOB TITLE */}
         <Grid item>
           <Chip
@@ -114,13 +118,15 @@ const InternshipWidget = (props) => {
           />
         </Grid>
         {/* EMPLOYMENT TYPE */}
-        <Grid item>
-          <Chip
-            variant="outlined"
-            label={props.review.employmentType} 
-            style={{fontSize:"0.75rem"}}
-          />
-        </Grid>
+        {props.review.employmentType &&
+          <Grid item>
+            <Chip
+              variant="outlined"
+              label={props.review.employmentType} 
+              style={{fontSize:"0.75rem"}}
+            />
+          </Grid>
+        }
       </Grid>
 
       <Box p="1.25rem">

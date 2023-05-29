@@ -65,13 +65,15 @@ const ProfessorWidget = (props) => {
           </Typography>
         </Grid>
         {/* TERM */}
-        <Grid item>
-          <Chip
-            variant="outlined"
-            label={props.review.term} 
-            style={{fontSize: "0.75rem"}}
-          />
-        </Grid>
+        {props.review.term &&
+          <Grid item>
+            <Chip
+              variant="outlined"
+              label={props.review.term} 
+              style={{fontSize: "0.75rem"}}
+            />
+          </Grid>
+        }
       </Grid>
 
       <Box p="1.25rem">

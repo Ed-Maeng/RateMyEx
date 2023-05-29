@@ -16,9 +16,11 @@ const ClubReviewSchema = new mongoose.Schema(
     },
     category: {
       type: String,
+      default: null,
     },
     term: {
       type: String,
+      default: null,
     },
     rating: {
       type: Number,

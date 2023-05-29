@@ -58,7 +58,7 @@ const ReviewForm = (props) => {
     const formData = new FormData();
     for (let value in values) {
       if (value !== "files") {
-        formData.append(value, values[value]);
+        values[value] ? formData.append(value, values[value]) : formData.append(value, "");
       }
     }
     // Append all files
@@ -179,8 +179,10 @@ const ReviewForm = (props) => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Industry"
+                      label="Industry*"
                       variant="standard"
+                      error={Boolean(touched.industry) && Boolean(errors.industry)}
+                      helperText={touched.rating && errors.industry}
                     />
                   )}
                 />
@@ -197,8 +199,10 @@ const ReviewForm = (props) => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Job Title"
+                      label="Job Title*"
                       variant="standard"
+                      error={Boolean(touched.jobTitle) && Boolean(errors.jobTitle)}
+                      helperText={touched.jobTitle && errors.jobTitle}
                     />
                   )}
                 />
@@ -217,6 +221,8 @@ const ReviewForm = (props) => {
                       {...params}
                       label="Location"
                       variant="standard"
+                      error={Boolean(touched.location) && Boolean(errors.location)}
+                      helperText={touched.location && errors.location}
                     />
                   )}
                 />
@@ -235,6 +241,8 @@ const ReviewForm = (props) => {
                       {...params}
                       label="Employment Type"
                       variant="standard"
+                      error={Boolean(touched.employmentType) && Boolean(errors.employmentType)}
+                      helperText={touched.employmentType && errors.employmentType}
                     />
                   )}
                 />
@@ -243,26 +251,27 @@ const ReviewForm = (props) => {
 
             {/* TERM */}
             {(isInternship || isClub) && (
-                <Autocomplete
-                  id="terms"
-                  options={Constants.TERMS}
-                  noOptionsText={"No Term Found"}
-                  isOptionEqualToValue={(option, value) => option.value === value.value}
-                  value={values.term}
-                  onChange={(event, term) => {
-                    setFieldValue("term", term);
-                  }}
-                  sx={{ gridColumn: "span 2" }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Term"
-                      variant="standard"
-                    />
-                  )}
-                />
-              )
-            }
+              <Autocomplete
+                id="terms"
+                options={Constants.TERMS}
+                noOptionsText={"No Term Found"}
+                isOptionEqualToValue={(option, value) => option.value === value.value}
+                value={values.term}
+                onChange={(event, term) => {
+                  setFieldValue("term", term);
+                }}
+                sx={{ gridColumn: "span 2" }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Term"
+                    variant="standard"
+                    error={Boolean(touched.term) && Boolean(errors.term)}
+                    helperText={touched.term && errors.term}
+                  />
+                )}
+              />
+            )}
 
             {/* SCHOOL TERM */}
             {isProfessor && (
@@ -281,6 +290,8 @@ const ReviewForm = (props) => {
                     {...params}
                     label="Term"
                     variant="standard"
+                    error={Boolean(touched.term) && Boolean(errors.term)}
+                    helperText={touched.term && errors.term}
                   />
                 )}
               />
@@ -304,6 +315,8 @@ const ReviewForm = (props) => {
                       {...params}
                       label="On/Off Campus"
                       variant="standard"
+                      error={Boolean(touched.campus) && Boolean(errors.campus)}
+                      helperText={touched.campus && errors.campus}
                     />
                   )}
                 />
@@ -322,6 +335,8 @@ const ReviewForm = (props) => {
                       {...params}
                       label="Rooms"
                       variant="standard"
+                      error={Boolean(touched.rooms) && Boolean(errors.rooms)}
+                      helperText={touched.rooms && errors.rooms}
                     />
                   )}
                 />
@@ -345,6 +360,8 @@ const ReviewForm = (props) => {
                       {...params}
                       label="Category"
                       variant="standard"
+                      error={Boolean(touched.category) && Boolean(errors.category)}
+                      helperText={touched.category && errors.category}
                     />
                   )}
                 />
@@ -355,7 +372,7 @@ const ReviewForm = (props) => {
             {isProfessor && (
               <>
                 <TextField
-                  label="Class"
+                  label="Class*"
                   variant="standard"
                   onBlur={handleBlur}
                   onChange={handleChange}
@@ -370,7 +387,7 @@ const ReviewForm = (props) => {
             
             {/* COMMENTS */}
             <TextField
-              label="Comment"
+              label="Comment*"
               multiline
               rows={6}
               onBlur={handleBlur}

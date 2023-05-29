@@ -16,6 +16,7 @@ const ProfessorReviewSchema = new mongoose.Schema(
     },
     term: {
       type: String,
+      default: null,
     },
     className: {
       type: String,

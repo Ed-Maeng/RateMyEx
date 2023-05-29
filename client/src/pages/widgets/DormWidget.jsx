@@ -62,21 +62,25 @@ const DormWidget = (props) => {
           </Typography>
         </Grid>
         {/* CAMPUS OPTION */}
-        <Grid item>
-          <Chip
-            variant="outlined"
-            label={props.review.campus} 
-            style={{fontSize: "0.75rem"}}
-          />
-        </Grid>
+        {props.review.campus &&
+          <Grid item>
+            <Chip
+              variant="outlined"
+              label={props.review.campus} 
+              style={{fontSize: "0.75rem"}}
+            />
+          </Grid>
+        }
         {/* ROOMS OPTION */}
-        <Grid item>
-          <Chip
-            variant="outlined"
-            label={props.review.rooms} 
-            style={{fontSize: "0.75rem"}}
-          />
-        </Grid>
+        {props.review.rooms &&
+          <Grid item>
+            <Chip
+              variant="outlined"
+              label={props.review.rooms} 
+              style={{fontSize: "0.75rem"}}
+            />
+          </Grid>
+        }
       </Grid>
 
       <Box pt="1.25rem" px="1.25rem">

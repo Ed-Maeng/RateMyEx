@@ -3,6 +3,9 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import multer from "multer";
+import fs from "fs";
+import http from "http";
+import https from "https";
 import { verifyToken } from "./middleware/auth.js";
 
 /* ROUTES */
@@ -22,7 +25,13 @@ import schoolRoutes from "./routes/school.js";
 import userRoutes from "./routes/user.js";
 
 /* CONFIGURATIONS */
+var privateKey  = fs.readFileSync('sslcert/privkey.pem', 'utf8');
+var certificate = fs.readFileSync('sslcert/cert.pem', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+
 const app = express();
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
 app.use(express.json());
 app.use(cors());
 dotenv.config();
@@ -53,6 +62,8 @@ app.use("/users", userRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
+const HTTP_PORT = process.env.HTTP_PORT || 8080;
+const HTTPS_PORT = process.env.HTTPS_PORT || 8443;
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
@@ -60,6 +71,8 @@ mongoose
   })
   .then(() => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+    httpServer.listen(8080, () => console.log(`HTTP API Port: ${HTTP_PORT}`));
+    httpsServer.listen(8443, () => console.log(`HTTPS API Port: ${HTTPS_PORT}`));
   })
   .catch((error) => {
     console.log(`${error} did not connect`);

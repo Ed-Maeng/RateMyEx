@@ -1,15 +1,18 @@
+import { useTheme } from "@emotion/react";
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle
+  DialogTitle,
+  Typography
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import * as InitialDialog from "../constants/InitialDialog";
 
 const Dialogs = (props) => {
+  const { palette } = useTheme();
   const navigate = useNavigate();
   let dialog = {};
 
@@ -57,7 +60,8 @@ const Dialogs = (props) => {
     <Dialog
       open={props.open}
       onClose={() => {
-        dialog.path ? navigate(dialog.path) : props.setOpen(false);
+        dialog.path && navigate(dialog.path);
+        props.setOpen(false);
       }}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
@@ -72,12 +76,23 @@ const Dialogs = (props) => {
       </DialogContent>
       <DialogActions>
         <Button 
-          onClick={() => { 
-            dialog.path ? navigate(dialog.path) : props.setOpen(false);
-          }}
-        >
-          {dialog.buttonName}
-        </Button>
+            onClick={() => {
+              dialog.path && navigate(dialog.path);
+              props.setOpen(false);
+            }}
+            variant="contained" 
+            sx={{
+              backgroundColor: palette.button.signup,
+              width: "90px",
+              borderRadius: "0.25rem",
+              p: "0.25rem 1rem",
+              "&:hover": {
+                backgroundColor: palette.button.alt,
+              }
+            }}
+          >
+            <Typography variant="h6b">{dialog.buttonName}</Typography>
+          </Button>
       </DialogActions>
     </Dialog>
   );

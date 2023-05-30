@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { setCurrentSection } from "../../state/auth";
+import { setCurrentSection, setUser } from "../../state/auth";
 
 // All Review Widgets
 import LoadingComponent from "../../components/LoadingComponent";
@@ -17,7 +17,6 @@ const ReviewsWidget = () => {
   const currentSection = useSelector((state) => state.currentSection);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
-
   // Types of Review Types
   const reviewType = useLocation().pathname.split("/")[2];
   const isInternship = reviewType === "internships";
@@ -25,37 +24,50 @@ const ReviewsWidget = () => {
   const isProfessor = reviewType === "professors";
   const isClub = reviewType === "clubs";
   const isProfile = useLocation().pathname.split("/")[1] === "profile";
+  // Check if it is in local or production
+  const isLocal = window.location.href.split("/")[2] === "localhost:3000";
 
   const getReviews = async () => {
     const responseReviews = await fetch(
-      `http://localhost:4000/${reviewType}/reviews/${currentSection._id}`,
+      isLocal ? `http://localhost:4000/${reviewType}/reviews/${currentSection._id}` 
+      : `https://api.ratemyexschool.com:8443/${reviewType}/reviews/${currentSection._id}`,
       {
         method: "GET",
       }
     );
-    const responseCurrentSection = await fetch(
-      `http://localhost:4000/${reviewType}/section/${currentSection._id}`,
-      {
-        method: "GET",
-      }
-    );
-
     const dataReviews = await responseReviews.json();
     setReviews(dataReviews);
 
+    const responseCurrentSection = await fetch(
+      isLocal ? `http://localhost:4000/${reviewType}/section/${currentSection._id}` 
+      : `https://api.ratemyexschool.com:8443/${reviewType}/section/${currentSection._id}`,
+      {
+        method: "GET",
+      }
+    );
     const dataCurrentSection = await responseCurrentSection.json();
     dispatch(setCurrentSection({ currentSection: dataCurrentSection }));
   };
 
   const getUserReviews = async () => {
     const response = await fetch(
-      `http://localhost:4000/users/reviews/${user._id}`,
+      isLocal ? `http://localhost:4000/users/reviews/${user._id}`
+      : `https://api.ratemyexschool.com:8443/users/reviews/${user._id}`,
       {
         method: "GET",
       }
     );
     const data = await response.json();
     setReviews(data);
+
+    const responseUser = await fetch(
+      isLocal ? `http://localhost:4000/users/${user._id}` : `https://api.ratemyexschool.com:8443/users/${user._id}`,
+      {
+        method: "GET",
+      }
+    );
+    const dataUser = await responseUser.json();
+    dispatch(setUser({ user: dataUser }));
   };
 
   useEffect(() => {
@@ -95,6 +107,10 @@ const ReviewsWidget = () => {
           return (<ClubWidget key={review._id} review={review} />)
         } else if (review.hasOwnProperty("professorId")) {
           return (<ProfessorWidget key={review._id} review={review} />)
+        } else {
+          /* TODO: Figure out a better way to handle error cases */
+          console.log("No ID Property in ReviewsWidget")
+          return null;
         }
       })}
     </>

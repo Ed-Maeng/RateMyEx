@@ -19,30 +19,32 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { setCurrentSection } from "../state/auth";
 
 // Pages & Components
+import { useTheme } from '@emotion/react';
 import Dialogs from '../components/Dialogs';
 import Navbar from "../components/Navbar";
 import SearchText from "../components/SearchText";
 import SectionFormPage from "../pages/forms/SectionFormPage";
 
 const SectionPage = () => {
+  const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   // State of School, User, & Sections 
   const school = useSelector((state) => state.school);
   const user = useSelector((state) => state.user);
   const [sections, setSections] = useState([]);
-
   // Review Types
   const reviewType = useLocation().pathname.split("/")[2];
-
   // Types of Open Dialogs
   const [sectionFormOpen, setSectionFormOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
+  // Check if it is in local or production
+  const isLocal = window.location.href.split("/")[2] === "localhost:3000";
 
   const getSections = async () => {
     const response = await fetch(
-      `http://localhost:4000/${reviewType}/${school._id}`,
+      isLocal ? `http://localhost:4000/${reviewType}/${school._id}`
+      : `https://api.ratemyexschool.com:8443/${reviewType}/${school._id}`,
       {
         method: "GET",
       }
@@ -109,7 +111,7 @@ const SectionPage = () => {
         {/* Sections Recommendation */}
         <Box px="2rem">
           {
-            sections.map((section) => (
+            sections?.map((section) => (
               <List
                 key={section.name}
                 onClick={() => {
@@ -122,7 +124,12 @@ const SectionPage = () => {
               >
                 <ListItem>
                   <ListItemAvatar>
-                    <Avatar alt={section.name} src={section.imageUrl} sx={{ width: 65, height: 65 }} />
+                    {section.imageUrl 
+                      ? 
+                      <Avatar alt={section.name} src={section.imageUrl} sx={{ width: 65, height: 65 }} /> 
+                      : 
+                      <Avatar sx={{ width: 65, height: 65, bgcolor: palette.button.signup }}>{section.name[0]}</Avatar>
+                    }
                   </ListItemAvatar>
 
                   <ListItemText

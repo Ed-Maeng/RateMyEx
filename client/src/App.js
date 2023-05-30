@@ -1,5 +1,6 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { themeSettings } from "./theme";
 
@@ -12,8 +13,17 @@ import ReviewPage from "./pages/ReviewPage";
 import SchoolPage from "./pages/SchoolPage";
 import SectionPage from "./pages/SectionPage";
 
+//Google Analytics
+import ReactGA from 'react-ga';
+const TRACKING_ID = "G-W280987CCT"; // OUR_TRACKING_ID
+ReactGA.initialize(TRACKING_ID);
+
 function App() {
   const theme = createTheme(themeSettings());
+
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
 
   return (
     <div className="App">

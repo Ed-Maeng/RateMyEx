@@ -4,21 +4,23 @@ const DormReviewSchema = new mongoose.Schema(
   {
     userId: {
       type: String,
-      required: true
+      required: true,
     },
     dormId: {
       type: String,
-      required: true
+      required: true,
     },
     name: {
       type: String,
-      required: true
+      required: true,
     },
     campus: {
       type: String,
+      default: null,
     },
     rooms: {
       type: String,
+      default: null,
     },
     rating: {
       type: Number,

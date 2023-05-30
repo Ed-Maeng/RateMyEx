@@ -1,5 +1,6 @@
 import Internship from "../models/Internship.js";
 import InternshipReview from "../models/InternshipReview.js";
+import User from "../models/User.js";
 
 // Imports for S3 & Files
 import crypto from "crypto";
@@ -13,18 +14,20 @@ export const createInternship = async(req, res) => {
     const { schoolId } = req.params;
     const { name } = req.body;
     const file = req.file;
-    const imageName = generateFileName();
+    const imageName = file ? generateFileName() : "";
 
     const internship = await Internship.findOne({ schoolId, name });
     if (internship) {
       return res.status(409).json({ msg: "Duplicate Internship Name in Same School." });
     }
 
-    const fileBuffer = await sharp(file.buffer)
-      .resize({ height: 100, width: 100, fit: "inside" })
-      .toBuffer();
+    if (file) {
+      const fileBuffer = await sharp(file.buffer)
+        .resize({ height: 100, width: 100, fit: "inside" })
+        .toBuffer();
 
-    await uploadFile(fileBuffer, imageName, file.mimetype);
+      await uploadFile(fileBuffer, imageName, file.mimetype);
+    }
 
     const newInternship = new Internship({ schoolId, name, imageName });
     const savedInternship = await newInternship.save();
@@ -65,8 +68,14 @@ export const createInternshipReview = async(req, res) => {
     // Update Internship `totalReviews` and `totalRatings`
     await Internship.updateOne(
       {_id: internshipId}, 
-      { $inc: { totalReviews: 1, totalRatings: rating }
-    });
+      { $inc: { totalReviews: 1, totalRatings: rating }}
+    );
+
+    // Update User `numberOfReviews`
+    await User.updateOne(
+      {_id: userId}, 
+      { $inc: { numberOfReviews: 1 }}
+    );
 
     res.status(201).json(savedInternshipReview);
   } catch (err) {
@@ -80,7 +89,9 @@ export const getInternships = async(req, res) => {
     const internships = await Internship.find({ schoolId });
 
     for (let internship of internships) {
-      internship.imageUrl = await getObjectSignedUrl(internship.imageName);
+      if (internship.imageName) {
+        internship.imageUrl = await getObjectSignedUrl(internship.imageName);
+      }
     }
     res.status(200).json(internships);
   } catch (err) {

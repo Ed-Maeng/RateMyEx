@@ -21,21 +21,23 @@ import FlexBetween from "../FlexBetween";
 
 const SectionForm = (props) => {
   const { palette } = useTheme();
-
   // State of User, Token & Current Section
   const token = useSelector((state) => state.token);
   const school = useSelector((state) => state.school);
-
   // Review Types
   const reviewType = useLocation().pathname.split("/")[2];
+  // Check if it is in local or production
+  const isLocal = window.location.href.split("/")[2] === "localhost:3000";
 
   const saveSection = async (values) => {
     const formData = new FormData();
     formData.append("name", values["name"]);
-    formData.append("file", values["file"][0]);
+    if (values["file"]) {
+      formData.append("file", values["file"][0]);
+    }
 
     const savedSectionResponse = await fetch(
-      `http://localhost:4000/${reviewType}/${school._id}`,
+      isLocal ? `http://localhost:4000/${reviewType}/${school._id}` : `https://api.ratemyexschool.com:8443/${reviewType}/${school._id}`,
       {
         method: "POST",
         headers: { "Authorization": `Bearer ${token}` },
@@ -74,7 +76,7 @@ const SectionForm = (props) => {
             gridTemplateColumns="repeat(4, minmax(0, 1fr))"
           >
             <TextField
-              label="Name"
+              label="Name*"
               variant="standard"
               onBlur={handleBlur}
               onChange={handleChange}

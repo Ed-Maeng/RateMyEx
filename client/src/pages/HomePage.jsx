@@ -15,13 +15,14 @@ import SearchText from "../components/SearchText";
 const HomePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   // State of schools & Colors
   const [schools, setSchools] = useState([]);
+  // Check if it is in local or production
+  const isLocal = window.location.href.split("/")[2] === "localhost:3000";
 
   const getSchools = async () => {
     const response = await fetch(
-      `http://localhost:4000/schools`,
+      isLocal ? "http://localhost:4000/schools" : "https://api.ratemyexschool.com:8443/schools",
       {
         method: "GET",
       }

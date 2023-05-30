@@ -1,5 +1,6 @@
 import Dorm from "../models/Dorm.js";
 import DormReview from "../models/DormReview.js";
+import User from "../models/User.js";
 
 // Imports for S3 & Files
 import crypto from "crypto";
@@ -13,18 +14,20 @@ export const createDorm = async(req, res) => {
     const { schoolId } = req.params;
     const { name } = req.body;
     const file = req.file;
-    const imageName = generateFileName();
+    const imageName = file ? generateFileName() : "";
 
     const dorm = await Dorm.findOne({ schoolId, name });
     if (dorm) {
       return res.status(409).json({ msg: "Duplicate Dorm Name in Same School." });
     }
 
-    const fileBuffer = await sharp(file.buffer)
-      .resize({ height: 100, width: 100, fit: "inside" })
-      .toBuffer();
+    if (file) {
+      const fileBuffer = await sharp(file.buffer)
+        .resize({ height: 100, width: 100, fit: "inside" })
+        .toBuffer();
 
-    await uploadFile(fileBuffer, imageName, file.mimetype);
+      await uploadFile(fileBuffer, imageName, file.mimetype);
+    }
 
     const newDorm = new Dorm({ schoolId, name, imageName });
     const savedDorm = await newDorm.save();
@@ -71,6 +74,12 @@ export const createDormReview = async(req, res) => {
       { $inc: { totalReviews: 1, totalRatings: rating }
     });
 
+    // Update User `numberOfReviews`
+    await User.updateOne(
+      {_id: userId}, 
+      { $inc: { numberOfReviews: 1 }}
+    );
+
     res.status(201).json(savedDormReview);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -83,7 +92,9 @@ export const getDorms = async(req, res) => {
     const dorms = await Dorm.find({ schoolId });
 
     for (let dorm of dorms) {
-      dorm.imageUrl = await getObjectSignedUrl(dorm.imageName);
+      if (dorm.imageName) {
+        dorm.imageUrl = await getObjectSignedUrl(dorm.imageName);
+      }
     }
     res.status(200).json(dorms);
   } catch (err) {

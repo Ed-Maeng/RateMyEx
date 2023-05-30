@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Divider,
-  Grid,
   TextField,
   Typography,
   useTheme,
@@ -26,12 +25,10 @@ const Form = () => {
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   // Types of Pages (Login or Register)
   const [pageType, setPageType] = useState("login");
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
-
   // Types of Open Dialogs
   const [sentVerifyOpen, setSentVerifyOpen] = useState(false);
   const [userAlreadyFoundOpen, setUserAlreadyFoundOpen] = useState(false);
@@ -45,7 +42,7 @@ const Form = () => {
 
   const register = async (values, onSubmitProps) => {    
     const registerResponse = await fetch(
-      "http://localhost:4000/auth/register",
+      isLocal ? "http://localhost:4000/auth/register" : "https://api.ratemyexschool.com:8443/auth/register",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -69,7 +66,7 @@ const Form = () => {
 
   const login = async (values, onSubmitProps) => {
     const loggedInResponse = await fetch(
-      "http://localhost:4000/auth/login",
+      isLocal ? "http://localhost:4000/auth/login" : "https://api.ratemyexschool.com:8443/auth/login",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -245,7 +242,7 @@ const Form = () => {
 
             { /* Click to Change from Logging In to Register (vice versa) */ }
             <Typography
-              variant="h5b"
+              variant="h3b"
               onClick={() => {
                 setPageType(isLogin ? "register" : "login");
                 resetForm();

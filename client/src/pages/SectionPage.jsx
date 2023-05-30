@@ -29,22 +29,22 @@ const SectionPage = () => {
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   // State of School, User, & Sections 
   const school = useSelector((state) => state.school);
   const user = useSelector((state) => state.user);
   const [sections, setSections] = useState([]);
-
   // Review Types
   const reviewType = useLocation().pathname.split("/")[2];
-
   // Types of Open Dialogs
   const [sectionFormOpen, setSectionFormOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
+  // Check if it is in local or production
+  const isLocal = window.location.href.split("/")[2] === "localhost:3000";
 
   const getSections = async () => {
     const response = await fetch(
-      `https://api.ratemyexschool.com:8443/${reviewType}/${school._id}`,
+      isLocal ? `http://localhost:4000/${reviewType}/${school._id}`
+      : `https://api.ratemyexschool.com:8443/${reviewType}/${school._id}`,
       {
         method: "GET",
       }

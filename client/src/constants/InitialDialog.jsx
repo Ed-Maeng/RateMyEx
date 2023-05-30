@@ -5,7 +5,7 @@ export const userAlreadyFoundDialog = {
   title: "Have you registered already?",
   content: "If you already have an account, please loggin in.",
   buttonName: "Login",
-  path: "",
+  path: null,
 };
 
 // SCHOOL EMAIL NOT FOUND DIALOG

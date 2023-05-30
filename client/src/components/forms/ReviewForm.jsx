@@ -29,18 +29,20 @@ const ReviewForm = (props) => {
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
   const currentSection = useSelector((state) => state.currentSection);
-
   // Review Types
   const reviewType = useLocation().pathname.split("/")[2];
   const isInternship = reviewType === "internships";
   const isDorm = reviewType === "dorms";
   const isProfessor = reviewType === "professors";
   const isClub = reviewType === "clubs";
+  // Check if it is in local or production
+  const isLocal = window.location.href.split("/")[2] === "localhost:3000";
 
   const saveReview = async (values) => {
     await Object.assign(values, { "name": currentSection.name });
     const savedReviewResponse = await fetch(
-      `https://api.ratemyexschool.com:8443/${reviewType}/${currentSection._id}/${user._id}`,
+      isLocal ? `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}` 
+      : `https://api.ratemyexschool.com:8443/${reviewType}/${currentSection._id}/${user._id}`,
       {
         method: "POST",
         headers: { 
@@ -67,7 +69,8 @@ const ReviewForm = (props) => {
     }
 
     const savedReviewResponse = await fetch(
-      `https://api.ratemyexschool.com:8443/${reviewType}/${currentSection._id}/${user._id}`,
+      isLocal ? `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}` 
+      : `https://api.ratemyexschool.com:8443/${reviewType}/${currentSection._id}/${user._id}`,
       {
         method: "POST",
         headers: { "Authorization": `Bearer ${token}` },

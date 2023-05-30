@@ -26,19 +26,20 @@ import WidgetWrapper from "../../components/WidgetWrapper";
 const InternshipWidget = (props) => {
   const { palette } = useTheme();
   const dateTimeAgo = moment(new Date(props.review.createdAt)).fromNow();
-
   // State of User & Show More & Open
   const user = useSelector((state) => state.user);
   const [showMore, setShowMore] = useState(false);
   const [reviewUser, setReviewUser] = useState(null);
-
   // Types of Open Dialogs
   const [signInOpen, setSignInOpen] = useState(false);
   const [hasReviewOpen, setHasReviewOpen] = useState(false);
+  // Check if it is in local or production
+  const isLocal = window.location.href.split("/")[2] === "localhost:3000";
 
   const getUser = async () => {
     const responseUser = await fetch(
-      `https://api.ratemyexschool.com:8443/users/${props.review.userId}`,
+      isLocal ? `http://localhost:4000/users/${props.review.userId}`
+      : `https://api.ratemyexschool.com:8443/users/${props.review.userId}`,
       {
         method: "GET",
       }

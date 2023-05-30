@@ -8,19 +8,19 @@ import LoadingComponent from "../LoadingComponent";
 
 const EmailVerification = () => {
   const dispatch = useDispatch();
-
   // State of Email Token for verification
   const { emailToken } = useParams();
-
   // Types of Open Dialogs
   const [verifiedOpen, setVerifiedOpen] = useState(false);
   const [notVerifiedOpen, setNotVerifiedOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  // Check if it is in local or production
+  const isLocal = window.location.href.split("/")[2] === "localhost:3000";
 
   const verifyEmail = async () => {  
     setLoading(true);
     const verifyEmailResponse = await fetch(
-      `https://api.ratemyexschool.com:8443/auth/verifyemail`,
+      isLocal ? "http://localhost:4000/auth/verifyemail" : "https://api.ratemyexschool.com:8443/auth/verifyemail",
       {
         method: "POST",
         headers: { "Authorization": `Bearer ${emailToken}` },

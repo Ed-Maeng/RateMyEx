@@ -60,7 +60,8 @@ const Dialogs = (props) => {
     <Dialog
       open={props.open}
       onClose={() => {
-        dialog.path ? navigate(dialog.path) : props.setOpen(false);
+        dialog.path && navigate(dialog.path);
+        props.setOpen(false);
       }}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
@@ -75,6 +76,10 @@ const Dialogs = (props) => {
       </DialogContent>
       <DialogActions>
         <Button 
+            onClick={() => {
+              dialog.path && navigate(dialog.path);
+              props.setOpen(false);
+            }}
             variant="contained" 
             sx={{
               backgroundColor: palette.button.signup,

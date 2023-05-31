@@ -13,14 +13,14 @@ const transporter = nodemailer.createTransport({
 });
 
 /* Send Email Verification (Confirm User Email Exists) */
-export async function emailVerification(email, emailToken) {
+export async function emailVerification(email, emailToken, host) {
   try {
     const info = await transporter.sendMail({
       from: process.env.GMAIL_EMAIL,
       to: email,
       subject: "Sign In to RateMyEx.com",
-      // html: '<p>Click: <a href="http://localhost:3000/verifyemail/' + emailToken + '">here</a></p>',
-      html: '<p>Click: <a href="https://ratemyexschool.com/verifyemail/' + emailToken + '">here</a></p>',
+      html: host === "localhost:4000" ? '<p>Click: <a href="http://localhost:3000/verifyemail/' + emailToken + '">here</a></p>' 
+      : '<p>Click: <a href="https://ratemyexschool.com/verifyemail/' + emailToken + '">here</a></p>',
     });
     return info;
   } catch (err) {

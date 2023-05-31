@@ -40,8 +40,9 @@ export const register = async (req, res) => {
     }
     
     // Send Email Verification
+    const host = req.get('host');
     const emailToken = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: '1h'});
-    const verify = await emailVerification(email, emailToken);
+    const verify = await emailVerification(email, emailToken, host);
     if (!verify) {
       return res.status(500).json({ msg: "Couldn't send email verification. Please try again." });
     }

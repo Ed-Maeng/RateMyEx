@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Divider,
+  Grid,
   TextField,
   Typography,
   useTheme,
@@ -150,28 +151,38 @@ const Form = () => {
         resetForm,
       }) => (
         <form onSubmit={handleSubmit}>
+          <Grid
+            container
+            direction="column"
+            gap="30px"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Grid item>
+              {/* Google OAuth */}
+              <GoogleLogin
+                fullWidth
+                clientId={"980561439678-8dkln531dm56ljkn8jcvbmslabo246ps.apps.googleusercontent.com"}
+                size="large"
+                width="200"
+                onSuccess={onSuccess}
+                onFailure={onFailure}
+                cookiePolicy={'single_host_origin'}
+              />
+            </Grid>
+
+            <Grid item pb="1.5rem" style={{ alignSelf: "stretch" }}>
+              <Divider>
+                <Typography variant="h2b">OR</Typography>
+              </Divider>
+            </Grid>
+          </Grid>
+
           <Box
             display="grid"
             gap="30px"
             gridTemplateColumns="repeat(4, minmax(0, 1fr))"
           >
-            <Box>
-              {/* Google OAuth */}
-              <GoogleLogin
-                fullWidth
-                clientId={"980561439678-8dkln531dm56ljkn8jcvbmslabo246ps.apps.googleusercontent.com"}
-                onSuccess={onSuccess}
-                onFailure={onFailure}
-                cookiePolicy={'single_host_origin'}
-              />
-
-              <Box pt="1rem">
-                <Divider>
-                  <Typography variant="h2b">OR</Typography>
-                </Divider>
-              </Box>
-            </Box>
-
             {isRegister && (
               <>
                 <TextField
@@ -219,7 +230,7 @@ const Form = () => {
               sx={{ gridColumn: "span 4" }}
             />
           </Box>
-
+          
           {/* Login Button */}
           <Box>
             <Button

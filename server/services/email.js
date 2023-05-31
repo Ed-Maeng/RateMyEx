@@ -19,8 +19,8 @@ export async function emailVerification(email, emailToken) {
       from: process.env.GMAIL_EMAIL,
       to: email,
       subject: "Sign In to RateMyEx.com",
-      html: '<p>Click: <a href="http://localhost:3000/verifyemail/' + emailToken + '">here</a></p>',
-      // html: '<p>Click: <a href="https://ratemyexschool.com:3000/verifyemail/' + emailToken + '">here</a></p>',
+      // html: '<p>Click: <a href="http://localhost:3000/verifyemail/' + emailToken + '">here</a></p>',
+      html: '<p>Click: <a href="https://ratemyexschool.com/verifyemail/' + emailToken + '">here</a></p>',
     });
     return info;
   } catch (err) {

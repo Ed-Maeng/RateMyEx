@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Divider,
+  Grid,
   TextField,
   Typography,
   useTheme,
@@ -36,7 +37,7 @@ const Form = () => {
   const [userNotFoundOpen, setUserNotFoundOpen] = useState(false);  
   const [needVerifyOpen, setNeedVerifyOpen] = useState(false);
   const [wrongPasswordOpen, setWrongPasswordOpen] = useState(false);
-  const [defaultOpen, setDefaultdOpen] = useState(false);
+  const [defaultOpen, setDefaultOpen] = useState(false);
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
 
@@ -60,7 +61,7 @@ const Form = () => {
     } else if (registerResponse.status === 400) {
       setschoolEmailNotFoundOpen(true);
     } else {
-      setDefaultdOpen(true);
+      setDefaultOpen(true);
     }
   };
 
@@ -93,7 +94,7 @@ const Form = () => {
     } else if (loggedInResponse.status === 400) {
       setWrongPasswordOpen(true);
     } else {
-      setDefaultdOpen(true);
+      setDefaultOpen(true);
     }
   };
 
@@ -103,30 +104,35 @@ const Form = () => {
   };
 
   const onSuccess = async (res) => {
-    const info = jwt_decode(res.credential);
-    console.log(info)
-    // const loggedInResponse = await fetch(
-    //   isLocal ? "http://localhost:4000/auth/login" :"https://api.ratemyexschool.com:8443/auth/login",
-    //   {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(values),
-    //   }
-    // );
-
-    // const loggedIn = await loggedInResponse.json();
+    const values = jwt_decode(res.credential);
     
-    // dispatch(
-    //   setLogin({
-    //     user: loggedIn.user,
-    //     token: loggedIn.token,
-    //   })
-    // );
-    navigate("/");
+    const oauthResponse = await fetch(
+      isLocal ? "http://localhost:4000/auth/oauth" :"https://api.ratemyexschool.com:8443/auth/oauth",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      }
+    );
+
+    const oauth = await oauthResponse.json();
+    if (oauthResponse.status === 200 || oauthResponse.status === 201) {
+      dispatch(
+        setLogin({
+          user: oauth.user,
+          token: oauth.token,
+        })
+      );
+      navigate("/");
+    } else if (oauthResponse.status === 400) {
+      setschoolEmailNotFoundOpen(true);
+    } else {
+      setDefaultOpen(true);
+    }
   };
 
   const onFailure = (res) => {
-    setDefaultdOpen(true);
+    setDefaultOpen(true);
   };
 
   return (
@@ -145,28 +151,38 @@ const Form = () => {
         resetForm,
       }) => (
         <form onSubmit={handleSubmit}>
+          <Grid
+            container
+            direction="column"
+            gap="30px"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Grid item>
+              {/* Google OAuth */}
+              <GoogleLogin
+                fullWidth
+                clientId={"980561439678-8dkln531dm56ljkn8jcvbmslabo246ps.apps.googleusercontent.com"}
+                size="large"
+                width="200"
+                onSuccess={onSuccess}
+                onFailure={onFailure}
+                cookiePolicy={'single_host_origin'}
+              />
+            </Grid>
+
+            <Grid item pb="1.5rem" style={{ alignSelf: "stretch" }}>
+              <Divider>
+                <Typography variant="h2b">OR</Typography>
+              </Divider>
+            </Grid>
+          </Grid>
+
           <Box
             display="grid"
             gap="30px"
             gridTemplateColumns="repeat(4, minmax(0, 1fr))"
           >
-            <Box>
-              {/* Google OAuth */}
-              <GoogleLogin
-                fullWidth
-                clientId={"980561439678-8dkln531dm56ljkn8jcvbmslabo246ps.apps.googleusercontent.com"}
-                onSuccess={onSuccess}
-                onFailure={onFailure}
-                cookiePolicy={'single_host_origin'}
-              />
-
-              <Box pt="1rem">
-                <Divider>
-                  <Typography variant="h2b">OR</Typography>
-                </Divider>
-              </Box>
-            </Box>
-
             {isRegister && (
               <>
                 <TextField
@@ -214,7 +230,7 @@ const Form = () => {
               sx={{ gridColumn: "span 4" }}
             />
           </Box>
-
+          
           {/* Login Button */}
           <Box>
             <Button
@@ -269,7 +285,7 @@ const Form = () => {
           <Dialogs open={wrongPasswordOpen} setOpen={setWrongPasswordOpen} type="wrong-password" />
 
           { /* DEFAULT */ }
-          <Dialogs open={defaultOpen} setOpen={setDefaultdOpen} type="default" />
+          <Dialogs open={defaultOpen} setOpen={setDefaultOpen} type="default" />
         </form>
       )}
     </Formik>

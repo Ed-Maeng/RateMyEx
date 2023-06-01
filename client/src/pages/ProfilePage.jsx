@@ -47,7 +47,7 @@ export default function ProfilePage() {
               pb="1.1rem"
             >
               <FlexBetween gap="1rem">
-                <Avatar sx={{ bgcolor: palette.button.signup }}>{user.firstName[0]}</Avatar>
+                <Avatar sx={{ bgcolor: user.color }}>{user.firstName[0]}</Avatar>
                 <Box>
                   <Typography
                     variant="h3b"

@@ -56,6 +56,7 @@ export const register = async (req, res) => {
       email,
       password: passwordHash,
       schoolName: schoolName[0],
+      color: "#18A0FB",
     });
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);
@@ -168,6 +169,7 @@ export const oauth = async (req, res) => {
       password: passwordHash,
       schoolName: schoolName[0],
       isVerified: true,
+      color: "#18A0FB",
     });
     const savedUser = await newUser.save();
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);

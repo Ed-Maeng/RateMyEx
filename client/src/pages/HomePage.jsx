@@ -8,9 +8,9 @@ import { useNavigate } from "react-router-dom";
 import { setSchool } from '../state/auth';
 
 // Components
-import FlexBetween from "../components/FlexBetween";
 import Navbar from "../components/Navbar";
 import SearchText from "../components/SearchText";
+import FlexBetween from "../components/wrappers/FlexBetween";
 
 const HomePage = () => {
   const dispatch = useDispatch();

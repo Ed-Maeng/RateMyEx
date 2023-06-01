@@ -7,24 +7,21 @@ import {
   useTheme,
 } from "@mui/material";
 import { useSelector } from "react-redux";
-
 // Icons
 import CheckIcon from '@mui/icons-material/Check';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import WorkOutlineOutlined from "@mui/icons-material/WorkOutline";
-
 // Components
-import FlexBetween from "../components/FlexBetween";
 import Navbar from "../components/Navbar";
 import WidgetWrapper from "../components/WidgetWrapper";
+import FlexBetween from "../components/wrappers/FlexBetween";
 import ReviewWidgets from "../pages/widgets/ReviewsWidget";
 
 export default function ProfilePage() {
   // State of User, Token & User Reviews
   const user = useSelector((state) => state.user);
-
   // Theme & Colors
   const { palette } = useTheme();
   const main = palette.neutral.main;
@@ -47,7 +44,7 @@ export default function ProfilePage() {
               pb="1.1rem"
             >
               <FlexBetween gap="1rem">
-                <Avatar sx={{ bgcolor: palette.button.signup }}>{user.firstName[0]}</Avatar>
+                <Avatar sx={{ bgcolor: user.color }}>{user.firstName[0]}</Avatar>
                 <Box>
                   <Typography
                     variant="h3b"

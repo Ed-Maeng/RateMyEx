@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 // Components
 import { useTheme } from '@emotion/react';
-import FlexBetween from "../components/FlexBetween";
 import Navbar from "../components/Navbar";
+import FlexBetween from "../components/wrappers/FlexBetween";
 
 
 const SchoolPage = () => {

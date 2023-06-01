@@ -27,17 +27,3 @@ export async function emailVerification(email, emailToken, host) {
     console.log(err);
   }
 };
-
-export async function emailSupport(name, feedback) {
-  try {
-    const info = await transporter.sendMail({
-      from: process.env.GMAIL_EMAIL,
-      to: process.env.GMAIL_EMAIL,
-      subject: `Feedback from ${name}`,
-      text: feedback,
-    });
-    return info;
-  } catch (err) {
-    console.log(err);
-  }
-};

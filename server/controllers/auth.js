@@ -1,10 +1,9 @@
 import School from "../models/School.js";
 import User from "../models/User.js";
 
-// Imports for JWT, Verification, Colors
+// Imports for JWT and Verification
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { randomColor } from "randomcolor";
 import swot from "swot-node";
 import { v4 as uuidv4 } from "uuid";
 import { emailVerification } from "../services/email.js";
@@ -57,7 +56,6 @@ export const register = async (req, res) => {
       email,
       password: passwordHash,
       schoolName: schoolName[0],
-      color: randomColor(),
     });
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);
@@ -170,7 +168,6 @@ export const oauth = async (req, res) => {
       password: passwordHash,
       schoolName: schoolName[0],
       isVerified: true,
-      color: randomColor(),
     });
     const savedUser = await newUser.save();
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);

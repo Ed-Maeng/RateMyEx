@@ -1,11 +1,11 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import mongoose from "mongoose";
+import multer from "multer";
 import fs from "fs";
 import http from "http";
 import https from "https";
-import mongoose from "mongoose";
-import multer from "multer";
 import { verifyToken } from "./middleware/auth.js";
 
 /* ROUTES */
@@ -14,7 +14,6 @@ import { createDorm, createDormReview } from "./controllers/dorm.js";
 import { createInternship, createInternshipReview } from "./controllers/internship.js";
 import { createProfessor, createProfessorReview } from "./controllers/professor.js";
 import { createSchool } from "./controllers/school.js";
-import { sendEmailSupport } from "./controllers/user.js";
 
 /* ROUTERS */
 import authRoutes from "./routes/auth.js";
@@ -51,7 +50,6 @@ app.post("/clubs/:schoolId", upload.single("file"), createClub);
 app.post("/clubs/:clubId/:userId", verifyToken, upload.array("files[]", 3), createClubReview);
 app.post("/professors/:schoolId", upload.single("file"), createProfessor);
 app.post("/professors/:professorId/:userId", verifyToken, upload.array("files[]", 3), createProfessorReview);
-app.post("/users/support", verifyToken, sendEmailSupport);
 
 /* ROUTES */
 app.use("/auth", authRoutes);

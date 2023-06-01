@@ -56,11 +56,9 @@ const InternshipWidget = (props) => {
     <WidgetWrapper m="1rem 0">
       <ListItem>
         {/* AVATAR */}
-        {reviewUser && 
-          <ListItemAvatar>
-            <Avatar sx={{ bgcolor: reviewUser.color }}>{reviewUser.firstName[0]}</Avatar>
-          </ListItemAvatar>
-        }
+        <ListItemAvatar>
+          <Avatar sx={{ bgcolor: palette.button.signup }}>{reviewUser && reviewUser.firstName[0]}</Avatar>
+        </ListItemAvatar>
         {/* RATING, USERNAME, TIME AGO */}
         <ListItemText
           primary={

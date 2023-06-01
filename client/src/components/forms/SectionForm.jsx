@@ -1,11 +1,11 @@
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ImageIcon from '@mui/icons-material/Image';
 import {
-    Box,
-    Button,
-    TextField,
-    Typography,
-    useTheme,
+  Box,
+  Button,
+  TextField,
+  Typography,
+  useTheme,
 } from "@mui/material";
 import { Formik } from "formik";
 import Dropzone from "react-dropzone";
@@ -14,10 +14,10 @@ import { useLocation } from "react-router-dom";
 
 // Components & Schema
 import {
-    initialValuesSectionForm,
-    sectionFormSchema,
+  initialValuesSectionForm,
+  sectionFormSchema,
 } from "../../constants/InitialSchema";
-import FlexBetween from "../wrappers/FlexBetween";
+import FlexBetween from "../FlexBetween";
 
 const SectionForm = (props) => {
   const { palette } = useTheme();

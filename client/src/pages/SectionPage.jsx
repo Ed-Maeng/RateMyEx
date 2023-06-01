@@ -11,6 +11,7 @@ import {
   ListItemAvatar,
   ListItemText,
   Rating,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -96,14 +97,16 @@ const SectionPage = () => {
         />
 
         {/* ADD SECTION BUTTON */}
-        <IconButton 
-          onClick={() => 
-            (!user ? setSignInOpen(true) : setSectionFormOpen(true))
-          }
-          style={{height: "50px"}}
-        >
-          <AddCircleIcon fontSize="large" />
-        </IconButton>
+        <Tooltip title={`Add ${reviewType}`}>
+          <IconButton 
+            onClick={() => 
+              (!user ? setSignInOpen(true) : setSectionFormOpen(true))
+            }
+            style={{height: "50px"}}
+          >
+            <AddCircleIcon fontSize="large" />
+          </IconButton>
+        </Tooltip>
 
         {/* Form for Adding Sections */}
         <SectionFormPage open={sectionFormOpen} setOpen={setSectionFormOpen} />

@@ -16,10 +16,10 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 // Components & Schema
-import LoadingComponent from "../../components/LoadingComponent";
 import * as Constants from "../../constants/Constants";
 import * as InitialSchema from "../../constants/InitialSchema";
-import FlexBetween from "../FlexBetween";
+import LoadingComponent from "../LoadingComponent";
+import FlexBetween from "../wrappers/FlexBetween";
 
 const ReviewForm = (props) => {
   const { palette } = useTheme();

@@ -27,22 +27,18 @@ const UserSchema = new mongoose.Schema(
     },
     schoolName: {
       type: String,
-      required: true,
+      required: true
     },
     isVerified: {
       type: Boolean,
       default: false,
-      required: true,
+      required: true
     },
     numberOfReviews: {
       type: Number,
       default: 0,
-      required: true,
-    },
-    color: {
-      type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   { timestamps: true }
 );

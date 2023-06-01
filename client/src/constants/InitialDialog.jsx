@@ -87,14 +87,6 @@ export const needReviewDialog = {
   path: null,
 };
 
-/* --- SUPPORT FEEDBACK --- */
-export const sentSupport = {
-  title: "Successful!",
-  content: "Thank you for sending us feedback.",
-  buttonName: "Close",
-  path: null,
-};
-
 /* --- DEFAULT --- */
 
 // DEFAULT DIALOG

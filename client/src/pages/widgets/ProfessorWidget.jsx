@@ -11,7 +11,7 @@ import {
   Typography
 } from "@mui/material";
 import moment from 'moment';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 // Pages & Components
@@ -22,41 +22,22 @@ import WidgetWrapper from "../../components/WidgetWrapper";
 const ProfessorWidget = (props) => {
   const { palette } = useTheme();
   const dateTimeAgo = moment(new Date(props.review.createdAt)).fromNow();
+
   // State of User & Show More & Open
   const user = useSelector((state) => state.user);
   const [showMore, setShowMore] = useState(false);
-  const [reviewUser, setReviewUser] = useState(null);
+
   // Types of Open Dialogs
   const [signInOpen, setSignInOpen] = useState(false);
   const [hasReviewOpen, setHasReviewOpen] = useState(false);
-  // Check if it is in local or production
-  const isLocal = window.location.href.split("/")[2] === "localhost:3000";
-
-  const getUser = async () => {
-    const responseUser = await fetch(
-      isLocal ? `http://localhost:4000/users/${props.review.userId}`
-      : `https://api.ratemyexschool.com:8443/users/${props.review.userId}`,
-      {
-        method: "GET",
-      }
-    );
-    const dataUser = await responseUser.json();
-    setReviewUser(dataUser);
-  };
-
-  useEffect(() => {
-    getUser();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <WidgetWrapper m="1rem 0">
       <ListItem>
         {/* AVATAR */}
-        {reviewUser && 
-          <ListItemAvatar>
-            <Avatar sx={{ bgcolor: reviewUser.color }}>{reviewUser.firstName[0]}</Avatar>
-          </ListItemAvatar>
-        }
+        <ListItemAvatar>
+          <Avatar sx={{ bgcolor: palette.button.signup }}>{user.firstName[0]}</Avatar>
+        </ListItemAvatar>
         {/* RATING, USERNAME, TIME AGO */}
         <ListItemText
           primary={

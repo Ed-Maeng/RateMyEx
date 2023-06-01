@@ -58,10 +58,6 @@ const SupportDialog = (props) => {
     <>
       <Dialog
         open={props.open}
-        onClose={() => {
-          props.setOpen(false);
-          setFeedback("");
-        }}
         aria-labelledby="support-dialog-title"
         aria-describedby="support-dialog-description"
         scroll="paper"

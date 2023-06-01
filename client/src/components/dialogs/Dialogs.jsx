@@ -9,7 +9,7 @@ import {
   Typography
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import * as InitialDialog from "../constants/InitialDialog";
+import * as InitialDialog from "../../constants/InitialDialog";
 
 const Dialogs = (props) => {
   const { palette } = useTheme();
@@ -51,7 +51,7 @@ const Dialogs = (props) => {
     case "no-review":
       dialog = InitialDialog.needReviewDialog;
       break;
-    /* --- Support --- */
+    /* --- Register --- */
     case "support":
       dialog = InitialDialog.sentSupport;
       break;

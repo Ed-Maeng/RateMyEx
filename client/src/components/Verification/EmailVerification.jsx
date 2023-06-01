@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { setLogin } from "../../state/auth";
-import Dialogs from "../Dialogs";
+import Dialogs from "../dialogs/Dialogs";
 
 import LoadingComponent from "../LoadingComponent";
 

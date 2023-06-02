@@ -3,6 +3,7 @@ import DormReview from "../models/DormReview.js";
 import InternshipReview from "../models/InternshipReview.js";
 import ProfessorReview from "../models/ProfessorReview.js";
 import User from "../models/User.js";
+import { emailSupport } from "../services/email.js";
 
 export const getUser = async (req, res) => {
   try {
@@ -12,7 +13,7 @@ export const getUser = async (req, res) => {
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
-}
+};
 
 export const getUserReviews = async (req, res) => {
   try {
@@ -26,4 +27,15 @@ export const getUserReviews = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-}
+};
+
+export const sendEmailSupport = async (req, res) => {
+  try {
+    const { user, feedback } = req.body;
+    const response = await emailSupport(`${user.firstName} ${user.lastName}`, feedback);
+    console.log(response);
+    res.status(200).json(response);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

@@ -19,8 +19,8 @@ import { v4 as uuidv4 } from "uuid";
 
 // Pages & Components
 import { useTheme } from "@emotion/react";
-import Dialogs from '../../components/Dialogs';
 import WidgetWrapper from "../../components/WidgetWrapper";
+import Dialogs from '../../components/dialogs/Dialogs';
 
 const ClubWidget = (props) => {
   const { palette } = useTheme();

@@ -20,7 +20,7 @@ import {
   registerSchema
 } from "../../constants/InitialSchema";
 import { setLogin } from "../../state/auth";
-import Dialogs from "../Dialogs";
+import Dialogs from "../dialogs/Dialogs";
 
 const Form = () => {
   const { palette } = useTheme();

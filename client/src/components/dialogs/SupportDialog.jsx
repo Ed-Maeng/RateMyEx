@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import Dialogs from "./Dialogs";
+import Dialogs from "../dialogs/Dialogs";
 
 const SupportDialog = (props) => {
   const { palette } = useTheme();

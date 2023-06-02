@@ -21,9 +21,9 @@ import { setCurrentSection } from "../state/auth";
 
 // Pages & Components
 import { useTheme } from '@emotion/react';
-import Dialogs from '../components/Dialogs';
 import Navbar from "../components/Navbar";
 import SearchText from "../components/SearchText";
+import Dialogs from '../components/dialogs/Dialogs';
 import SectionFormPage from "../pages/forms/SectionFormPage";
 
 const SectionPage = () => {

@@ -1,31 +1,32 @@
-import RateReviewIcon from '@mui/icons-material/RateReview';
 import {
   Avatar,
   Box,
   Button,
   Divider,
-  FormControl,
   Grid,
   IconButton,
-  InputBase,
   ListItemIcon,
   Menu,
   MenuItem,
-  Select,
   Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
+import { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setLogout } from "../state/auth";
+
+// Components
+import SupportDialog from './dialogs/SupportDialog';
 import FlexBetween from "./FlexBetween";
 
 // Icons
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Logout from '@mui/icons-material/Logout';
+import RateReviewIcon from '@mui/icons-material/RateReview';
 import Settings from '@mui/icons-material/Settings';
-import { useState } from 'react';
 
 const Navbar = () => {
   const { palette } = useTheme();
@@ -43,6 +44,8 @@ const Navbar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  // Support Feedback
+  const [supportOpen, setSupportOpen] = useState(false);
 
   return (
     <FlexBetween padding="1rem 10%" pt="2rem">
@@ -68,6 +71,15 @@ const Navbar = () => {
 
       {/* Sign In or Menus */}
       <FlexBetween>
+        {/* SUPPORT FEEDBACK */}
+        <Tooltip title="Help">
+          <IconButton 
+            onClick={() => setSupportOpen(true)}
+            size="large"
+          >
+            <HelpOutlineIcon fontSize="inherit" />
+          </IconButton>
+        </Tooltip>
         {/* Sign In or Menus */}
         {isAuth 
           ?
@@ -160,6 +172,9 @@ const Navbar = () => {
           </Button>
         }
       </FlexBetween>
+
+      {/* SUPPORT FEEDBACK */}
+      <SupportDialog open={supportOpen} setOpen={setSupportOpen} />
     </FlexBetween>
   );
 };

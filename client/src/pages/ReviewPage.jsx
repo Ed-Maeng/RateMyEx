@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 
 // Pages & Components
 import { useState } from 'react';
-import Dialogs from '../components/Dialogs';
 import Navbar from '../components/Navbar';
+import Dialogs from '../components/dialogs/Dialogs';
 import ReviewFormPage from './forms/ReviewFormPage';
 import ReviewWidgets from './widgets/ReviewsWidget';
 

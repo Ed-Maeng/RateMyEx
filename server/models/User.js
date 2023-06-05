@@ -23,7 +23,8 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      min: 5,
+      min: 8,
+      max: 50,
     },
     schoolName: {
       type: String,

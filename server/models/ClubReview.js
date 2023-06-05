@@ -29,6 +29,7 @@ const ClubReviewSchema = new mongoose.Schema(
     comment: {
       type: String,
       required: true,
+      max: 500,
     },
     imageNames: {
       type: Array,

@@ -12,6 +12,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import { googleLogout } from '@react-oauth/google';
 import { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +20,7 @@ import { setLogout } from "../state/auth";
 
 // Components
 import SupportDialog from './dialogs/SupportDialog';
-import FlexBetween from "./FlexBetween";
+import FlexBetween from "./wrappers/FlexBetween";
 
 // Icons
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -146,7 +147,11 @@ const Navbar = () => {
                 </ListItemIcon>
                 Settings
               </MenuItem>
-              <MenuItem onClick={() => dispatch(setLogout())}>
+              <MenuItem onClick={() => {
+                dispatch(setLogout());
+                googleLogout();
+                navigate("/");
+              }}>
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>

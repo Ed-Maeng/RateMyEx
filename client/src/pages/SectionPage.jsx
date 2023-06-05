@@ -122,7 +122,10 @@ const SectionPage = () => {
                   navigate(`/school/${reviewType}/reviews`);
                 }}
                 sx={{
-                  "&:hover": { cursor: "pointer" },
+                  "&:hover": { 
+                    cursor: "pointer",
+                    backgroundColor: palette.background.alt,
+                  },
                 }}
               >
                 <ListItem>

@@ -19,8 +19,8 @@ import { v4 as uuidv4 } from "uuid";
 
 // Pages & Components
 import { useTheme } from "@emotion/react";
-import WidgetWrapper from "../../components/WidgetWrapper";
 import Dialogs from '../../components/dialogs/Dialogs';
+import WidgetWrapper from "../../components/wrappers/WidgetWrapper";
 
 const DormWidget = (props) => {
   const { palette } = useTheme();

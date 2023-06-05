@@ -17,7 +17,7 @@ import {
   initialValuesSectionForm,
   sectionFormSchema,
 } from "../../constants/InitialSchema";
-import FlexBetween from "../FlexBetween";
+import FlexBetween from "../wrappers/FlexBetween";
 
 const SectionForm = (props) => {
   const { palette } = useTheme();

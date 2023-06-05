@@ -16,9 +16,9 @@ import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import WorkOutlineOutlined from "@mui/icons-material/WorkOutline";
 
 // Components
-import FlexBetween from "../components/FlexBetween";
 import Navbar from "../components/Navbar";
-import WidgetWrapper from "../components/WidgetWrapper";
+import FlexBetween from "../components/wrappers/FlexBetween";
+import WidgetWrapper from "../components/wrappers/WidgetWrapper";
 import ReviewWidgets from "../pages/widgets/ReviewsWidget";
 
 export default function ProfilePage() {

@@ -3,6 +3,8 @@ import {
   Button,
   Divider,
   Grid,
+  IconButton,
+  InputAdornment,
   TextField,
   Typography,
   useTheme,
@@ -13,6 +15,8 @@ import jwt_decode from "jwt-decode";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
+// Components
 import {
   initialValuesLogin,
   initialValuesRegister,
@@ -21,6 +25,11 @@ import {
 } from "../../constants/InitialSchema";
 import { setLogin } from "../../state/auth";
 import Dialogs from "../dialogs/Dialogs";
+import FlexBetween from '../wrappers/FlexBetween';
+
+// Icons
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Form = () => {
   const { palette } = useTheme();
@@ -28,6 +37,7 @@ const Form = () => {
   const navigate = useNavigate();
   // Types of Pages (Login or Register)
   const [pageType, setPageType] = useState("login");
+  const [showPassword, setShowPassword] = useState(false);
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
   // Types of Open Dialogs
@@ -131,7 +141,7 @@ const Form = () => {
     }
   };
 
-  const onFailure = (res) => {
+  const onError = (res) => {
     setDefaultOpen(true);
   };
 
@@ -161,13 +171,10 @@ const Form = () => {
             <Grid item>
               {/* Google OAuth */}
               <GoogleLogin
-                fullWidth
-                clientId={"980561439678-8dkln531dm56ljkn8jcvbmslabo246ps.apps.googleusercontent.com"}
                 size="large"
-                width="200"
                 onSuccess={onSuccess}
-                onFailure={onFailure}
-                cookiePolicy={'single_host_origin'}
+                onError={onError}
+                cookiePolicy="single_host_origin"
               />
             </Grid>
 
@@ -193,7 +200,7 @@ const Form = () => {
                   name="firstName"
                   error={Boolean(touched.firstName) && Boolean(errors.firstName)}
                   helperText={touched.firstName && errors.firstName}
-                  sx={{ gridColumn: "span 4" }}
+                  sx={{ gridColumn: "span 2" }}
                 />
                 <TextField
                   label="Last Name"
@@ -203,7 +210,7 @@ const Form = () => {
                   name="lastName"
                   error={Boolean(touched.lastName) && Boolean(errors.lastName)}
                   helperText={touched.lastName && errors.lastName}
-                  sx={{ gridColumn: "span 4" }}
+                  sx={{ gridColumn: "span 2" }}
                 />
               </>
             )}
@@ -220,7 +227,7 @@ const Form = () => {
             />
             <TextField
               label="Password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.password}
@@ -228,6 +235,18 @@ const Form = () => {
               error={Boolean(touched.password) && Boolean(errors.password)}
               helperText={touched.password && errors.password}
               sx={{ gridColumn: "span 4" }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <IconButton
+                      aria-label='toggle password visibility'
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Box>
           
@@ -252,25 +271,46 @@ const Form = () => {
             </Button>
 
             { /* Click to Change from Logging In to Register (vice versa) */ }
-            <Typography
-              variant="h3b"
-              onClick={() => {
-                setPageType(isLogin ? "register" : "login");
-                resetForm();
-              }}
-              sx={{
-                textDecoration: "underline",
-                color: palette.button.default,
-                "&:hover": {
-                  cursor: "pointer",
-                  color: palette.button.alt,
-                },
-              }}
-            >
-              {isLogin
-                ? "Don't have an account? Sign Up here!"
-                : "Already have an account? Login here!"}
-            </Typography>
+            <FlexBetween>
+              <Typography
+                variant="h3b"
+                onClick={() => {
+                  setPageType(isLogin ? "register" : "login");
+                  setShowPassword(false);
+                  resetForm();
+                }}
+                sx={{
+                  textDecoration: "underline",
+                  color: palette.button.default,
+                  "&:hover": {
+                    cursor: "pointer",
+                    color: palette.button.alt,
+                  },
+                }}
+              >
+                {isLogin
+                  ? "Don't have an account? Sign Up here!"
+                  : "Already have an account? Login here!"}
+              </Typography>
+              <Typography
+                variant="h3b"
+                onClick={() => {
+                  // TODO: Rest Password
+                  setShowPassword(false);
+                  resetForm();
+                }}
+                sx={{
+                  textDecoration: "underline",
+                  color: palette.button.default,
+                  "&:hover": {
+                    cursor: "pointer",
+                    color: palette.button.alt,
+                  },
+                }}
+              >
+                {"Forgot Password?"}
+              </Typography>
+            </FlexBetween>
           </Box>
           
           {/* Warning Dialogs */}

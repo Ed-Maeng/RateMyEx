@@ -20,8 +20,8 @@ import WorkIcon from '@mui/icons-material/Work';
 
 // Pages & Components
 import { useTheme } from "@emotion/react";
-import WidgetWrapper from "../../components/WidgetWrapper";
 import Dialogs from '../../components/dialogs/Dialogs';
+import WidgetWrapper from "../../components/wrappers/WidgetWrapper";
 
 const InternshipWidget = (props) => {
   const { palette } = useTheme();

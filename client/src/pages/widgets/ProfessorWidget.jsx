@@ -16,8 +16,8 @@ import { useSelector } from "react-redux";
 
 // Pages & Components
 import { useTheme } from "@emotion/react";
-import WidgetWrapper from "../../components/WidgetWrapper";
 import Dialogs from '../../components/dialogs/Dialogs';
+import WidgetWrapper from "../../components/wrappers/WidgetWrapper";
 
 const ProfessorWidget = (props) => {
   const { palette } = useTheme();

@@ -18,8 +18,8 @@ import { useLocation } from "react-router-dom";
 // Components & Schema
 import * as Constants from "../../constants/Constants";
 import * as InitialSchema from "../../constants/InitialSchema";
-import FlexBetween from "../FlexBetween";
 import LoadingComponent from "../LoadingComponent";
+import FlexBetween from "../wrappers/FlexBetween";
 
 const ReviewForm = (props) => {
   const { palette } = useTheme();
@@ -40,7 +40,7 @@ const ReviewForm = (props) => {
 
   const saveReview = async (values) => {
     await Object.assign(values, { "name": currentSection.name });
-    const savedReviewResponse = await fetch(
+    await fetch(
       isLocal ? `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}` 
       : `https://api.ratemyexschool.com:8443/${reviewType}/${currentSection._id}/${user._id}`,
       {
@@ -52,7 +52,6 @@ const ReviewForm = (props) => {
         body: JSON.stringify(values),
       }
     );
-    await savedReviewResponse.json();
   };
 
   const saveReviewWithImage = async (values) => {
@@ -68,7 +67,7 @@ const ReviewForm = (props) => {
       formData.append("files[]", file);
     }
 
-    const savedReviewResponse = await fetch(
+    await fetch(
       isLocal ? `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}` 
       : `https://api.ratemyexschool.com:8443/${reviewType}/${currentSection._id}/${user._id}`,
       {
@@ -77,7 +76,6 @@ const ReviewForm = (props) => {
         body: formData,
       }
     );
-    await savedReviewResponse.json();
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {

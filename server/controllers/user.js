@@ -33,7 +33,6 @@ export const sendEmailSupport = async (req, res) => {
   try {
     const { user, feedback } = req.body;
     const response = await emailSupport(`${user.firstName} ${user.lastName}`, feedback);
-    console.log(response);
     res.status(200).json(response);
   } catch (err) {
     res.status(500).json({ message: err.message });

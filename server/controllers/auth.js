@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import swot from "swot-node";
 import { v4 as uuidv4 } from "uuid";
-import { emailVerification } from "../services/email.js";
+import { emailResetPassword, emailVerification } from "../services/email.js";
 
 /* REGISTER USER */
 export const register = async (req, res) => {
@@ -173,7 +173,71 @@ export const oauth = async (req, res) => {
     });
     const savedUser = await newUser.save();
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
-    res.status(201).json({ token, user: savedUser});
+    res.status(201).json({ token, user: savedUser });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/* SEND EMAIL TO RESET PASSWORD */
+export const sendResetPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email: email });
+    // Check if email doesn't exist in our DB
+    if (!user) {
+      return res.status(404).json({ msg: "User does not exist." });
+    }
+    // Check if user is verified
+    if (!user.isVerified) {
+      return res.status(403).send("User is not verified.");
+    }
+
+    // Send Email Reset Password
+    const host = req.get('host');
+    const emailToken = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: '1h'});
+    const verify = await emailResetPassword(email, emailToken, host);
+    if (!verify) {
+      return res.status(500).json({ msg: "Couldn't send email to reset password. Please try again." });
+    }
+    res.status(200).json({ email });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/* RESET PASSWORD */
+export const resetPassword = async (req, res) => {
+  try {
+    let emailToken = req.header("Authorization");
+
+    if (!emailToken) {
+      return res.status(403).send("Access Denied");
+    }
+
+    if (emailToken.startsWith("Bearer ")) {
+      emailToken = emailToken.slice(7, emailToken.length).trimLeft();
+    }
+
+    const verified = jwt.verify(emailToken, process.env.JWT_SECRET);
+    const { newPassword } = req.body;
+    const oldPasswordHash = (await User.findOne({ email: verified.email })).password;
+    // Check if password is valid
+    const isMatch = await bcrypt.compare(newPassword, oldPasswordHash);
+    if (isMatch) {
+      return res.status(400).json({ msg: "Old password and new password are matching." });
+    }
+
+    const salt = await bcrypt.genSalt();
+    const newPasswordHash = await bcrypt.hash(newPassword, salt);
+    // Update user's password with newPassword
+    const user = await User.findOneAndUpdate(
+      { email: verified.email }, 
+      { password: newPasswordHash }
+    );
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    res.status(200).json({ token, user });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

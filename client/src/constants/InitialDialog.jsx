@@ -24,7 +24,6 @@ export const sentVerifyDialog = {
   path: "/",
 };
 
-
 /* --- LOG IN --- */
 
 // USER NOT FOUND DIALOG
@@ -76,7 +75,7 @@ export const needSignInDialog = {
   title: "Are you signed in?",
   content: "Please sign in before viewing and writing reviews.",
   buttonName: "Sign In",
-  path: "/login",
+  path: "/signin",
 };
 
 // NEED TO WRITE ONE REVIEW DIALOG
@@ -93,6 +92,48 @@ export const sentSupport = {
   content: "Thank you for sending us feedback.",
   buttonName: "Close",
   path: null,
+};
+
+/* --- RESET PASSWORD --- */
+
+// SENT RESET PASSWORD EMAIL
+export const sentResetPassword = {
+  title: "Sent email to reset password!",
+  content: "Please check your email to reset password.",
+  buttonName: "Close",
+  path: null,
+};
+
+// EMAIL IS NOT FOUND IN DB
+export const emailNotFound = {
+  title: "Did you type in the correct email?",
+  content: "Please enter in a email that has been registered.",
+  buttonName: "Close",
+  path: null,
+};
+
+// NEW PASSWORD MATCHES OLD PASSWORD
+export const samePassword = {
+  title: "Did you type in your old password?",
+  content: "New password is matching your old password.",
+  buttonName: "Login",
+  path: "/signin",
+};
+
+// SUCCESSFULLY RESET PASSWORD
+export const resetPassword = {
+  title: "Succesful!",
+  content: "Your password has been reset.",
+  buttonName: "Login",
+  path: "/signin",
+};
+
+// UNSUCCESSFUL IN RESETTING PASSWORD
+export const notResetPassword = {
+  title: "Please Try Again",
+  content: "Make sure you are using the link from your email.",
+  buttonName: "Login",
+  path: "/signin",
 };
 
 /* --- DEFAULT --- */

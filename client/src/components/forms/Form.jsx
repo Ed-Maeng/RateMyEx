@@ -321,7 +321,7 @@ const Form = () => {
           <Dialogs open={schoolEmailNotFoundOpen} setOpen={setschoolEmailNotFoundOpen} type="no-school-email" />
 
           { /* LOG IN */ }
-          <Dialogs open={userNotFoundOpen} setOpen={setUserNotFoundOpen} type="no-user" />
+          <Dialogs open={userNotFoundOpen} setOpen={setUserNotFoundOpen} type="no-user-found" />
           <Dialogs open={needVerifyOpen} setOpen={setNeedVerifyOpen} type="need-verify" />
           <Dialogs open={wrongPasswordOpen} setOpen={setWrongPasswordOpen} type="wrong-password" />
           

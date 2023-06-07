@@ -75,7 +75,7 @@ export const needSignInDialog = {
   title: "Are you signed in?",
   content: "Please sign in before viewing and writing reviews.",
   buttonName: "Sign In",
-  path: "/login",
+  path: "/signin",
 };
 
 // NEED TO WRITE ONE REVIEW DIALOG
@@ -95,7 +95,7 @@ export const sentSupport = {
 };
 
 /* --- RESET PASSWORD --- */
-export const sentReset = {
+export const sentResetPassword = {
   title: "Sent email to reset password!",
   content: "Please check your email to reset password.",
   buttonName: "Close",
@@ -109,18 +109,18 @@ export const emailNotFound = {
   path: null,
 };
 
-export const reset = {
+export const resetPassword = {
   title: "Succesful!",
   content: "Your password has been reset.",
   buttonName: "Login",
-  path: "/login",
+  path: "/signin",
 };
 
-export const notReset = {
+export const notResetPassword = {
   title: "Please Try Again",
   content: "Make sure you are using the link from your email.",
   buttonName: "Login",
-  path: "/login",
+  path: "/signin",
 };
 
 /* --- DEFAULT --- */

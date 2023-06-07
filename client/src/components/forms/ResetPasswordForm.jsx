@@ -148,8 +148,8 @@ const ResetPasswordForm = () => {
           </Box>
           
           {/* Warning Dialogs */}
-          <Dialogs open={resetOpen} setOpen={setResetOpen} type="reset" />
-          <Dialogs open={notResetOpen} setOpen={setNotResetOpen} type="not-reset" />
+          <Dialogs open={resetOpen} setOpen={setResetOpen} type="reset-password" />
+          <Dialogs open={notResetOpen} setOpen={setNotResetOpen} type="not-reset-password" />
         </form>
       )}
     </Formik>

@@ -28,7 +28,7 @@ const Dialogs = (props) => {
       dialog = InitialDialog.schoolEmailNotFoundDialog;
       break;
     /* --- Log In --- */
-    case "no-user":
+    case "no-user-found":
       dialog = InitialDialog.userNotFoundDialog;
       break;
     case "need-verify":
@@ -56,17 +56,17 @@ const Dialogs = (props) => {
       dialog = InitialDialog.sentSupport;
       break;
     /* --- Reset Password --- */
-    case "sent-reset":
-      dialog = InitialDialog.sentReset;
+    case "sent-reset-password":
+      dialog = InitialDialog.sentResetPassword;
       break;
-    case "no-email":
+    case "no-email-found":
       dialog = InitialDialog.emailNotFound;
       break;
-    case "reset":
-      dialog = InitialDialog.reset;
+    case "reset-password":
+      dialog = InitialDialog.resetPassword;
       break;
-    case "not-reset":
-      dialog = InitialDialog.notReset;
+    case "not-reset-password":
+      dialog = InitialDialog.notResetPassword;
       break;
     default:
       dialog = InitialDialog.defaultDialog;

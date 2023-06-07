@@ -122,8 +122,8 @@ const SupportDialog = (props) => {
       </Dialog>
 
       {/* WARNING DIALOGS */}
-      <Dialogs open={sentReset} setOpen={setSentReset} type="sent-reset" />
-      <Dialogs open={emailNotFound} setOpen={setEmailNotFound} type="no-email" />
+      <Dialogs open={sentReset} setOpen={setSentReset} type="sent-reset-password" />
+      <Dialogs open={emailNotFound} setOpen={setEmailNotFound} type="no-email-found" />
       <Dialogs open={needVerifyDialog} setOpen={setNeedVerifyDialog} type="need-verify" />
       <Dialogs open={defaultOpen} setOpen={setDefaultOpen} type="default" />
     </>

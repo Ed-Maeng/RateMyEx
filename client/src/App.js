@@ -7,12 +7,11 @@ import { themeSettings } from "./theme";
 // Pages & Components
 import EmailVerification from "./components/verification/EmailVerification";
 import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ReviewPage from "./pages/ReviewPage";
 import SchoolPage from "./pages/SchoolPage";
 import SectionPage from "./pages/SectionPage";
+import AccountFormPage from "./pages/forms/AccountFormPage";
 
 function App() {
   const theme = createTheme(themeSettings());
@@ -27,13 +26,11 @@ function App() {
               { /* Email Verification Page */ }
               <Route path="/verifyemail/:emailToken" element={<EmailVerification />} />
 
-              { /* Reset Password Page */ }
-              <Route path="/reset/:emailToken" element={<ResetPasswordPage />} />
-
               { /* User Pages */ }            
               <Route path="/" element={<HomePage />} />
               <Route path="/school" element={<SchoolPage />} />
-              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signin" element={<AccountFormPage page={"signin"} />} />
+              <Route path="/reset/:emailToken" element={<AccountFormPage page={"reset"} />} />
               <Route path="/profile" element={<ProfilePage />} />
 
               { /* Section Pages */ }

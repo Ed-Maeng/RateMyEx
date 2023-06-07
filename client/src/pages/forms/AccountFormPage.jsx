@@ -1,9 +1,10 @@
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import { Box, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import ResetPasswordForm from "../components/forms/ResetPasswordForm";
+import Form from "../../components/forms/Form";
+import ResetPasswordForm from "../../components/forms/ResetPasswordForm";
 
-const ResetPasswordPage = () => {
+const AccountFormPage = (props) => {
   const navigate = useNavigate();
 
   return (
@@ -29,12 +30,12 @@ const ResetPasswordPage = () => {
         </Grid>
       </Grid>
       
-      {/* RESET PASSWORD FORM */}
+      {/* FORM */}
       <Box m="2rem auto" width="50%">
-        <ResetPasswordForm />
+        {(props.page === "signin") ? <Form /> : <ResetPasswordForm/>}
       </Box>
     </Box>
   );
 };
 
-export default ResetPasswordPage;
+export default AccountFormPage;

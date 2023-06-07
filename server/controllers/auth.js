@@ -200,7 +200,6 @@ export const sendResetPassword = async (req, res) => {
     if (!verify) {
       return res.status(500).json({ msg: "Couldn't send email to reset password. Please try again." });
     }
-
     res.status(200).json({ email });
   } catch (err) {
     res.status(500).json({ error: err.message });

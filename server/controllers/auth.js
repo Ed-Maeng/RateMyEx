@@ -220,15 +220,20 @@ export const resetPassword = async (req, res) => {
     }
 
     const verified = jwt.verify(emailToken, process.env.JWT_SECRET);
-
     const { newPassword } = req.body;
+    const oldPasswordHash = (await User.findOne({ email: verified.email })).password;
+    // Check if password is valid
+    const isMatch = await bcrypt.compare(newPassword, oldPasswordHash);
+    if (isMatch) {
+      return res.status(400).json({ msg: "Old password and new password are matching." });
+    }
+
     const salt = await bcrypt.genSalt();
-    const passwordHash = await bcrypt.hash(newPassword, salt);
-    
+    const newPasswordHash = await bcrypt.hash(newPassword, salt);
     // Update user's password with newPassword
     const user = await User.findOneAndUpdate(
       { email: verified.email }, 
-      { password: passwordHash }
+      { password: newPasswordHash }
     );
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);

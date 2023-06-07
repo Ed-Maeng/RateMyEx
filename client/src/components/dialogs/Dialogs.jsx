@@ -68,6 +68,9 @@ const Dialogs = (props) => {
     case "not-reset-password":
       dialog = InitialDialog.notResetPassword;
       break;
+    case "same-password":
+      dialog = InitialDialog.samePassword;
+      break;
     default:
       dialog = InitialDialog.defaultDialog;
       break;

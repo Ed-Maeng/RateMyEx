@@ -31,6 +31,7 @@ const ResetPasswordForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [resetOpen, setResetOpen] = useState(false);
   const [notResetOpen, setNotResetOpen] = useState(false);
+  const [samePassword, setSamePassword] = useState(false);
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
 
@@ -51,6 +52,8 @@ const ResetPasswordForm = () => {
 
     if (resetPasswordResponse.status === 200) {
       setResetOpen(true);
+    } else if (resetPasswordResponse.status === 400) {
+      setSamePassword(true);
     } else {
       setNotResetOpen(true);
     }
@@ -150,6 +153,7 @@ const ResetPasswordForm = () => {
           {/* Warning Dialogs */}
           <Dialogs open={resetOpen} setOpen={setResetOpen} type="reset-password" />
           <Dialogs open={notResetOpen} setOpen={setNotResetOpen} type="not-reset-password" />
+          <Dialogs open={samePassword} setOpen={setSamePassword} type="same-password" />
         </form>
       )}
     </Formik>

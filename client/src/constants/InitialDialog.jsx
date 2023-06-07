@@ -95,6 +95,8 @@ export const sentSupport = {
 };
 
 /* --- RESET PASSWORD --- */
+
+// SENT RESET PASSWORD EMAIL
 export const sentResetPassword = {
   title: "Sent email to reset password!",
   content: "Please check your email to reset password.",
@@ -102,6 +104,7 @@ export const sentResetPassword = {
   path: null,
 };
 
+// EMAIL IS NOT FOUND IN DB
 export const emailNotFound = {
   title: "Did you type in the correct email?",
   content: "Please enter in a email that has been registered.",
@@ -109,6 +112,15 @@ export const emailNotFound = {
   path: null,
 };
 
+// NEW PASSWORD MATCHES OLD PASSWORD
+export const samePassword = {
+  title: "Did you type in your old password?",
+  content: "New password is matching your old password.",
+  buttonName: "Login",
+  path: "/signin",
+};
+
+// SUCCESSFULLY RESET PASSWORD
 export const resetPassword = {
   title: "Succesful!",
   content: "Your password has been reset.",
@@ -116,6 +128,7 @@ export const resetPassword = {
   path: "/signin",
 };
 
+// UNSUCCESSFUL IN RESETTING PASSWORD
 export const notResetPassword = {
   title: "Please Try Again",
   content: "Make sure you are using the link from your email.",

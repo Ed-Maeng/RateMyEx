@@ -46,8 +46,6 @@ const ResetPasswordForm = () => {
       }
     );
 
-    console.log(resetPasswordResponse.json().user)
-
     onSubmitProps.resetForm();
 
     if (resetPasswordResponse.status === 200) {

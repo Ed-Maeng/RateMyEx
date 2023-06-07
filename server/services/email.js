@@ -28,6 +28,7 @@ export async function emailVerification(email, emailToken, host) {
   }
 };
 
+/* Receive Support Feedback From Users */
 export async function emailSupport(name, feedback) {
   try {
     const info = await transporter.sendMail({
@@ -35,6 +36,22 @@ export async function emailSupport(name, feedback) {
       to: process.env.GMAIL_EMAIL,
       subject: `Feedback from ${name}`,
       text: feedback,
+    });
+    return info;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+/* Send Reset Password (Confirm User Email Exists) */
+export async function emailResetPassword(email, emailToken, host) {
+  try {
+    const info = await transporter.sendMail({
+      from: process.env.GMAIL_EMAIL,
+      to: email,
+      subject: "Reset Password from RateMyEx.com",
+      html: host === "localhost:4000" ? '<p>Click: <a href="http://localhost:3000/reset/' + emailToken + '">here</a></p>' 
+      : '<p>Click: <a href="https://ratemyexschool.com/reset/' + emailToken + '">here</a></p>',
     });
     return info;
   } catch (err) {

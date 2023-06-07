@@ -28,6 +28,7 @@ const ResetPasswordForm = () => {
   const { emailToken } = useParams();
   // Types of Open Dialogs
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [resetOpen, setResetOpen] = useState(false);
   const [notResetOpen, setNotResetOpen] = useState(false);
   // Check if it is in local or production
@@ -74,7 +75,11 @@ const ResetPasswordForm = () => {
         handleSubmit,
       }) => (
         <form onSubmit={handleSubmit}>
-          <Box display="grid">
+          <Box
+            display="grid"
+            gap="30px"
+            gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+          >
             <TextField
               label="New Password"
               type={showPassword ? "text" : "password"}
@@ -98,9 +103,32 @@ const ResetPasswordForm = () => {
                 ),
               }}
             />
+            <TextField
+              label="Confirm Password"
+              type={showConfirmPassword ? "text" : "password"}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              value={values.confirmPassword}
+              name="confirmPassword"
+              error={Boolean(touched.confirmPassword) && Boolean(errors.confirmPassword)}
+              helperText={touched.confirmPassword && errors.confirmPassword}
+              sx={{ gridColumn: "span 4" }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <IconButton
+                      aria-label='toggle confirmPassword visibility'
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    >
+                      {showConfirmPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
           </Box>
           
-          {/* Confirm Button */}
+          {/* Submit Button */}
           <Box>
             <Button
               fullWidth
@@ -115,7 +143,7 @@ const ResetPasswordForm = () => {
                 },
               }}
             >
-              <Typography variant="h2b">Confirm</Typography>
+              <Typography variant="h2b">RESET PASSWORD</Typography>
             </Button>
           </Box>
           

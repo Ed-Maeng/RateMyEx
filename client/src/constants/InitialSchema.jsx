@@ -134,10 +134,14 @@ export const resetSchema = yup.object().shape({
                .required("Required")
                .min(8, "Must be more than 8")
                .max(50, "Must be less than 50"),
+  confirmPassword: yup.string()
+               .required("Required")
+               .oneOf([yup.ref('newPassword'), null], 'Passwords must match'),
 });
 
 export const initialValuesReset = {
   newPassword: "",
+  confirmPassword: "",
 };
 
 // SECTION FORM SCHEMA

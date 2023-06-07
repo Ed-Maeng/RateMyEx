@@ -55,6 +55,19 @@ const Dialogs = (props) => {
     case "support":
       dialog = InitialDialog.sentSupport;
       break;
+    /* --- Reset Password --- */
+    case "sent-reset":
+      dialog = InitialDialog.sentReset;
+      break;
+    case "no-email":
+      dialog = InitialDialog.emailNotFound;
+      break;
+    case "reset":
+      dialog = InitialDialog.reset;
+      break;
+    case "not-reset":
+      dialog = InitialDialog.notReset;
+      break;
     default:
       dialog = InitialDialog.defaultDialog;
       break;

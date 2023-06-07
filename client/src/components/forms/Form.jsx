@@ -25,6 +25,7 @@ import {
 } from "../../constants/InitialSchema";
 import { setLogin } from "../../state/auth";
 import Dialogs from "../dialogs/Dialogs";
+import ResetPasswordDialog from '../dialogs/ResetPasswordDialog';
 import FlexBetween from '../wrappers/FlexBetween';
 
 // Icons
@@ -38,6 +39,7 @@ const Form = () => {
   // Types of Pages (Login or Register)
   const [pageType, setPageType] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
+  const [resetPassword, setResetPassword] = useState(false);
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
   // Types of Open Dialogs
@@ -60,7 +62,6 @@ const Form = () => {
         body: JSON.stringify(values),
       }
     );
-    await registerResponse.json();
     onSubmitProps.resetForm();
 
     if (registerResponse.status === 201) {
@@ -295,7 +296,7 @@ const Form = () => {
               <Typography
                 variant="h3b"
                 onClick={() => {
-                  // TODO: Rest Password
+                  setResetPassword(true);
                   setShowPassword(false);
                   resetForm();
                 }}
@@ -323,6 +324,9 @@ const Form = () => {
           <Dialogs open={userNotFoundOpen} setOpen={setUserNotFoundOpen} type="no-user" />
           <Dialogs open={needVerifyOpen} setOpen={setNeedVerifyOpen} type="need-verify" />
           <Dialogs open={wrongPasswordOpen} setOpen={setWrongPasswordOpen} type="wrong-password" />
+          
+          {/* RESET PASSWORD */}
+          <ResetPasswordDialog open={resetPassword} setOpen={setResetPassword} />
 
           { /* DEFAULT */ }
           <Dialogs open={defaultOpen} setOpen={setDefaultOpen} type="default" />

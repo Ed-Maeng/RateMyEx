@@ -36,7 +36,7 @@ const SectionForm = (props) => {
       formData.append("file", values["file"][0]);
     }
 
-    const savedSectionResponse = await fetch(
+    await fetch(
       isLocal ? `http://localhost:4000/${reviewType}/${school._id}` : `https://api.ratemyexschool.com:8443/${reviewType}/${school._id}`,
       {
         method: "POST",
@@ -44,7 +44,6 @@ const SectionForm = (props) => {
         body: formData,
       }
     );
-    await savedSectionResponse.json();
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {

@@ -9,6 +9,7 @@ import EmailVerification from "./components/verification/EmailVerification";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ReviewPage from "./pages/ReviewPage";
 import SchoolPage from "./pages/SchoolPage";
 import SectionPage from "./pages/SectionPage";
@@ -25,6 +26,9 @@ function App() {
             <Routes>
               { /* Email Verification Page */ }
               <Route path="/verifyemail/:emailToken" element={<EmailVerification />} />
+
+              { /* Reset Password Page */ }
+              <Route path="/reset/:emailToken" element={<ResetPasswordPage />} />
 
               { /* User Pages */ }            
               <Route path="/" element={<HomePage />} />

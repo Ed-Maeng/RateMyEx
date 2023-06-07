@@ -128,6 +128,18 @@ export const initialValuesLogin = {
   password: "",
 };
 
+// RESET SCHEMA
+export const resetSchema = yup.object().shape({
+  newPassword: yup.string()
+               .required("Required")
+               .min(8, "Must be more than 8")
+               .max(50, "Must be less than 50"),
+});
+
+export const initialValuesReset = {
+  newPassword: "",
+};
+
 // SECTION FORM SCHEMA
 export const sectionFormSchema = yup.object().shape({
   name: yup.string().required("Required").max(50, "Must be less than 50"),

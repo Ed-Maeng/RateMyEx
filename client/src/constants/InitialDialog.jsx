@@ -24,7 +24,6 @@ export const sentVerifyDialog = {
   path: "/",
 };
 
-
 /* --- LOG IN --- */
 
 // USER NOT FOUND DIALOG
@@ -93,6 +92,35 @@ export const sentSupport = {
   content: "Thank you for sending us feedback.",
   buttonName: "Close",
   path: null,
+};
+
+/* --- RESET PASSWORD --- */
+export const sentReset = {
+  title: "Sent email to reset password!",
+  content: "Please check your email to reset password.",
+  buttonName: "Close",
+  path: null,
+};
+
+export const emailNotFound = {
+  title: "Did you type in the correct email?",
+  content: "Please enter in a email that has been registered.",
+  buttonName: "Close",
+  path: null,
+};
+
+export const reset = {
+  title: "Succesful!",
+  content: "Your password has been reset.",
+  buttonName: "Login",
+  path: "/login",
+};
+
+export const notReset = {
+  title: "Please Try Again",
+  content: "Make sure you are using the link from your email.",
+  buttonName: "Login",
+  path: "/login",
 };
 
 /* --- DEFAULT --- */

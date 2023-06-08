@@ -21,13 +21,9 @@ const ProfessorSchema = new mongoose.Schema(
       default: 0,
       required: true,
     },
-    imageName: {
+    color: {
       type: String,
-      default: "",
-    },
-    imageUrl: {
-      type: String,
-      default: "",
+      required: true,
     },
   },
   { timestamps: true }

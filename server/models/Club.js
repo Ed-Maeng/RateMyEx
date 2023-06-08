@@ -23,7 +23,7 @@ const ClubSchema = new mongoose.Schema(
     },
     imageName: {
       type: String,
-      default: "",
+      default: "40a6176e6e3d95f69d4f1aa7e3d5d280b0ab2ecd02ac57a500e4bbd766545a67",
     },
     imageUrl: {
       type: String,

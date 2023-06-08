@@ -129,17 +129,19 @@ const SectionPage = () => {
                   sx={{
                     "&:hover": { 
                       cursor: "pointer",
-                      backgroundColor: palette.background.alt,
+                      bgcolor: palette.background.alt,
                     },
                   }}
                 >
                   <ListItem>
                     <ListItemAvatar>
-                      {section.imageUrl 
-                        ? 
-                        <Avatar alt={section.name} src={section.imageUrl} sx={{ width: 65, height: 65 }} /> 
+                      {section.color 
+                        ?
+                        <Avatar sx={{ width: 65, height: 65, bgcolor: section.color }}>
+                          {section.name[0].toUpperCase() + (section.name.split(" ")[1] ? section.name.split(" ")[1][0].toUpperCase() : "")}
+                        </Avatar>
                         : 
-                        <Avatar sx={{ width: 65, height: 65, bgcolor: palette.button.signup }}>{section.name[0]}</Avatar>
+                        <Avatar alt={section.name} src={section.imageUrl} sx={{ width: 65, height: 65 }} /> 
                       }
                     </ListItemAvatar>
 

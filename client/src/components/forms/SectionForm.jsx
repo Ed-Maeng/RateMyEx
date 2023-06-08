@@ -95,47 +95,49 @@ const SectionForm = (props) => {
               helperText={touched.name && errors.name}
               sx={{ gridColumn: "span 4" }}
             />
-
-            <Box
-              gridColumn="span 4"
-              border={`1px solid ${palette.neutral.medium}`}
-              borderRadius="5px"
-              padding="1rem"
-            >
-              <Dropzone
-                acceptedFile=".jpg,.jpeg,.png"
-                onDrop={(acceptedFile) =>
-                  setFieldValue("file", acceptedFile)
-                }
+            
+            {!(window.location.pathname.split("/")[2] === "professors") &&
+              <Box
+                gridColumn="span 4"
+                border={`1px solid ${palette.neutral.medium}`}
+                borderRadius="5px"
+                padding="1rem"
               >
-                {({ getRootProps, getInputProps }) => (
-                  <Box
-                    {...getRootProps()}
-                    border={`2px dashed ${palette.primary.main}`}
-                    padding="1rem"
-                    textAlign="center"
-                    sx={{ "&:hover": { cursor: "pointer" } }}
-                  >
-                    <input {...getInputProps()} />
-                    {!values.file ? (
-                      <FlexBetween>
-                        <Typography variant="h3r" alignItems="center">Add Picture Here</Typography>
-                        <ImageIcon />
-                      </FlexBetween>
-                    ) : (
-                      <FlexBetween>
-                        <Box>
-                          <Typography variant="h3r" key={values.file[0].name} display="block">
-                            {values.file[0].name}
-                          </Typography>
-                        </Box>
-                        <EditOutlinedIcon />
-                      </FlexBetween>
-                    )}
-                  </Box>
-                )}
-              </Dropzone>
-            </Box>
+                <Dropzone
+                  acceptedFile=".jpg,.jpeg,.png"
+                  onDrop={(acceptedFile) =>
+                    setFieldValue("file", acceptedFile)
+                  }
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <Box
+                      {...getRootProps()}
+                      border={`2px dashed ${palette.primary.main}`}
+                      padding="1rem"
+                      textAlign="center"
+                      sx={{ "&:hover": { cursor: "pointer" } }}
+                    >
+                      <input {...getInputProps()} />
+                      {!values.file ? (
+                        <FlexBetween>
+                          <Typography variant="h3r" alignItems="center">Add Picture Here</Typography>
+                          <ImageIcon />
+                        </FlexBetween>
+                      ) : (
+                        <FlexBetween>
+                          <Box>
+                            <Typography variant="h3r" key={values.file[0].name} display="block">
+                              {values.file[0].name}
+                            </Typography>
+                          </Box>
+                          <EditOutlinedIcon />
+                        </FlexBetween>
+                      )}
+                    </Box>
+                  )}
+                </Dropzone>
+              </Box>
+            }
           </Box>
 
           {/* Submit Button */}

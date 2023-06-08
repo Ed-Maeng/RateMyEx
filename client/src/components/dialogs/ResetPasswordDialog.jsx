@@ -107,12 +107,12 @@ const SupportDialog = (props) => {
             variant="contained"
             endIcon={<SendIcon />}
             sx={{
-              backgroundColor: palette.button.signup,
+              bgcolor: palette.button.signup,
               width: "100px",
               borderRadius: "0.25rem",
               p: "0.5rem",
               "&:hover": {
-                backgroundColor: palette.button.alt,
+                bgcolor: palette.button.alt,
               }
             }}
           >

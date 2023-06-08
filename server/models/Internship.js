@@ -23,7 +23,7 @@ const InternshipSchema = new mongoose.Schema(
     },
     imageName: {
       type: String,
-      default: "",
+      default: "e11fa827751d82b05562abb9eecc3a1f4b324d5ea90780cf747bbf4fcb2b3476",
     },
     imageUrl: {
       type: String,

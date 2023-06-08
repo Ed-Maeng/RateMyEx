@@ -1,4 +1,3 @@
-import { useTheme } from "@emotion/react";
 import {
   Button,
   Dialog,
@@ -6,7 +5,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Typography
+  Typography,
+  useTheme,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import * as InitialDialog from "../../constants/InitialDialog";

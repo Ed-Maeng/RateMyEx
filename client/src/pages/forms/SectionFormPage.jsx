@@ -1,11 +1,10 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, Dialog, DialogContent, IconButton, Typography, } from "@mui/material";
-import { useLocation } from "react-router-dom";
 import SectionForm from "../../components/forms/SectionForm";
 
 const SectionFormPage = (props) => {
   // Review Types
-  const reviewType = useLocation().pathname.split("/")[2];
+  const reviewType = window.location.pathname.split("/")[2];
 
   return (
     <Dialog

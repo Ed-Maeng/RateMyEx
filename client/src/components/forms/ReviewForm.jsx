@@ -1,9 +1,8 @@
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import ImageIcon from '@mui/icons-material/Image';
 import {
   Autocomplete,
   Box,
   Button,
+  CircularProgress,
   Rating,
   TextField,
   Typography,
@@ -13,30 +12,32 @@ import { Formik } from "formik";
 import { useState } from "react";
 import Dropzone from "react-dropzone";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-
 // Components & Schema
 import * as Constants from "../../constants/Constants";
 import * as InitialSchema from "../../constants/InitialSchema";
-import LoadingComponent from "../LoadingComponent";
 import FlexBetween from "../wrappers/FlexBetween";
+// Icons
+import CheckIcon from '@mui/icons-material/Check';
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import ImageIcon from '@mui/icons-material/Image';
 
 const ReviewForm = (props) => {
   const { palette } = useTheme();
-  // Loading & States
-  const [loading, setLoading] = useState(false);
   // State of User, Token & Current Section
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
   const currentSection = useSelector((state) => state.currentSection);
   // Review Types
-  const reviewType = useLocation().pathname.split("/")[2];
+  const reviewType = window.location.pathname.split("/")[2];
   const isInternship = reviewType === "internships";
   const isDorm = reviewType === "dorms";
   const isProfessor = reviewType === "professors";
   const isClub = reviewType === "clubs";
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
+  // Loading
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const saveReview = async (values) => {
     await Object.assign(values, { "name": currentSection.name });
@@ -85,9 +86,10 @@ const ReviewForm = (props) => {
     } else {
       await saveReview(values);
     }
-    await new Promise(r => setTimeout(r, 1000));
+    await new Promise(r => setTimeout(r, 250));
     setLoading(false);
-    
+    setSuccess(true);
+    await new Promise(r => setTimeout(r, 500));
     onSubmitProps.resetForm();
     window.location.reload(false);
     props.setOpen(false);
@@ -455,14 +457,31 @@ const ReviewForm = (props) => {
               sx={{
                 m: "2rem 0",
                 p: "1rem",
-                backgroundColor: palette.button.default,
                 color: palette.background.alt,
+                bgcolor: (success ? "green" : palette.button.default),
                 "&:hover": { 
-                  backgroundColor: palette.button.alt,
+                  bgcolor: (success ? "green" : palette.button.alt)
                 },
               }}
             >
-              {loading ? <LoadingComponent /> : <Typography variant="h3b">SUBMIT</Typography>}
+              <FlexBetween>
+                <Typography variant="h3b" >SUBMIT</Typography>
+                {loading && (
+                  <CircularProgress
+                    size={24}
+                    sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      marginTop: '-12px',
+                      marginLeft: '-12px',
+                    }}
+                  />
+                )}
+                {success && (
+                  <CheckIcon />
+                )}
+              </FlexBetween>
             </Button>
           </Box>
         </form>

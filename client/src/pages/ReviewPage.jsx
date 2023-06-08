@@ -1,6 +1,5 @@
 import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 import { useSelector } from "react-redux";
-
 // Pages & Components
 import { useState } from 'react';
 import Navbar from '../components/Navbar';
@@ -10,11 +9,9 @@ import ReviewWidgets from './widgets/ReviewsWidget';
 
 const ReviewPage = () => {
   const { palette } = useTheme();
-
   // State of Current Section & User & Open
   const currentSection = useSelector((state) => state.currentSection);
   const user = useSelector((state) => state.user);
-
   // Types of Open Dialogs
   const [reviewFormOpen, setReviewFormOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);

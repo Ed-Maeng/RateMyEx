@@ -1,23 +1,19 @@
-import GroupsIcon from '@mui/icons-material/Groups';
-import HomeIcon from '@mui/icons-material/Home';
-import SchoolIcon from '@mui/icons-material/School';
-import WorkIcon from '@mui/icons-material/Work';
-import { Box, Chip, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
+import { Box, Typography } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { setTab } from '../state/auth';
 // Components
-import { useTheme } from '@emotion/react';
+import { useEffect } from "react";
 import Navbar from "../components/Navbar";
-import FlexBetween from "../components/wrappers/FlexBetween";
-
 
 const SchoolPage = () => {
-  const { palette } = useTheme();
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // State of School & Color
   const school = useSelector((state) => state.school);
+
+  useEffect(() => {
+    dispatch(setTab({tab: false}));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Box>
@@ -31,37 +27,6 @@ const SchoolPage = () => {
         >
           {school.name}
         </Typography>
-
-        <FlexBetween m="auto" padding="1rem" width="60%">
-          {/* Internships Tab */}
-          <Chip
-            icon={<WorkIcon />} 
-            label="Internships"
-            style={{fontSize: '0.85rem' }}
-            onClick={() => navigate("/school/internships")} 
-          />
-          {/* Dorms Tab */}
-          <Chip 
-            icon={<HomeIcon />} 
-            label="Dorms" 
-            style={{fontSize: '0.85rem'}}
-            onClick={() => navigate("/school/dorms")} 
-          />
-          {/* Clubs Tab */}
-          <Chip 
-            icon={<GroupsIcon />} 
-            label="Clubs" 
-            style={{fontSize: '0.85rem'}}
-            onClick={() => navigate("/school/clubs")} 
-          />
-          {/* Professors Tab */}
-          <Chip 
-            icon={<SchoolIcon />} 
-            label="Professors"
-            style={{fontSize: '0.85rem'}}
-            onClick={() => navigate("/school/professors")} 
-          />
-        </FlexBetween>
       </Box>
     </Box>
   );

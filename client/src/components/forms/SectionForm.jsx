@@ -1,23 +1,25 @@
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import ImageIcon from '@mui/icons-material/Image';
 import {
   Box,
   Button,
+  CircularProgress,
   TextField,
   Typography,
   useTheme,
 } from "@mui/material";
 import { Formik } from "formik";
-import Dropzone from "react-dropzone";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-
 // Components & Schema
 import {
   initialValuesSectionForm,
   sectionFormSchema,
 } from "../../constants/InitialSchema";
 import FlexBetween from "../wrappers/FlexBetween";
+// Icons
+import CheckIcon from '@mui/icons-material/Check';
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import ImageIcon from '@mui/icons-material/Image';
+import Dropzone from "react-dropzone";
 
 const SectionForm = (props) => {
   const { palette } = useTheme();
@@ -25,9 +27,12 @@ const SectionForm = (props) => {
   const token = useSelector((state) => state.token);
   const school = useSelector((state) => state.school);
   // Review Types
-  const reviewType = useLocation().pathname.split("/")[2];
+  const reviewType = window.location.pathname.split("/")[2];
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
+  // Loading
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const saveSection = async (values) => {
     const formData = new FormData();
@@ -47,7 +52,12 @@ const SectionForm = (props) => {
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
+    setLoading(true);
     await saveSection(values);
+    await new Promise(r => setTimeout(r, 250));
+    setLoading(false);
+    setSuccess(true);
+    await new Promise(r => setTimeout(r, 500));
     onSubmitProps.resetForm();
     window.location.reload(false);
     props.setOpen(false);
@@ -136,14 +146,31 @@ const SectionForm = (props) => {
               sx={{
                 m: "2rem 0",
                 p: "1rem",
-                backgroundColor: palette.button.default,
                 color: palette.background.alt,
+                bgcolor: (success ? "green" : palette.button.default),
                 "&:hover": { 
-                  backgroundColor: palette.button.alt,
+                  bgcolor: (success ? "green" : palette.button.alt)
                 },
               }}
             >
-              <Typography variant="h3b">SUBMIT</Typography>
+              <FlexBetween>
+                <Typography variant="h3b" >SUBMIT</Typography>
+                {loading && (
+                  <CircularProgress
+                    size={24}
+                    sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      marginTop: '-12px',
+                      marginLeft: '-12px',
+                    }}
+                  />
+                )}
+                {success && (
+                  <CheckIcon />
+                )}
+              </FlexBetween>
             </Button>
           </Box>
         </form>

@@ -1,7 +1,6 @@
 import Club from "../models/Club.js";
 import ClubReview from "../models/ClubReview.js";
 import User from "../models/User.js";
-
 // Imports for S3 & Files
 import crypto from "crypto";
 import sharp from "sharp";

@@ -1,6 +1,3 @@
-import { useTheme } from "@emotion/react";
-import CloseIcon from '@mui/icons-material/Close';
-import SendIcon from '@mui/icons-material/Send';
 import {
   Box,
   Button,
@@ -11,11 +8,15 @@ import {
   DialogTitle,
   IconButton,
   TextField,
-  Typography
+  Typography,
+  useTheme,
 } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import Dialogs from "../dialogs/Dialogs";
+// Icons
+import CloseIcon from '@mui/icons-material/Close';
+import SendIcon from '@mui/icons-material/Send';
 
 const SupportDialog = (props) => {
   const { palette } = useTheme();

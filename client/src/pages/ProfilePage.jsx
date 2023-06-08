@@ -7,7 +7,11 @@ import {
   useTheme,
 } from "@mui/material";
 import { useSelector } from "react-redux";
-
+// Components
+import Navbar from "../components/Navbar";
+import FlexBetween from "../components/wrappers/FlexBetween";
+import WidgetWrapper from "../components/wrappers/WidgetWrapper";
+import ReviewWidgets from "../pages/widgets/ReviewsWidget";
 // Icons
 import CheckIcon from '@mui/icons-material/Check';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
@@ -15,16 +19,9 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import WorkOutlineOutlined from "@mui/icons-material/WorkOutline";
 
-// Components
-import Navbar from "../components/Navbar";
-import FlexBetween from "../components/wrappers/FlexBetween";
-import WidgetWrapper from "../components/wrappers/WidgetWrapper";
-import ReviewWidgets from "../pages/widgets/ReviewsWidget";
-
 export default function ProfilePage() {
   // State of User, Token & User Reviews
   const user = useSelector((state) => state.user);
-
   // Theme & Colors
   const { palette } = useTheme();
   const main = palette.neutral.main;
@@ -112,18 +109,16 @@ export default function ProfilePage() {
         </Grid>
 
         <Grid item xs={7}>
-          <WidgetWrapper>
-            <Box m="auto" flexBasis="85%">
-              <Typography
-                variant="h1b"
-                pt="1rem"
-                color={palette.neutral.dark}
-              >
-                {"My Reviews"}
-              </Typography>
-              <ReviewWidgets />
-            </Box>
-          </WidgetWrapper>
+          <Box m="auto" flexBasis="85%">
+            <Typography
+              variant="h1b"
+              pt="1rem"
+              color={palette.neutral.dark}
+            >
+              {"My Reviews"}
+            </Typography>
+            <ReviewWidgets />
+          </Box>
         </Grid>
       </Grid>
     </Box>

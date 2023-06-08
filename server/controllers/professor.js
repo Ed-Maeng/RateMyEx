@@ -1,7 +1,6 @@
 import Professor from "../models/Professor.js";
 import ProfessorReview from "../models/ProfessorReview.js";
 import User from "../models/User.js";
-
 // Imports for S3 & Files
 import crypto from "crypto";
 import sharp from "sharp";

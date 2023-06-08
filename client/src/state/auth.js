@@ -5,6 +5,7 @@ const initialState = {
   token: null,
   school: null,
   currentSection: null,
+  tab: false,
 };
 
 export const authSlice = createSlice({
@@ -28,8 +29,11 @@ export const authSlice = createSlice({
     setCurrentSection: (state, action) => {
       state.currentSection = action.payload.currentSection;
     },
+    setTab: (state, action) => {
+      state.tab = action.payload.tab;
+    },
   },
 });
 
-export const { setLogin, setLogout, setUser, setSchool, setCurrentSection } = authSlice.actions;
+export const { setLogin, setLogout, setUser, setSchool, setCurrentSection, setTab } = authSlice.actions;
 export default authSlice.reducer;

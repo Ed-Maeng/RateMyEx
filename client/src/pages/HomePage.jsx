@@ -5,7 +5,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setSchool } from '../state/auth';
+import { setSchool, setTab } from '../state/auth';
 
 // Components
 import Navbar from "../components/Navbar";
@@ -32,6 +32,7 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    dispatch(setTab({tab: false}));
     getSchools();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 

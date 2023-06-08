@@ -4,8 +4,6 @@ import { useParams } from "react-router-dom";
 import { setLogin } from "../../state/auth";
 import Dialogs from "../dialogs/Dialogs";
 
-import LoadingComponent from "../LoadingComponent";
-
 const EmailVerification = () => {
   const dispatch = useDispatch();
   // State of Email Token for verification
@@ -13,12 +11,10 @@ const EmailVerification = () => {
   // Types of Open Dialogs
   const [verifiedOpen, setVerifiedOpen] = useState(false);
   const [notVerifiedOpen, setNotVerifiedOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
 
   const verifyEmail = async () => {  
-    setLoading(true);
     const verifyEmailResponse = await fetch(
       isLocal ? "http://localhost:4000/auth/verifyemail" : "https://api.ratemyexschool.com:8443/auth/verifyemail",
       {
@@ -40,7 +36,6 @@ const EmailVerification = () => {
     } else {
       setNotVerifiedOpen(true);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -49,7 +44,6 @@ const EmailVerification = () => {
 
   return (
     <>
-      {loading ?? <LoadingComponent />}
       {/* Warning Dialogs */}
       <Dialogs open={verifiedOpen} setOpen={setVerifiedOpen} type="verified" />
       <Dialogs open={notVerifiedOpen} setOpen={setNotVerifiedOpen} type="not-verified" />

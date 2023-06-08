@@ -112,18 +112,16 @@ export default function ProfilePage() {
         </Grid>
 
         <Grid item xs={7}>
-          <WidgetWrapper>
-            <Box m="auto" flexBasis="85%">
-              <Typography
-                variant="h1b"
-                pt="1rem"
-                color={palette.neutral.dark}
-              >
-                {"My Reviews"}
-              </Typography>
-              <ReviewWidgets />
-            </Box>
-          </WidgetWrapper>
+          <Box m="auto" flexBasis="85%">
+            <Typography
+              variant="h1b"
+              pt="1rem"
+              color={palette.neutral.dark}
+            >
+              {"My Reviews"}
+            </Typography>
+            <ReviewWidgets />
+          </Box>
         </Grid>
       </Grid>
     </Box>

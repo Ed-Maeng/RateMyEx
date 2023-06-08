@@ -2,6 +2,7 @@ import { useTheme } from "@emotion/react";
 import {
   Box,
   Button,
+  CircularProgress,
   IconButton,
   InputAdornment,
   TextField,
@@ -10,17 +11,17 @@ import {
 import { Formik } from "formik";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-
 // Components
 import {
   initialValuesReset,
   resetSchema
 } from "../../constants/InitialSchema";
 import Dialogs from "../dialogs/Dialogs";
-
 // Icons
+import CheckIcon from '@mui/icons-material/Check';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import FlexBetween from "../wrappers/FlexBetween";
 
 const ResetPasswordForm = () => {
   const { palette } = useTheme();
@@ -34,6 +35,9 @@ const ResetPasswordForm = () => {
   const [samePassword, setSamePassword] = useState(false);
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
+  // Loading
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const resetPassword = async (values, onSubmitProps) => {  
     const resetPasswordResponse = await fetch(
@@ -48,19 +52,24 @@ const ResetPasswordForm = () => {
       }
     );
 
-    onSubmitProps.resetForm();
-
     if (resetPasswordResponse.status === 200) {
+      setLoading(false);
+      setSuccess(true);
+      await new Promise(r => setTimeout(r, 500));
       setResetOpen(true);
     } else if (resetPasswordResponse.status === 400) {
       setSamePassword(true);
     } else {
       setNotResetOpen(true);
     }
+    
+    onSubmitProps.resetForm();
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
+    setLoading(true);
     await resetPassword(values, onSubmitProps);
+    setLoading(false);
   };
 
   return (
@@ -139,14 +148,31 @@ const ResetPasswordForm = () => {
               sx={{
                 m: "2rem 0",
                 p: "1rem",
-                backgroundColor: palette.button.default,
                 color: palette.background.alt,
+                bgcolor: (success ? "green" : palette.button.default),
                 "&:hover": { 
-                  backgroundColor: palette.button.alt,
+                  bgcolor: (success ? "green" : palette.button.alt)
                 },
               }}
             >
-              <Typography variant="h2b">RESET PASSWORD</Typography>
+              <FlexBetween>
+                <Typography variant="h3b" >SUBMIT</Typography>
+                {loading && (
+                  <CircularProgress
+                    size={24}
+                    sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      marginTop: '-12px',
+                      marginLeft: '-12px',
+                    }}
+                  />
+                )}
+                {success && (
+                  <CheckIcon />
+                )}
+              </FlexBetween>
             </Button>
           </Box>
           

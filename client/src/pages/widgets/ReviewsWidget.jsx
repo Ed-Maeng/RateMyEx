@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
 import { setCurrentSection, setUser } from "../../state/auth";
 
 // All Review Widgets
@@ -16,14 +15,15 @@ const ReviewsWidget = () => {
   const user = useSelector((state) => state.user);
   const currentSection = useSelector((state) => state.currentSection);
   const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // Loading
+  const [loading, setLoading] = useState(true);
   // Types of Review Types
-  const reviewType = useLocation().pathname.split("/")[2];
+  const reviewType = window.location.pathname.split("/")[2];
   const isInternship = reviewType === "internships";
   const isDorm = reviewType === "dorms";
   const isProfessor = reviewType === "professors";
   const isClub = reviewType === "clubs";
-  const isProfile = useLocation().pathname.split("/")[1] === "profile";
+  const isProfile = window.location.pathname.split("/")[1] === "profile";
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
 
@@ -72,7 +72,6 @@ const ReviewsWidget = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       isProfile ? getUserReviews() : getReviews();
       await new Promise(r => setTimeout(r, 500));
       setLoading(false);
@@ -81,24 +80,21 @@ const ReviewsWidget = () => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <>
-      {/* LOADING */}
-      {loading && <LoadingComponent />}
-      
+    <>      
       {/* INTERNSHIP WIDGET */}
-      { isInternship && reviews?.map((review) => <InternshipWidget key={review._id} review={review} />) }
+      {isInternship && (loading ? <LoadingComponent /> : reviews?.map((review) => <InternshipWidget key={review._id} review={review} />))}
 
       {/* DORM WIDGET */}
-      {isDorm && reviews?.map((review) => <DormWidget key={review._id} review={review} />) }
+      {isDorm && (loading ? <LoadingComponent /> : reviews?.map((review) => <DormWidget key={review._id} review={review} />))}
 
       {/* CLUB WIDGET */}
-      {isClub && reviews?.map((review) => <ClubWidget key={review._id} review={review} />) }
+      {isClub && (loading ? <LoadingComponent /> : reviews?.map((review) => <ClubWidget key={review._id} review={review} />))}
 
       {/* PROFESSOR WIDGET */}
-      {isProfessor && reviews?.map((review) => <ProfessorWidget key={review._id} review={review} />) }
+      {isProfessor && (loading ? <LoadingComponent /> : reviews?.map((review) => <ProfessorWidget key={review._id} review={review} />))}
 
       {/* PROFILE WIDGET */}
-      {isProfile && reviews?.map((review) => {
+      {isProfile && (loading ? <LoadingComponent /> : reviews?.map((review) => {
         if (review.hasOwnProperty("internshipId")) {
           return (<InternshipWidget key={review._id} review={review} />)
         } else if (review.hasOwnProperty("dormId")) {
@@ -112,7 +108,7 @@ const ReviewsWidget = () => {
           console.log("No ID Property in ReviewsWidget")
           return null;
         }
-      })}
+      }))}
     </>
   );
 }

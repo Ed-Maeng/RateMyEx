@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Divider,
   Grid,
   IconButton,
@@ -15,7 +16,6 @@ import jwt_decode from "jwt-decode";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 // Components
 import {
   initialValuesLogin,
@@ -27,8 +27,8 @@ import { setLogin } from "../../state/auth";
 import Dialogs from "../dialogs/Dialogs";
 import ResetPasswordDialog from '../dialogs/ResetPasswordDialog';
 import FlexBetween from '../wrappers/FlexBetween';
-
 // Icons
+import CheckIcon from '@mui/icons-material/Check';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
@@ -52,6 +52,9 @@ const Form = () => {
   const [defaultOpen, setDefaultOpen] = useState(false);
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
+  // Loading
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const register = async (values, onSubmitProps) => {    
     const registerResponse = await fetch(
@@ -62,9 +65,11 @@ const Form = () => {
         body: JSON.stringify(values),
       }
     );
-    onSubmitProps.resetForm();
 
     if (registerResponse.status === 201) {
+      setLoading(false);
+      setSuccess(true);
+      await new Promise(r => setTimeout(r, 500));
       setSentVerifyOpen(true);
     } else if (registerResponse.status === 409) {
       setUserAlreadyFoundOpen(true);
@@ -74,6 +79,8 @@ const Form = () => {
     } else {
       setDefaultOpen(true);
     }
+    
+    onSubmitProps.resetForm();
   };
 
   const login = async (values, onSubmitProps) => {
@@ -87,7 +94,6 @@ const Form = () => {
     );
 
     const loggedIn = await loggedInResponse.json();
-    onSubmitProps.resetForm();
 
     if (loggedInResponse.status === 200) {
       dispatch(
@@ -96,6 +102,10 @@ const Form = () => {
           token: loggedIn.token,
         })
       );
+      await new Promise(r => setTimeout(r, 250));
+      setLoading(false);
+      setSuccess(true);
+      await new Promise(r => setTimeout(r, 500));
       navigate("/");
     } else if (loggedInResponse.status === 404) {
       setUserNotFoundOpen(true);
@@ -107,11 +117,15 @@ const Form = () => {
     } else {
       setDefaultOpen(true);
     }
+    
+    onSubmitProps.resetForm();
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
+    setLoading(true);
     if (isLogin) await login(values, onSubmitProps);
     if (isRegister) await register(values, onSubmitProps);
+    setLoading(false);
   };
 
   const onSuccess = async (res) => {
@@ -251,24 +265,39 @@ const Form = () => {
             />
           </Box>
           
-          {/* Login Button */}
           <Box>
+            {/* Submit Button */}
             <Button
               fullWidth
               type="submit"
               sx={{
                 m: "2rem 0",
                 p: "1rem",
-                backgroundColor: palette.button.default,
                 color: palette.background.alt,
+                bgcolor: (success ? "green" : palette.button.default),
                 "&:hover": { 
-                  backgroundColor: palette.button.alt,
+                  bgcolor: (success ? "green" : palette.button.alt),
                 },
               }}
             >
-              <Typography variant="h2b">
-                {isLogin ? "LOGIN" : "REGISTER"}
-              </Typography>
+              <FlexBetween>
+                <Typography variant="h3b" >SUBMIT</Typography>
+                {loading && (
+                  <CircularProgress
+                    size={24}
+                    sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      marginTop: '-12px',
+                      marginLeft: '-12px',
+                    }}
+                  />
+                )}
+                {success && (
+                  <CheckIcon />
+                )}
+              </FlexBetween>
             </Button>
 
             { /* Click to Change from Logging In to Register (vice versa) */ }

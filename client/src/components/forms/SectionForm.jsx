@@ -20,6 +20,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ImageIcon from '@mui/icons-material/Image';
 import Dropzone from "react-dropzone";
+import Dialogs from "../dialogs/Dialogs";
 
 const SectionForm = (props) => {
   const { palette } = useTheme();
@@ -30,18 +31,21 @@ const SectionForm = (props) => {
   const reviewType = window.location.pathname.split("/")[2];
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
+  // Types of Open Dialogs
+  const [sectionAlreadyFoundOpen, setSectionAlreadyFoundOpen] = useState(false);
+  const [defaultOpen, setDefaultOpen] = useState(false);
   // Loading
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const saveSection = async (values) => {
+  const saveSection = async (values, onSubmitProps) => {
     const formData = new FormData();
     formData.append("name", values["name"]);
     if (values["file"]) {
       formData.append("file", values["file"][0]);
     }
 
-    await fetch(
+    const sectionResponse = await fetch(
       isLocal ? `http://localhost:4000/${reviewType}/${school._id}` : `https://api.ratemyexschool.com:8443/${reviewType}/${school._id}`,
       {
         method: "POST",
@@ -49,18 +53,27 @@ const SectionForm = (props) => {
         body: formData,
       }
     );
+
+    await new Promise(r => setTimeout(r, 250));
+    setLoading(false);
+
+    if (sectionResponse.status === 201) {
+      setSuccess(true);
+      await new Promise(r => setTimeout(r, 500));
+      props.setOpen(false);
+      window.location.reload(false);
+    } else if (sectionResponse.status === 409) {
+      setSectionAlreadyFoundOpen(true);
+    } else {
+      setDefaultOpen(true);
+    }
+
+    onSubmitProps.resetForm();
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
     setLoading(true);
     await saveSection(values);
-    await new Promise(r => setTimeout(r, 250));
-    setLoading(false);
-    setSuccess(true);
-    await new Promise(r => setTimeout(r, 500));
-    onSubmitProps.resetForm();
-    window.location.reload(false);
-    props.setOpen(false);
   };
 
   return (
@@ -175,6 +188,9 @@ const SectionForm = (props) => {
               </FlexBetween>
             </Button>
           </Box>
+          {/* Warning Dialogs */}
+          <Dialogs open={sectionAlreadyFoundOpen} setOpen={setSectionAlreadyFoundOpen} type="section-found" />
+          <Dialogs open={defaultOpen} setOpen={setDefaultOpen} type="default" />
         </form>
       )}
     </Formik>

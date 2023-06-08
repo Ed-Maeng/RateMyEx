@@ -51,6 +51,10 @@ const Dialogs = (props) => {
     case "no-review":
       dialog = InitialDialog.needReviewDialog;
       break;
+    /* --- Section --- */
+    case "section-found":
+      dialog = InitialDialog.sectionAlreadyFoundDialog;
+      break;
     /* --- Support --- */
     case "support":
       dialog = InitialDialog.sentSupport;

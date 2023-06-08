@@ -66,8 +66,10 @@ const Form = () => {
       }
     );
 
+    await new Promise(r => setTimeout(r, 250));
+    setLoading(false);
+
     if (registerResponse.status === 201) {
-      setLoading(false);
       setSuccess(true);
       await new Promise(r => setTimeout(r, 500));
       setSentVerifyOpen(true);
@@ -95,6 +97,9 @@ const Form = () => {
 
     const loggedIn = await loggedInResponse.json();
 
+    await new Promise(r => setTimeout(r, 250));
+    setLoading(false);
+
     if (loggedInResponse.status === 200) {
       dispatch(
         setLogin({
@@ -102,8 +107,6 @@ const Form = () => {
           token: loggedIn.token,
         })
       );
-      await new Promise(r => setTimeout(r, 250));
-      setLoading(false);
       setSuccess(true);
       await new Promise(r => setTimeout(r, 500));
       navigate("/");
@@ -125,7 +128,6 @@ const Form = () => {
     setLoading(true);
     if (isLogin) await login(values, onSubmitProps);
     if (isRegister) await register(values, onSubmitProps);
-    setLoading(false);
   };
 
   const onSuccess = async (res) => {

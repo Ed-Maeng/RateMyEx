@@ -52,8 +52,10 @@ const ResetPasswordForm = () => {
       }
     );
 
+    await new Promise(r => setTimeout(r, 250));
+    setLoading(false);
+
     if (resetPasswordResponse.status === 200) {
-      setLoading(false);
       setSuccess(true);
       await new Promise(r => setTimeout(r, 500));
       setResetOpen(true);
@@ -69,7 +71,6 @@ const ResetPasswordForm = () => {
   const handleFormSubmit = async (values, onSubmitProps) => {
     setLoading(true);
     await resetPassword(values, onSubmitProps);
-    setLoading(false);
   };
 
   return (

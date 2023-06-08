@@ -13,6 +13,7 @@ export const createClub = async(req, res) => {
     const { schoolId } = req.params;
     const { name } = req.body;
     const file = req.file;
+    const imageName = file ? generateFileName() : "40a6176e6e3d95f69d4f1aa7e3d5d280b0ab2ecd02ac57a500e4bbd766545a67";
 
     const club = await Club.findOne({ schoolId, name });
     if (club) {
@@ -20,7 +21,6 @@ export const createClub = async(req, res) => {
     }
 
     if (file) {
-      const imageName = generateFileName();
       const fileBuffer = await sharp(file.buffer)
         .resize({ height: 100, width: 100, fit: "inside" })
         .toBuffer();
@@ -28,7 +28,7 @@ export const createClub = async(req, res) => {
       await uploadFile(fileBuffer, imageName, file.mimetype);
     }
 
-    const newClub = file ? new Club({ schoolId, name, imageName }) : new Club({ schoolId, name });
+    const newClub = new Club({ schoolId, name, imageName });
     const savedClub = await newClub.save();
     res.status(201).json(savedClub);
   } catch (err) {

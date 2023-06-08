@@ -1,6 +1,5 @@
 import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 import { useSelector } from "react-redux";
-
 // Pages & Components
 import { useState } from 'react';
 import Navbar from '../components/Navbar';

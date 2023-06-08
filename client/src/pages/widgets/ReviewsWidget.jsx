@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentSection, setUser } from "../../state/auth";
-
 // All Review Widgets
 import LoadingComponent from "../../components/LoadingComponent";
 import ClubWidget from "./ClubWidget";

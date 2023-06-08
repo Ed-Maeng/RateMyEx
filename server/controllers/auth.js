@@ -1,6 +1,5 @@
 import School from "../models/School.js";
 import User from "../models/User.js";
-
 // Imports for JWT, Verification, Colors
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";

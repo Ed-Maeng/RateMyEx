@@ -19,10 +19,8 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setLogout, setTab } from "../state/auth";
-
 // Components
 import SupportDialog from './dialogs/SupportDialog';
-
 // Icons
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import GroupsIcon from '@mui/icons-material/Groups';

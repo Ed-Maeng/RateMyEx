@@ -1,7 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { setTab } from '../state/auth';
-
 // Components
 import { useEffect } from "react";
 import Navbar from "../components/Navbar";

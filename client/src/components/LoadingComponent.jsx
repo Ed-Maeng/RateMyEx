@@ -1,7 +1,6 @@
 import { CircularProgress } from '@mui/material';
 
 const LoadingComponent = () => {
-  
   return (
     <CircularProgress size="5rem"
       sx={{

@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setSchool, setTab } from '../state/auth';
-
 // Components
 import Navbar from "../components/Navbar";
 import SearchText from "../components/SearchText";

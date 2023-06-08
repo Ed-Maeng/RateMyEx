@@ -13,15 +13,13 @@ import {
 import moment from 'moment';
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-
-// Icons
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import WorkIcon from '@mui/icons-material/Work';
-
 // Pages & Components
 import { useTheme } from "@emotion/react";
 import Dialogs from '../../components/dialogs/Dialogs';
 import WidgetWrapper from "../../components/wrappers/WidgetWrapper";
+// Icons
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import WorkIcon from '@mui/icons-material/Work';
 
 const InternshipWidget = (props) => {
   const { palette } = useTheme();

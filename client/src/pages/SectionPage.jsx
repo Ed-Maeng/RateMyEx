@@ -18,7 +18,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setCurrentSection } from "../state/auth";
-
 // Pages & Components
 import { useTheme } from '@emotion/react';
 import LoadingComponent from "../components/LoadingComponent";

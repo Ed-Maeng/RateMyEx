@@ -1,6 +1,3 @@
-import { useTheme } from "@emotion/react";
-import CloseIcon from '@mui/icons-material/Close';
-import SendIcon from '@mui/icons-material/Send';
 import {
   Box,
   Button,
@@ -11,10 +8,14 @@ import {
   DialogTitle,
   IconButton,
   TextField,
-  Typography
+  Typography,
+  useTheme,
 } from "@mui/material";
 import { useState } from "react";
 import Dialogs from "./Dialogs";
+// Icons
+import CloseIcon from '@mui/icons-material/Close';
+import SendIcon from '@mui/icons-material/Send';
 
 const SupportDialog = (props) => {
   const { palette } = useTheme();
@@ -24,7 +25,6 @@ const SupportDialog = (props) => {
   const [emailNotFound, setEmailNotFound] = useState(false);
   const [needVerifyDialog, setNeedVerifyDialog] = useState(false);
   const [defaultOpen, setDefaultOpen] = useState(false);
-
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
 

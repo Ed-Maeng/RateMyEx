@@ -102,12 +102,12 @@ const Dialogs = (props) => {
             }}
             variant="contained" 
             sx={{
-              backgroundColor: palette.button.signup,
+              bgcolor: palette.button.signup,
               width: "90px",
               borderRadius: "0.25rem",
               p: "0.25rem 1rem",
               "&:hover": {
-                backgroundColor: palette.button.alt,
+                bgcolor: palette.button.alt,
               }
             }}
           >

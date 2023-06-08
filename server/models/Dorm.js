@@ -23,7 +23,7 @@ const DormSchema = new mongoose.Schema(
     },
     imageName: {
       type: String,
-      default: "",
+      default: "9c006e2f35abcb80f190d737f0a3ff4a0d234b6b1af5197f672332052d122e63",
     },
     imageUrl: {
       type: String,

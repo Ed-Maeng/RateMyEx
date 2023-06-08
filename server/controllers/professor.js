@@ -1,34 +1,22 @@
 import Professor from "../models/Professor.js";
 import ProfessorReview from "../models/ProfessorReview.js";
 import User from "../models/User.js";
-// Imports for S3 & Files
-import crypto from "crypto";
-import sharp from "sharp";
-import { getObjectSignedUrl, uploadFile } from "../services/s3.js";
-
-const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
 
 export const createProfessor = async(req, res) => {
   try {
     const { schoolId } = req.params;
     const { name } = req.body;
-    const file = req.file;
-    const imageName = file ? generateFileName() : "";
 
     const professor = await Professor.findOne({ schoolId, name });
     if (professor) {
       return res.status(409).json({ msg: "Duplicate Professor Name in Same School." });
     }
 
-    if (file) {
-      const fileBuffer = await sharp(file.buffer)
-        .resize({ height: 100, width: 100, fit: "inside" })
-        .toBuffer();
-
-      await uploadFile(fileBuffer, imageName, file.mimetype);
-    }
-
-    const newProfessor = new Professor({ schoolId, name, imageName });
+    const newProfessor = new Professor({ 
+      schoolId, 
+      name, 
+      color: '#' + Math.floor(Math.random()*16777215).toString(16), 
+    });
     const savedProfessor = await newProfessor.save();
     res.status(201).json(savedProfessor);
   } catch (err) {
@@ -75,12 +63,6 @@ export const getProfessors = async(req, res) => {
   try {
     const { schoolId } = req.params;
     const professors = await Professor.find({ schoolId });
-
-    for (let professor of professors) {
-      if (professor.imageName) {
-        professor.imageUrl = await getObjectSignedUrl(professor.imageName);
-      }
-    }
     res.status(200).json(professors);
   } catch (err) {
     res.status(404).json({ message: err.message });

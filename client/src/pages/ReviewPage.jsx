@@ -47,12 +47,12 @@ const ReviewPage = () => {
               (!user ? setSignInOpen(true) : setReviewFormOpen(true))
             }
             sx={{
-              backgroundColor: palette.button.default,
+              bgcolor: palette.button.default,
               width: "325px",
               height: "45px",
               borderRadius: "0.25rem",
               "&:hover": {
-                backgroundColor: palette.button.alt
+                bgcolor: palette.button.alt
               }
             }}
           >

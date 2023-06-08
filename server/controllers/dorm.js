@@ -88,7 +88,7 @@ export const createDormReview = async(req, res) => {
 export const getDorms = async(req, res) => {
   try {
     const { schoolId } = req.params;
-    const dorms = await Dorm.find({ schoolId });
+    const dorms = await Dorm.find({ schoolId }).sort('-totalRatings');
 
     for (let dorm of dorms) {
       if (dorm.imageName) {

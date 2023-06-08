@@ -89,7 +89,7 @@ export const createClubReview = async(req, res) => {
 export const getClubs = async(req, res) => {
   try {
     const { schoolId } = req.params;
-    const clubs = await Club.find({ schoolId });
+    const clubs = await Club.find({ schoolId }).sort('-totalRatings');
 
     for (let club of clubs) {
       if (club.imageName) {

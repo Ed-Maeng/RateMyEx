@@ -85,7 +85,7 @@ export const createInternshipReview = async(req, res) => {
 export const getInternships = async(req, res) => {
   try {
     const { schoolId } = req.params;
-    const internships = await Internship.find({ schoolId });
+    const internships = await Internship.find({ schoolId }).sort('-totalRatings');
 
     for (let internship of internships) {
       if (!internship.imageUrl && internship.imageName) {
@@ -96,7 +96,7 @@ export const getInternships = async(req, res) => {
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
-} 
+}
 
 export const getInternship = async(req, res) => {
   try {

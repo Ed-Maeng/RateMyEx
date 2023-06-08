@@ -119,7 +119,7 @@ const SectionPage = () => {
           {/* Sections Recommendation */}
           <Box px="2rem">
             {
-              sections?.map((section) => (
+              sections.slice(0, 10)?.map((section) => (
                 <List
                   key={section.name}
                   onClick={() => {

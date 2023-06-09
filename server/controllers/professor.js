@@ -62,7 +62,7 @@ export const createProfessorReview = async(req, res) => {
 export const getProfessors = async(req, res) => {
   try {
     const { schoolId } = req.params;
-    const professors = await Professor.find({ schoolId });
+    const professors = await Professor.find({ schoolId }).sort('-totalRatings');
     res.status(200).json(professors);
   } catch (err) {
     res.status(404).json({ message: err.message });

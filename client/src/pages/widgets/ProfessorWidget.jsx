@@ -78,9 +78,11 @@ const ProfessorWidget = (props) => {
         </Grid>
         {/* CLASS NAME */}
         <Grid item>
-          <Typography variant="h2b" sx={{ color: palette.button.default }}>
-            {props.review.className}
-          </Typography>
+          <Chip
+            variant="outlined"
+            label={props.review.className} 
+            style={{fontSize: "0.75rem"}}
+          />
         </Grid>
         {/* TERM */}
         {props.review.term &&

@@ -86,6 +86,14 @@ export const needReviewDialog = {
   path: null,
 };
 
+/* --- SECTION --- */
+export const sectionAlreadyFoundDialog = {
+  title: "Have you searched for this?",
+  content: "Please use the search bar, we already have this.",
+  buttonName: "Close",
+  path: null,
+};
+
 /* --- SUPPORT FEEDBACK --- */
 export const sentSupport = {
   title: "Successful!",

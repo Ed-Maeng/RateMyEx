@@ -13,6 +13,7 @@ export const createDorm = async(req, res) => {
     const { schoolId } = req.params;
     const { name } = req.body;
     const file = req.file;
+    const imageName = file ? generateFileName() : "9c006e2f35abcb80f190d737f0a3ff4a0d234b6b1af5197f672332052d122e63";
 
     const dorm = await Dorm.findOne({ schoolId, name });
     if (dorm) {
@@ -20,7 +21,6 @@ export const createDorm = async(req, res) => {
     }
 
     if (file) {
-      const imageName = generateFileName();
       const fileBuffer = await sharp(file.buffer)
         .resize({ height: 100, width: 100, fit: "inside" })
         .toBuffer();
@@ -28,7 +28,7 @@ export const createDorm = async(req, res) => {
       await uploadFile(fileBuffer, imageName, file.mimetype);
     }
 
-    const newDorm = file ? new Dorm({ schoolId, name, imageName }) : new Dorm({ schoolId, name });
+    const newDorm = new Dorm({ schoolId, name, imageName });
     const savedDorm = await newDorm.save();
     res.status(201).json(savedDorm);
   } catch (err) {
@@ -88,7 +88,7 @@ export const createDormReview = async(req, res) => {
 export const getDorms = async(req, res) => {
   try {
     const { schoolId } = req.params;
-    const dorms = await Dorm.find({ schoolId });
+    const dorms = await Dorm.find({ schoolId }).sort('-totalRatings');
 
     for (let dorm of dorms) {
       if (dorm.imageName) {

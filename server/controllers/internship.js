@@ -13,6 +13,7 @@ export const createInternship = async(req, res) => {
     const { schoolId } = req.params;
     const { name } = req.body;
     const file = req.file;
+    const imageName = file ? generateFileName() : "e11fa827751d82b05562abb9eecc3a1f4b324d5ea90780cf747bbf4fcb2b3476";
 
     const internship = await Internship.findOne({ schoolId, name });
     if (internship) {
@@ -20,7 +21,6 @@ export const createInternship = async(req, res) => {
     }
 
     if (file) {
-      const imageName = generateFileName();
       const fileBuffer = await sharp(file.buffer)
         .resize({ height: 100, width: 100, fit: "inside" })
         .toBuffer();
@@ -28,7 +28,7 @@ export const createInternship = async(req, res) => {
       await uploadFile(fileBuffer, imageName, file.mimetype);
     }
 
-    const newInternship = file ? new Internship({ schoolId, name, imageName }) : new Internship({ schoolId, name });
+    const newInternship = new Internship({ schoolId, name, imageName });
     const savedInternship = await newInternship.save();
     res.status(201).json(savedInternship);
   } catch (err) {
@@ -85,7 +85,7 @@ export const createInternshipReview = async(req, res) => {
 export const getInternships = async(req, res) => {
   try {
     const { schoolId } = req.params;
-    const internships = await Internship.find({ schoolId });
+    const internships = await Internship.find({ schoolId }).sort('-totalRatings');
 
     for (let internship of internships) {
       if (!internship.imageUrl && internship.imageName) {
@@ -96,7 +96,7 @@ export const getInternships = async(req, res) => {
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
-} 
+}
 
 export const getInternship = async(req, res) => {
   try {

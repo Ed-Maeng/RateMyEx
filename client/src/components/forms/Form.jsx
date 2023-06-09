@@ -272,6 +272,7 @@ const Form = () => {
             <Button
               fullWidth
               type="submit"
+              disabled={loading || success}
               sx={{
                 m: "2rem 0",
                 p: "1rem",

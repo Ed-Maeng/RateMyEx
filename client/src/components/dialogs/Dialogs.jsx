@@ -100,23 +100,23 @@ const Dialogs = (props) => {
       </DialogContent>
       <DialogActions>
         <Button 
-            onClick={() => {
-              dialog.path && navigate(dialog.path);
-              props.setOpen(false);
-            }}
-            variant="contained" 
-            sx={{
-              bgcolor: palette.button.signup,
-              width: "90px",
-              borderRadius: "0.25rem",
-              p: "0.25rem 1rem",
-              "&:hover": {
-                bgcolor: palette.button.alt,
-              }
-            }}
-          >
-            <Typography variant="h6b">{dialog.buttonName}</Typography>
-          </Button>
+          onClick={() => {
+            dialog.path && navigate(dialog.path);
+            props.setOpen(false);
+          }}
+          variant="contained" 
+          sx={{
+            bgcolor: palette.button.signup,
+            width: "90px",
+            borderRadius: "0.25rem",
+            p: "0.25rem 1rem",
+            "&:hover": {
+              bgcolor: palette.button.alt,
+            }
+          }}
+        >
+          <Typography variant="h6b">{dialog.buttonName}</Typography>
+        </Button>
       </DialogActions>
     </Dialog>
   );

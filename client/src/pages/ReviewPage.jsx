@@ -69,20 +69,22 @@ const ReviewPage = () => {
         <Dialogs open={signInOpen} setOpen={setSignInOpen} type="not-signin" />
       </Grid>
 
-      {/* LIST OF REVIEWS */}
+      {/* REVIEWS */}
       <Box
         width="100%"
         display={"flex"}
         justifyContent="space-between"
       >
         <Box m="auto" flexBasis="60%">
+          {/* TOTAL NUMBER OF REVIEWS */}
           <Typography
             variant="h1b"
-            pt="1rem"
+            pl="1rem"
             color={palette.neutral.dark}
           >
             {"All " + currentSection.totalReviews + " reviews"}
           </Typography>
+          {/* LIST OF REVIEWS */}
           <ReviewWidgets />
         </Box>
       </Box>

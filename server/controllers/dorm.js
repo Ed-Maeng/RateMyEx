@@ -1,5 +1,6 @@
 import Dorm from "../models/Dorm.js";
 import DormReview from "../models/DormReview.js";
+import School from "../models/School.js";
 import User from "../models/User.js";
 // Imports for S3 & Files
 import crypto from "crypto";
@@ -38,7 +39,7 @@ export const createDorm = async(req, res) => {
 
 export const createDormReview = async(req, res) => {
   try {
-    const { dormId, userId } = req.params;
+    const { dormId, userId, schoolId } = req.params;
     const { name, campus, rooms, rating, comment } = req.body;
     const files = req.files;
     const imageNames = [];
@@ -72,6 +73,12 @@ export const createDormReview = async(req, res) => {
       {_id: dormId}, 
       { $inc: { totalReviews: 1, totalRatings: rating }
     });
+
+    // Update School `numberOfReviews`
+    await School.updateOne(
+      {_id: schoolId}, 
+      { $inc: { numberOfReviews: 1 }}
+    );
 
     // Update User `numberOfReviews`
     await User.updateOne(

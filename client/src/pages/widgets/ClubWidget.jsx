@@ -142,7 +142,7 @@ const ClubWidget = (props) => {
             image={imageUrl}
             component="img"
             sx={{ padding: "0.5rem", objectFit: "contain" }}
-          />  
+          />
         ))}
       </ImageList>
     </WidgetWrapper>

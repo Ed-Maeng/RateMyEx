@@ -44,13 +44,13 @@ const upload = multer({ storage: storage });
 /* ROUTES WITH S3 & FILE */
 app.post("/schools", upload.single("file"), createSchool);
 app.post("/internships/:schoolId", upload.single("file"), createInternship);
-app.post("/internships/:internshipId/:userId", verifyToken, upload.array("files[]", 3), createInternshipReview);
+app.post("/internships/:internshipId/:userId/:schoolId", verifyToken, upload.array("files[]", 3), createInternshipReview);
 app.post("/dorms/:schoolId", upload.single("file"), createDorm);
-app.post("/dorms/:dormId/:userId", verifyToken, upload.array("files[]", 3), createDormReview);
+app.post("/dorms/:dormId/:userId/:schoolId", verifyToken, upload.array("files[]", 3), createDormReview);
 app.post("/clubs/:schoolId", upload.single("file"), createClub);
-app.post("/clubs/:clubId/:userId", verifyToken, upload.array("files[]", 3), createClubReview);
+app.post("/clubs/:clubId/:userId/:schoolId", verifyToken, upload.array("files[]", 3), createClubReview);
 app.post("/professors/:schoolId", upload.single("file"), createProfessor);
-app.post("/professors/:professorId/:userId", verifyToken, upload.array("files[]", 3), createProfessorReview);
+app.post("/professors/:professorId/:userId/:schoolId", verifyToken, upload.array("files[]", 3), createProfessorReview);
 app.post("/users/support", verifyToken, sendEmailSupport);
 
 /* ROUTES */

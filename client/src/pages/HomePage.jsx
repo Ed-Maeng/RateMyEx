@@ -1,6 +1,12 @@
 import {
   Autocomplete,
   Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Grid,
+  Typography,
 } from "@mui/material";
 import { useEffect, useState } from 'react';
 import { useDispatch } from "react-redux";
@@ -9,7 +15,7 @@ import { setSchool, setTab } from '../state/auth';
 // Components
 import Navbar from "../components/Navbar";
 import SearchText from "../components/SearchText";
-import FlexBetween from "../components/wrappers/FlexBetween";
+import Flexbetween from "../components/wrappers/FlexBetween";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -38,47 +44,77 @@ const HomePage = () => {
   return (
     <Box>
       <Navbar />
-      <Box
-        width="100%"
-        padding="2rem 6%"
-        display={"flex"}
-        gap="0.5rem"
-        justifyContent="space-between"
+      <Grid container p="1rem" alignItems="center" justifyContent="center">
+        {/* Search Bar */}
+        <Autocomplete
+          id="schools"
+          onChange={(event, school) => {
+            dispatch(setSchool({ school }));
+            navigate("/school");
+          }}
+          options={schools}
+          noOptionsText={"No School Found"}
+          getOptionLabel={(schools) => `${schools.name} (${schools.abbreivation})`}
+          isOptionEqualToValue={(option, value) => option.name === value.name}
+          sx={{
+            width: 750,
+          }}
+          renderOption={(props, schools) => (
+            <Box component="li" {...props} key={schools._id}>
+              {schools.name + " (" + schools.abbreivation + ")"}
+            </Box>
+          )}
+          renderInput={(params) =>
+            <SearchText
+              {...params}
+              label="Search for your school"
+            />
+          }
+        />
+      </Grid>
+      
+      <Grid
+        container
+        p="2rem"
+        pt="8rem"
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
       >
-        <FlexBetween
-          borderRadius="20px"
-          gap="3rem"
-          padding="0.1rem 1.5rem"
-          m="auto"
-        >
-          {/* Search Bar */}
-          <Autocomplete
-            id="schools"
-            onChange={(event, school) => {
-              dispatch(setSchool({ school }));
-              navigate("/school");
-            }}
-            options={schools}
-            noOptionsText={"No School Found"}
-            getOptionLabel={(schools) => `${schools.name} (${schools.shortName})`}
-            isOptionEqualToValue={(option, value) => option.name === value.name}
-            sx={{
-              width: 750,
-            }}
-            renderOption={(props, schools) => (
-              <Box component="li" {...props} key={schools._id}>
-                {schools.name + " (" + schools.shortName + ")"}
-              </Box>
-            )}
-            renderInput={(params) =>
-              <SearchText
-                {...params}
-                label="Search for your school"
-              />
-            }
-          />
-        </FlexBetween>
-      </Box>
+        {schools.slice(0, 12)?.map((school) =>
+          <Grid item key={school._id} p="0.75rem">
+            <Card 
+              onClick={() => {
+                dispatch(setSchool({ school: school }));
+                navigate(`/school`);
+              }}
+              sx={{ width: 300 }}
+            >
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  height="250"
+                  image={process.env.PUBLIC_URL + `/assets/${school.abbreivation}.jpg`}
+                  alt={school.name}
+                />
+                <CardContent>
+                  <Typography pb="0.75rem" variant="h2b" component="div">
+                    {school.abbreivation ? school.abbreivation : "Unknown"}
+                  </Typography>
+                  <Flexbetween>
+                    <Typography variant="h6b">
+                      {school.numberOfReviews + " reviews"}
+                    </Typography>
+                    <Typography variant="h6b">
+                      {school.location}
+                    </Typography>
+                  </Flexbetween>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        )}
+      </Grid>
     </Box>
   );
 }

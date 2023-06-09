@@ -19,7 +19,7 @@ export const createSchool = async(req, res) => {
 
 export const getSchools = async(req, res) => {
   try {
-    const schools = await School.find();
+    const schools = await School.find({}).sort('-numberOfReviews');
     res.status(200).json(schools);
   } catch (err) {
     res.status(404).json({ message: err.message });

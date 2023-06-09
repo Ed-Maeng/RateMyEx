@@ -1,5 +1,6 @@
 import Internship from "../models/Internship.js";
 import InternshipReview from "../models/InternshipReview.js";
+import School from "../models/School.js";
 import User from "../models/User.js";
 // Imports for S3 & Files
 import crypto from "crypto";
@@ -38,7 +39,7 @@ export const createInternship = async(req, res) => {
 
 export const createInternshipReview = async(req, res) => {
   try {
-    const { internshipId, userId } = req.params;
+    const { internshipId, userId, schoolId } = req.params;
     const {
       name,
       industry, 
@@ -47,7 +48,8 @@ export const createInternshipReview = async(req, res) => {
       employmentType, 
       location, 
       rating, 
-      comment } = req.body;
+      comment 
+    } = req.body;
 
     const newInternshipReview = new InternshipReview({ 
       internshipId, 
@@ -68,6 +70,12 @@ export const createInternshipReview = async(req, res) => {
     await Internship.updateOne(
       {_id: internshipId}, 
       { $inc: { totalReviews: 1, totalRatings: rating }}
+    );
+
+    // Update School `numberOfReviews`
+    await School.updateOne(
+      {_id: schoolId}, 
+      { $inc: { numberOfReviews: 1 }}
     );
 
     // Update User `numberOfReviews`

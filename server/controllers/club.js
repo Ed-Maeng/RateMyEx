@@ -1,5 +1,6 @@
 import Club from "../models/Club.js";
 import ClubReview from "../models/ClubReview.js";
+import School from "../models/School.js";
 import User from "../models/User.js";
 // Imports for S3 & Files
 import crypto from "crypto";
@@ -38,7 +39,7 @@ export const createClub = async(req, res) => {
 
 export const createClubReview = async(req, res) => {
   try {
-    const { clubId, userId } = req.params;
+    const { clubId, userId, schoolId } = req.params;
     const { name, category, term, rating, comment } = req.body;
 
     const files = req.files;
@@ -74,6 +75,12 @@ export const createClubReview = async(req, res) => {
       { $inc: { totalReviews: 1, totalRatings: rating }
     });
 
+    // Update School `numberOfReviews`
+    await School.updateOne(
+      {_id: schoolId}, 
+      { $inc: { numberOfReviews: 1 }}
+    );
+    
     // Update User `numberOfReviews`
     await User.updateOne(
       {_id: userId}, 

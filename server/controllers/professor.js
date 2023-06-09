@@ -1,5 +1,6 @@
 import Professor from "../models/Professor.js";
 import ProfessorReview from "../models/ProfessorReview.js";
+import School from "../models/School.js";
 import User from "../models/User.js";
 
 export const createProfessor = async(req, res) => {
@@ -26,7 +27,7 @@ export const createProfessor = async(req, res) => {
 
 export const createProfessorReview = async(req, res) => {
   try {
-    const { professorId, userId } = req.params;
+    const { professorId, userId, schoolId } = req.params;
     const { name, term, className, rating, comment } = req.body;
 
     const newProfessorReview = new ProfessorReview({ 
@@ -46,6 +47,12 @@ export const createProfessorReview = async(req, res) => {
       {_id: professorId}, 
       { $inc: { totalReviews: 1, totalRatings: rating }
     });
+
+    // Update School `numberOfReviews`
+    await School.updateOne(
+      {_id: schoolId}, 
+      { $inc: { numberOfReviews: 1 }}
+    );
 
     // Update User `numberOfReviews`
     await User.updateOne(

@@ -7,13 +7,18 @@ const SchoolSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    shortName: {
+    abbreivation: {
       type: String,
       default: "",
     },
     location: {
       type: String,
       default: "",    
+    },
+    numberOfReviews: {
+      type: Number,
+      default: 0,
+      required: true,
     },
   },
   { timestamps: true }

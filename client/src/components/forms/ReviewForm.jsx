@@ -23,7 +23,8 @@ import ImageIcon from '@mui/icons-material/Image';
 
 const ReviewForm = (props) => {
   const { palette } = useTheme();
-  // State of User, Token & Current Section
+  // State of School, User, Token & Current Section
+  const school = useSelector((state) => state.school);
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
   const currentSection = useSelector((state) => state.currentSection);
@@ -42,8 +43,8 @@ const ReviewForm = (props) => {
   const saveReview = async (values) => {
     await Object.assign(values, { "name": currentSection.name });
     await fetch(
-      isLocal ? `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}` 
-      : `https://api.ratemyexschool.com:8443/${reviewType}/${currentSection._id}/${user._id}`,
+      isLocal ? `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}/${school._id}` 
+      : `https://api.ratemyexschool.com:8443/${reviewType}/${currentSection._id}/${user._id}/${school._id}`,
       {
         method: "POST",
         headers: { 
@@ -69,8 +70,8 @@ const ReviewForm = (props) => {
     }
 
     await fetch(
-      isLocal ? `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}` 
-      : `https://api.ratemyexschool.com:8443/${reviewType}/${currentSection._id}/${user._id}`,
+      isLocal ? `http://localhost:4000/${reviewType}/${currentSection._id}/${user._id}/${school._id}` 
+      : `https://api.ratemyexschool.com:8443/${reviewType}/${currentSection._id}/${user._id}/${school._id}`,
       {
         method: "POST",
         headers: { "Authorization": `Bearer ${token}` },

@@ -116,7 +116,7 @@ const ReviewsWidget = () => {
       }))}
 
       {/* Load Button */}
-      {(showReviews > 0) && !loading &&
+      {!isProfile && (showReviews > 0) && !loading &&
         <FlexBetween px="1rem" pt="0.5rem" pb="2rem">
           {/* NUMBER OF SHOWING REVIEWS */}
           <Typography

@@ -1,7 +1,7 @@
 import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
+import { useState } from 'react';
 import { useSelector } from "react-redux";
 // Pages & Components
-import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Dialogs from '../components/dialogs/Dialogs';
 import ReviewFormPage from './forms/ReviewFormPage';
@@ -69,25 +69,8 @@ const ReviewPage = () => {
         <Dialogs open={signInOpen} setOpen={setSignInOpen} type="not-signin" />
       </Grid>
 
-      {/* REVIEWS */}
-      <Box
-        width="100%"
-        display={"flex"}
-        justifyContent="space-between"
-      >
-        <Box m="auto" flexBasis="60%">
-          {/* TOTAL NUMBER OF REVIEWS */}
-          <Typography
-            variant="h1b"
-            pl="1rem"
-            color={palette.neutral.dark}
-          >
-            {"All " + currentSection.totalReviews + " reviews"}
-          </Typography>
-          {/* LIST OF REVIEWS */}
-          <ReviewWidgets />
-        </Box>
-      </Box>
+      {/* LIST OF REVIEWS */}
+      <ReviewWidgets />
     </Box>
   )
 }

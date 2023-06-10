@@ -21,13 +21,13 @@ import { useNavigate } from "react-router-dom";
 import { setLogout, setTab } from "../state/auth";
 // Components
 import SupportDialog from './dialogs/SupportDialog';
+import Logo from "./Logo";
 // Icons
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import GroupsIcon from '@mui/icons-material/Groups';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import HomeIcon from '@mui/icons-material/Home';
 import Logout from '@mui/icons-material/Logout';
-import RateReviewIcon from '@mui/icons-material/RateReview';
 import SchoolIcon from '@mui/icons-material/School';
 import Settings from '@mui/icons-material/Settings';
 import WorkIcon from '@mui/icons-material/Work';
@@ -57,25 +57,7 @@ const Navbar = () => {
     <Grid container p="2rem" pt="2rem" direction="row" alignItems="center" spacing={2}>
       {/* LOGO */}
       <Grid item xs={3}>
-        <Grid container direction="row" alignItems="center" justifyContent="center">
-          <Grid item>
-            <Typography
-              variant="h1b"
-              color="primary"
-              onClick={() => navigate("/")}
-              sx={{
-                "&:hover": {
-                  cursor: "pointer",
-                },
-              }}
-            >
-              Ratemyex
-            </Typography>
-          </Grid>
-          <Grid item>
-            <RateReviewIcon />
-          </Grid>
-        </Grid>
+        <Logo />
       </Grid>
       
       {/* TABS */}
@@ -93,10 +75,10 @@ const Navbar = () => {
                   window.location.reload(false);
                 }}
               />
-              {/* Dorms Tab */}
+              {/* Housings Tab */}
               <Tab 
                 icon={<HomeIcon />} 
-                label="Dorms" 
+                label="Housings" 
                 onClick={() => {
                   dispatch(setTab({tab: 1}));
                   navigate("/school/dorms");

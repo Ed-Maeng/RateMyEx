@@ -54,12 +54,18 @@ export const themeSettings = () => {
       background: {
         default: colorTokens.grey[0],
         alt: colorTokens.grey[10],
+        footer: colorTokens.grey[50],
       },
     },
     typography: {
       fontFamily: ["Inter"],
       fontSize: 12,
 
+      footer: {
+        fontFamily: ["Inter"],
+        fontWeight: 700,
+        fontSize: 40,
+      },
       h1b: {
         fontFamily: ["Inter"],
         fontWeight: 700,

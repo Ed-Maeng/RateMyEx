@@ -13,13 +13,13 @@ import {
   Rating,
   Tooltip,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setCurrentSection } from "../state/auth";
 // Pages & Components
-import { useTheme } from '@emotion/react';
 import LoadingComponent from "../components/LoadingComponent";
 import Navbar from "../components/Navbar";
 import SearchText from "../components/SearchText";
@@ -67,114 +67,116 @@ const SectionPage = () => {
       <Navbar />
 
       {loading ? <LoadingComponent /> :
-        <Box
-          display="flex"
-          width="90%"
-          padding="1rem"
-          m="auto"
-          justifyContent="center"
-        >
-          {/* Search Bar */}
-          <Autocomplete
-            id={`${reviewType}`}
-            onChange={(event, section) => {
-              dispatch(setCurrentSection({ currentSection: section }));
-              navigate(`/school/${reviewType}/reviews`);
-            }}
-            options={sections}
-            noOptionsText={`No ${reviewType} Found`}
-            getOptionLabel={(sections) => `${sections.name}`}
-            isOptionEqualToValue={(option, value) => option.name === value.name}
-            sx={{
-              width: 750,
-            }}
-            renderOption={(props, sections) => (
-              <Box component="li" {...props} key={sections._id}>
-                {sections.name}
-              </Box>
-            )}
-            renderInput={(params) =>
-              <SearchText
-                {...params}
-                label={`Search for ${reviewType}`}
-              />
-            }
-          />
-
-          {/* ADD SECTION BUTTON */}
-          <Tooltip title={`Add ${reviewType}`}>
-            <IconButton 
-              onClick={() => 
-                (!user ? setSignInOpen(true) : setSectionFormOpen(true))
+        <>
+          <Box
+            display="flex"
+            width="90%"
+            padding="1rem"
+            m="auto"
+            justifyContent="center"
+          >
+            {/* Search Bar */}
+            <Autocomplete
+              id={`${reviewType}`}
+              onChange={(event, section) => {
+                dispatch(setCurrentSection({ currentSection: section }));
+                navigate(`/school/${reviewType}/reviews`);
+              }}
+              options={sections}
+              noOptionsText={`No ${reviewType} Found`}
+              getOptionLabel={(sections) => `${sections.name}`}
+              isOptionEqualToValue={(option, value) => option.name === value.name}
+              sx={{
+                width: 750,
+              }}
+              renderOption={(props, sections) => (
+                <Box component="li" {...props} key={sections._id}>
+                  {sections.name}
+                </Box>
+              )}
+              renderInput={(params) =>
+                <SearchText
+                  {...params}
+                  label={`Search for ${reviewType}`}
+                />
               }
-              style={{height: "50px"}}
-            >
-              <AddCircleIcon fontSize="large" />
-            </IconButton>
-          </Tooltip>
+            />
 
-          {/* Form for Adding Sections */}
-          <SectionFormPage open={sectionFormOpen} setOpen={setSectionFormOpen} />
+            {/* ADD SECTION BUTTON */}
+            <Tooltip title={`Add ${reviewType}`}>
+              <IconButton 
+                onClick={() => 
+                  (!user ? setSignInOpen(true) : setSectionFormOpen(true))
+                }
+                style={{height: "50px"}}
+              >
+                <AddCircleIcon fontSize="large" />
+              </IconButton>
+            </Tooltip>
 
-          {/* Sections Recommendation */}
-          <Box px="2rem">
-            {
-              sections.slice(0, 10)?.map((section) => (
-                <List
-                  key={section.name}
-                  onClick={() => {
-                    dispatch(setCurrentSection({ currentSection: section }));
-                    navigate(`/school/${reviewType}/reviews`);
-                  }}
-                  sx={{
-                    "&:hover": { 
-                      cursor: "pointer",
-                      bgcolor: palette.background.alt,
-                    },
-                  }}
-                >
-                  <ListItem>
-                    <ListItemAvatar>
-                      {section.color 
-                        ?
-                        <Avatar sx={{ width: 65, height: 65, bgcolor: section.color }}>
-                          {section.name[0].toUpperCase() + (section.name.split(" ")[1] ? section.name.split(" ")[1][0].toUpperCase() : "")}
-                        </Avatar>
-                        : 
-                        <Avatar alt={section.name} src={section.imageUrl} sx={{ width: 65, height: 65 }} /> 
-                      }
-                    </ListItemAvatar>
+            {/* Form for Adding Sections */}
+            <SectionFormPage open={sectionFormOpen} setOpen={setSectionFormOpen} />
 
-                    <ListItemText
-                      primary={
-                        <Grid container direction="column" px="0.4rem">
-                          <Grid item>
-                            <Typography variant="h3b">
-                              {section.name}
-                            </Typography>
+            {/* Sections Recommendation */}
+            <Box px="2rem">
+              {
+                sections.slice(0, 10)?.map((section) => (
+                  <List
+                    key={section.name}
+                    onClick={() => {
+                      dispatch(setCurrentSection({ currentSection: section }));
+                      navigate(`/school/${reviewType}/reviews`);
+                    }}
+                    sx={{
+                      "&:hover": { 
+                        cursor: "pointer",
+                        bgcolor: palette.background.alt,
+                      },
+                    }}
+                  >
+                    <ListItem>
+                      <ListItemAvatar>
+                        {section.color 
+                          ?
+                          <Avatar sx={{ width: 65, height: 65, bgcolor: section.color }}>
+                            {section.name[0].toUpperCase() + (section.name.split(" ")[1] ? section.name.split(" ")[1][0].toUpperCase() : "")}
+                          </Avatar>
+                          : 
+                          <Avatar alt={section.name} src={section.imageUrl} sx={{ width: 65, height: 65 }} /> 
+                        }
+                      </ListItemAvatar>
+
+                      <ListItemText
+                        primary={
+                          <Grid container direction="column" px="0.4rem">
+                            <Grid item>
+                              <Typography variant="h3b">
+                                {section.name}
+                              </Typography>
+                            </Grid>
+                            <Rating 
+                              name="read-only"
+                              precision={0.1}
+                              value={(section.totalReviews > 0) ? (section.totalRatings * 1.0 / section.totalReviews) : 0}
+                              size="small"
+                              readOnly
+                            />
+                            <Grid item>
+                              <Typography variant="h6b">
+                                {section.totalReviews + " Reviews"}
+                              </Typography>
+                            </Grid>
                           </Grid>
-                          <Rating 
-                            name="read-only"
-                            precision={0.1}
-                            value={(section.totalReviews > 0) ? (section.totalRatings * 1.0 / section.totalReviews) : 0}
-                            size="small"
-                            readOnly
-                          />
-                          <Grid item>
-                            <Typography variant="h6b">
-                              {section.totalReviews + " Reviews"}
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                </List>
-              ))
-            }
+                        }
+                      />
+                    </ListItem>
+                    <Divider variant="inset" component="li" />
+                  </List>
+                ))
+              }
+            </Box>
           </Box>
-        </Box>
+        </>
       }
       {/* Warning Dialogs */}
       <Dialogs open={signInOpen} setOpen={setSignInOpen} type="not-signin" />

@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setSchool, setTab } from '../state/auth';
 // Components
+import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import SearchText from "../components/SearchText";
 import Flexbetween from "../components/wrappers/FlexBetween";
@@ -115,6 +116,8 @@ const HomePage = () => {
           </Grid>
         )}
       </Grid>
+      
+      <Footer />
     </Box>
   );
 }

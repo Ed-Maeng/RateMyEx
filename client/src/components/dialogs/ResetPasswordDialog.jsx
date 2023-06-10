@@ -65,7 +65,7 @@ const SupportDialog = (props) => {
         {/* TITLE */}
         <DialogTitle id="reset-password-dialog-title">
           <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant="h2b">{"Forgot Password?"}</Typography>
+            <Typography variant="h2b">{"Reset Password?"}</Typography>
             <IconButton
               color="inherit"
               onClick={() => {

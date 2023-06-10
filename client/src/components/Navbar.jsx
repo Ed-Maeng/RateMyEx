@@ -186,7 +186,7 @@ const Navbar = () => {
                     Profile
                   </MenuItem>
                   <Divider />
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem onClick={() => navigate("/profile")}>
                     <ListItemIcon>
                       <Settings fontSize="small" />
                     </ListItemIcon>

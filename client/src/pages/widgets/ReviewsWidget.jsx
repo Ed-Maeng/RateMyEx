@@ -26,8 +26,9 @@ const ReviewsWidget = () => {
   const isProfile = window.location.pathname.split("/")[1] === "profile";
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
-  // Number of Show Reviews
-  const [showReviews, setShowReviews] = useState((currentSection.totalReviews <= 10) ? currentSection.totalReviews : 10);
+  // Number of Show & Total Reviews
+  const [showReviews, setShowReviews] = useState(0);
+  const [totalReviews, setTotalReviews] = useState(0);
   // Loading & Display Width
   const [loading, setLoading] = useState(true);
 
@@ -76,27 +77,34 @@ const ReviewsWidget = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      isProfile ? getUserReviews() : getReviews();
-      setShowReviews((currentSection.totalReviews <= 10) ? currentSection.totalReviews : 10);
+      if (isProfile) {
+        getUserReviews();
+        setTotalReviews(user.numberOfReviews);
+      } else {
+        getReviews();
+        setTotalReviews(currentSection.totalReviews);
+      }
+      
+      setShowReviews((totalReviews <= 10) ? totalReviews : 10);
       await new Promise(r => setTimeout(r, 500));
       setLoading(false);
     };
     fetchData().catch(console.error);
-  }, [currentSection.totalReviews]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [totalReviews]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
     {loading ? <LoadingComponent /> :
       <>
         <Box width="100%" display={"flex"}>
-          <Box m="auto" flexBasis={"60%"}>
+          <Box m="auto" flexBasis={"55%"}>
             {/* TOTAL NUMBER OF REVIEWS */}
             <Typography
               variant="h1b"
               pl="1rem"
               color={palette.neutral.dark}
             >
-              {"All " + (isProfile ? reviews.length : currentSection.totalReviews) + " reviews"}
+              {"All " + totalReviews + " reviews"}
             </Typography>
 
             {/* INTERNSHIP WIDGET */}
@@ -113,7 +121,7 @@ const ReviewsWidget = () => {
 
             {/* PROFILE WIDGET */}
             {isProfile && 
-              reviews?.map((review) => {
+              reviews.slice(0, showReviews)?.map((review) => {
                 if (review.hasOwnProperty("internshipId")) {
                   return (<InternshipWidget key={review._id} review={review} />)
                 } else if (review.hasOwnProperty("dormId")) {
@@ -131,21 +139,21 @@ const ReviewsWidget = () => {
             }
 
             {/* Load Button */}
-            {!isProfile && (showReviews > 0) &&
+            {(showReviews > 0) &&
               <FlexBetween px="1rem" pt="0.5rem" pb="2rem">
                 {/* NUMBER OF SHOWING REVIEWS */}
                 <Typography
                   variant="h3b"
                   color={palette.neutral.dark}
                 >
-                  {"Showing " + showReviews + " of " + currentSection.totalReviews + " reviews"}
+                  {"Showing " + showReviews + " of " + totalReviews + " reviews"}
                 </Typography>
                 {/* LOADING BUTTON */}
-                {(showReviews < currentSection.totalReviews) &&
+                {(showReviews < totalReviews) &&
                   <Button
                     variant="contained"
                     onClick={() => setShowReviews(
-                      ((currentSection.totalReviews - showReviews) < 10) ? showReviews + currentSection.totalReviews - showReviews : showReviews + 10)
+                      ((totalReviews - showReviews) < 10) ? showReviews + totalReviews - showReviews : showReviews + 10)
                     }
                     sx={{
                       bgcolor: palette.button.default,

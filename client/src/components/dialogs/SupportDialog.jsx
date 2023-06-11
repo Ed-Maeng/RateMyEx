@@ -1,25 +1,21 @@
 import {
-  Box,
+  Alert,
+  AlertTitle,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
+  Grid,
   TextField,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import Dialogs from "../dialogs/Dialogs";
 // Icons
-import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 
 const SupportDialog = (props) => {
-  const { palette } = useTheme();
   // State of User & Token
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
@@ -65,76 +61,122 @@ const SupportDialog = (props) => {
         fullWidth
         maxWidth="md"
       >
-        {/* TITLE */}
-        <DialogTitle id="support-dialog-title">
-          <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant="h2b">{"Help"}</Typography>
-            <IconButton
-              color="inherit"
-              onClick={() => {
-                props.setOpen(false);
-                setError(false);
-                setFeedback("");
+        <Alert 
+          severity="info" 
+          onClose={() => {
+            props.setOpen(false);
+            setError(false);
+            setFeedback("");
+          }}
+          sx={{ p: "2rem" }}
+        >
+          {/* TITLE */}
+          <Grid container direction="column" spacing={0.5}>
+            <Grid item>
+              <AlertTitle>
+                <Typography variant="h2b">Help</Typography>
+              </AlertTitle>
+            </Grid>
+
+            <Grid item>
+              <Typography variant="h2r">
+                Write any <strong>questions</strong> or <strong>concerns</strong> about the website here!
+              </Typography>
+            </Grid>
+            
+            <Grid item width="750px">
+              <DialogContent>
+                <TextField
+                  label="Leave Feedback"
+                  multiline
+                  fullWidth
+                  rows={10}
+                  value={feedback}
+                  error={error}
+                  helperText={error ? "Must be more than 10 characters" : ""}
+                  onChange={(e) => {
+                    setFeedback(e.target.value);
+                    if (feedback.length > 10) {
+                      setError(false);
+                    }
+                  }}
+                />
+              </DialogContent>
+            </Grid>
+
+            <Grid item>
+              <DialogActions>
+                <Button
+                  variant="outlined"
+                  endIcon={<SendIcon />}
+                  onClick={() => {
+                    if (feedback.length > 10) {
+                      submitFeedback();
+                      props.setOpen(false);
+                      setFeedback("");
+                    } else {
+                      setError(true);
+                    }
+                  }}
+                  sx={{
+                    width: "100px",
+                    borderRadius: "0.25rem",
+                  }}
+                >
+                  <Typography variant="h6b">{"SEND"}</Typography>
+                </Button>
+              </DialogActions>
+            </Grid>
+          </Grid>
+          
+          {/* <DialogContent>
+            <Typography variant="h2r">
+              Write any <strong>questions</strong> or <strong>concerns</strong> about the website here!
+            </Typography>
+            <TextField
+              label="Leave Feedback"
+              multiline
+              fullWidth
+              rows={10}
+              value={feedback}
+              error={error}
+              helperText={error ? "Must be more than 10 characters" : ""}
+              onChange={(e) => {
+                setFeedback(e.target.value);
+                if (feedback.length > 10) {
+                  setError(false);
+                }
               }}
-              aria-label="close"
+            />
+          </DialogContent>
+
+          <DialogActions>
+            <Button
+              onClick={() => {
+                if (feedback.length > 10) {
+                  submitFeedback();
+                  props.setOpen(false);
+                  setFeedback("");
+                } else {
+                  setError(true);
+                }
+              }}
+              variant="contained"
+              endIcon={<SendIcon />}
               sx={{
-                "&:hover": { cursor: "pointer" },
-                height: "40px",
-                width: "40px",
+                bgcolor: palette.button.signup,
+                width: "100px",
+                borderRadius: "0.25rem",
+                p: "0.5rem",
+                "&:hover": {
+                  bgcolor: palette.button.alt,
+                }
               }}
             >
-              <CloseIcon />
-            </IconButton>
-          </Box>  
-        </DialogTitle>
-        {/* LEAVE FEEDBACK */}
-        <DialogContent>
-          <DialogContentText id="support-dialog-description" pb="1rem">
-            {"Write any questions or concerns about the website here!"}
-          </DialogContentText>
-          <TextField
-            label="Leave Feedback"
-            multiline
-            fullWidth
-            rows={10}
-            value={feedback}
-            error={error}
-            helperText={error ? "Must be more than 10 characters" : ""}
-            onChange={(e) => {
-              setFeedback(e.target.value);
-              if (feedback.length > 10) {
-                setError(false);
-              }
-            }}
-          />
-        </DialogContent>
-        {/* SEND BUTTON */}
-        <DialogActions>
-          <Button
-            onClick={() => {
-              if (feedback.length > 10) {
-                submitFeedback();
-                props.setOpen(false);
-                setFeedback("");
-              } else {
-                setError(true);
-              }
-            }}
-            variant="contained"
-            endIcon={<SendIcon />}
-            sx={{
-              bgcolor: palette.button.signup,
-              width: "100px",
-              borderRadius: "0.25rem",
-              p: "0.5rem",
-              "&:hover": {
-                bgcolor: palette.button.alt,
-              }
-            }}
-          >
-            <Typography variant="h6b">{"SEND"}</Typography>
-          </Button>
-        </DialogActions>
+              <Typography variant="h6b">{"SEND"}</Typography>
+            </Button>
+          </DialogActions> */}
+        </Alert>
       </Dialog>
 
       {/* WARNING DIALOGS */}

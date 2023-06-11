@@ -1,18 +1,15 @@
 import {
+  Alert,
+  AlertTitle,
   Button,
   Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
+  Grid,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import * as InitialDialog from "../../constants/InitialDialog";
 
 const Dialogs = (props) => {
-  const { palette } = useTheme();
   const navigate = useNavigate();
   let dialog = {};
 
@@ -90,34 +87,42 @@ const Dialogs = (props) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">
-        {dialog.title}
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          {dialog.content}
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button 
-          onClick={() => {
-            dialog.path && navigate(dialog.path);
-            props.setOpen(false);
-          }}
-          variant="contained" 
-          sx={{
-            bgcolor: palette.button.signup,
-            width: "90px",
-            borderRadius: "0.25rem",
-            p: "0.25rem 1rem",
-            "&:hover": {
-              bgcolor: palette.button.alt,
-            }
-          }}
-        >
-          <Typography variant="h6b">{dialog.buttonName}</Typography>
-        </Button>
-      </DialogActions>
+      <Alert 
+        severity={dialog.severity} 
+        sx={{ p: "1rem" }}
+      >
+        <Grid container direction="column" spacing={2}>
+          <Grid item>
+            <AlertTitle>
+              <Typography variant="h2b">{dialog.title}</Typography>
+            </AlertTitle>
+          </Grid>
+
+          <Grid item px="1rem" pb="0.5rem">
+            <Typography variant="h2r">
+              {dialog.content}
+            </Typography>
+          </Grid>
+
+          <Grid item pr="1.5rem">
+            <Grid container direction="row-reverse">
+              <Button 
+                variant="outlined"
+                onClick={() => {
+                  dialog.path && navigate(dialog.path);
+                  props.setOpen(false);
+                }}
+                sx={{
+                  width: "100px",
+                  borderRadius: "0.25rem",
+                }}
+              >
+                <Typography variant="h6b">{dialog.buttonName}</Typography>
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Alert>
     </Dialog>
   );
 }

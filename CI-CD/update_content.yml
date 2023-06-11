@@ -1,0 +1,22 @@
+--- 
+  - name: Update Frontend 
+    hosts: local
+
+    tasks:
+    - include_vars: vars.yml
+    
+    - name: Pull Newest Update from Github
+      git:
+        repo: git@github.com:Ed-Maeng/Review.git
+        dest: ./
+        update: yes
+        clone: no
+        version: main
+        key_file: "/home/{{build_location}}/.ssh/id_ed25519"
+
+    - name: Build Frontend Code
+      shell: |
+        cd client
+        npm run build
+      args:
+        chdir: "/home/{{build_location}}/Review"

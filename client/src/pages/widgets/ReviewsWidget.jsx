@@ -100,11 +100,10 @@ const ReviewsWidget = () => {
           <Box m="auto" flexBasis={"55%"}>
             {/* TOTAL NUMBER OF REVIEWS */}
             <Typography
-              variant="h1b"
+              variant="reviewTitle"
               pl="1rem"
-              color={palette.neutral.dark}
             >
-              {"All " + totalReviews + " reviews"}
+              {"Browse " + totalReviews + " Reviews"}
             </Typography>
 
             {/* INTERNSHIP WIDGET */}

@@ -66,6 +66,11 @@ export const themeSettings = () => {
         fontWeight: 700,
         fontSize: 40,
       },
+      reviewTitle: {
+        fontFamily: ["Inter"],
+        fontWeight: 700,
+        fontSize: 20,
+      },
       h1b: {
         fontFamily: ["Inter"],
         fontWeight: 700,

@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 // Pages & Components
 import Navbar from '../components/Navbar';
 import Dialogs from '../components/dialogs/Dialogs';
+import WidgetWrapper from '../components/wrappers/WidgetWrapper';
 import ReviewFormPage from './forms/ReviewFormPage';
 import ReviewWidgets from './widgets/ReviewsWidget';
 
@@ -69,8 +70,15 @@ const ReviewPage = () => {
         <Dialogs open={signInOpen} setOpen={setSignInOpen} type="not-signin" />
       </Grid>
 
-      {/* LIST OF REVIEWS */}
-      <ReviewWidgets />
+      <Box display="flex" p="2rem">
+        {/* OVERALL RATING */}
+        <WidgetWrapper>
+          <Typography>Overall Rating</Typography>
+        </WidgetWrapper>
+
+        {/* LIST OF REVIEWS */}
+        <ReviewWidgets />
+      </Box>
     </Box>
   )
 }

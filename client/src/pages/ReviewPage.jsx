@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useSelector } from "react-redux";
 // Pages & Components
 import Navbar from '../components/Navbar';
-import OverallRating from '../components/OverallRating';
 import Dialogs from '../components/dialogs/Dialogs';
 import ReviewFormPage from './forms/ReviewFormPage';
 import ReviewWidgets from './widgets/ReviewsWidget';
@@ -13,8 +12,6 @@ const ReviewPage = () => {
   // State of Current Section & User & Open
   const currentSection = useSelector((state) => state.currentSection);
   const user = useSelector((state) => state.user);
-  // Profile Type
-  const isProfile = window.location.pathname.split("/")[1] === "profile";
   // Types of Open Dialogs
   const [reviewFormOpen, setReviewFormOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);

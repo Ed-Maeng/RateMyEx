@@ -1,8 +1,9 @@
-import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
+import { Avatar, Box, Button, Grid, Typography, useTheme } from '@mui/material';
 import { useState } from 'react';
 import { useSelector } from "react-redux";
 // Pages & Components
 import Navbar from '../components/Navbar';
+import OverallRating from '../components/OverallRating';
 import Dialogs from '../components/dialogs/Dialogs';
 import ReviewFormPage from './forms/ReviewFormPage';
 import ReviewWidgets from './widgets/ReviewsWidget';
@@ -12,35 +13,38 @@ const ReviewPage = () => {
   // State of Current Section & User & Open
   const currentSection = useSelector((state) => state.currentSection);
   const user = useSelector((state) => state.user);
+  // Profile Type
+  const isProfile = window.location.pathname.split("/")[1] === "profile";
   // Types of Open Dialogs
   const [reviewFormOpen, setReviewFormOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
 
   return (
-    <Box>
+    <>
       <Navbar />
 
-      <Grid
-        container
-        direction="column"
-        width="100%"
-        padding="1rem"
-        textAlign="center"
-        spacing={1}
-      >
+      <Box display="flex" pb="2rem" justifyContent="center">
         {/* TYPE OF REVIEW (FROM SECTIONS) */}
-        <Grid item>
-          <Typography
-            variant="h1b"
-            padding="0.5rem"
-            color="primary"
-          >
-            {currentSection.name}
-          </Typography>
-        </Grid>
-
-        {/* ADD REVIEW BUTTON */}
-        <Grid item>
+        <Box px="2rem">
+          <Grid container direction="row" pb="1rem" alignItems="center" justifyContent="center" spacing={2}>
+            <Grid item>
+              <Typography variant="h1b">
+                {currentSection.name}
+              </Typography>
+            </Grid>
+            <Grid item>
+              {currentSection.color 
+                ?
+                <Avatar sx={{ width: 65, height: 65, bgcolor: currentSection.color }}>
+                  {currentSection.name[0].toUpperCase() + (currentSection.name.split(" ")[1] ? currentSection.name.split(" ")[1][0].toUpperCase() : "")}
+                </Avatar>
+                : 
+                <Avatar alt={currentSection.name} src={currentSection.imageUrl} sx={{ width: 65, height: 65 }} /> 
+              }
+            </Grid>
+          </Grid>
+              
+          {/* ADD REVIEW BUTTON */}
           <Button
             variant="contained" 
             onClick={() => 
@@ -60,18 +64,20 @@ const ReviewPage = () => {
               Add Review
             </Typography>
           </Button>
-        </Grid>
+        </Box>
+      
 
         {/* Form for Adding Sections */}
         <ReviewFormPage open={reviewFormOpen} setOpen={setReviewFormOpen} />
 
         {/* Warning Dialogs */}
         <Dialogs open={signInOpen} setOpen={setSignInOpen} type="not-signin" />
-      </Grid>
+      </Box>
 
-      {/* LIST OF REVIEWS */}
-      <ReviewWidgets />
-    </Box>
+      <Box display="flex" justifyContent="center">
+        <ReviewWidgets />
+      </Box>
+    </>
   )
 }
  

@@ -100,6 +100,7 @@ export const getDorms = async(req, res) => {
     for (let dorm of dorms) {
       if (dorm.imageName) {
         dorm.imageUrl = await getObjectSignedUrl(dorm.imageName);
+        await dorm.save();
       }
     }
     res.status(200).json(dorms);
@@ -123,11 +124,26 @@ export const getDormReviews = async(req, res) => {
     const { dormId } = req.params;
     const dormReviews = await DormReview.find({ dormId }).sort('-createdAt');;
     for (let review of dormReviews) {
+      review.imageUrls = [];
       for (let imageName of review.imageNames) {
         review.imageUrls.push(await getObjectSignedUrl(imageName));
+        await review.save();
       }
     }
     res.status(200).json(dormReviews);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+}
+
+export const getDormReviewsData = async(req, res) => {
+  try {
+    const { dormId } = req.params;
+    // Group by `rooms` and get sum
+    const rooms = await DormReview.aggregate([{$match: { "dormId": dormId }}]).sortByCount("rooms");
+    // Group by `campus` and get sum
+    const campuses = await DormReview.aggregate([{$match: { "dormId": dormId }}]).sortByCount("campus");
+    res.status(200).json({ "Rooms": rooms, "On/Off Campus": campuses });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

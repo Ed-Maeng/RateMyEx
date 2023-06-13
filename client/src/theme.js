@@ -27,7 +27,10 @@ export const colorTokens = {
     "default": "#007FFF",
     "signup": "#18A0FB",
     "alt": "#7182aa",
-  }
+  },
+  star: {
+    "default": "#FFDF00"
+  },
 };
 
 // mui theme settings
@@ -56,6 +59,9 @@ export const themeSettings = () => {
         alt: colorTokens.grey[10],
         footer: colorTokens.grey[50],
       },
+      star: {
+        default: colorTokens.star["default"],
+      }
     },
     typography: {
       fontFamily: ["Inter"],
@@ -65,6 +71,16 @@ export const themeSettings = () => {
         fontFamily: ["Inter"],
         fontWeight: 700,
         fontSize: 40,
+      },
+      reviewTitle: {
+        fontFamily: ["Inter"],
+        fontWeight: 700,
+        fontSize: 20,
+      },
+      star: {
+        fontFamily: ["Inter"],
+        fontWeight: 700,
+        fontSize: 50,
       },
       h1b: {
         fontFamily: ["Inter"],

@@ -101,6 +101,7 @@ export const getClubs = async(req, res) => {
     for (let club of clubs) {
       if (club.imageName) {
         club.imageUrl = await getObjectSignedUrl(club.imageName);
+        await club.save();
       }
     }
     res.status(200).json(clubs);
@@ -124,8 +125,10 @@ export const getClubReviews = async(req, res) => {
     const { clubId } = req.params;
     const clubReviews = await ClubReview.find({ clubId }).sort('-createdAt');
     for (let review of clubReviews) {
+      review.imageUrls = [];
       for (let imageName of review.imageNames) {
         review.imageUrls.push(await getObjectSignedUrl(imageName));
+        await review.save();
       }
     }
     res.status(200).json(clubReviews);
@@ -139,6 +142,19 @@ export const getUserClubReviews = async(req, res) => {
     const { clubId, userId } = req.params;
     const clubReviews = await ClubReview.find({ clubId, userId });
     res.status(200).json(clubReviews);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+}
+
+export const getClubReviewsData = async(req, res) => {
+  try {
+    const { clubId } = req.params;
+    // Group by `rooms` and get sum
+    const categories = await ClubReview.aggregate([{$match: { "clubId": clubId }}]).sortByCount("category");
+    // Group by `campus` and get sum
+    const terms = await ClubReview.aggregate([{$match: { "clubId": clubId }}]).sortByCount("term");
+    res.status(200).json({ "Categories": categories, "Terms": terms });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

@@ -54,7 +54,6 @@ const SectionPage = () => {
     );
     const data = await response.json();
     setSections(data);
-    await new Promise(r => setTimeout(r, 250));
     setLoading(false);
   };
 

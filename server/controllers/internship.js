@@ -96,8 +96,9 @@ export const getInternships = async(req, res) => {
     const internships = await Internship.find({ schoolId }).sort('-totalRatings');
 
     for (let internship of internships) {
-      if (!internship.imageUrl && internship.imageName) {
+      if (internship.imageName) {
         internship.imageUrl = await getObjectSignedUrl(internship.imageName);
+        await internship.save();
       }
     }
     res.status(200).json(internships);
@@ -121,6 +122,19 @@ export const getInternshipReviews = async(req, res) => {
     const { internshipId } = req.params;
     const internshipReviews = await InternshipReview.find({ internshipId }).sort('-createdAt');
     res.status(200).json(internshipReviews);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+}
+
+export const getInternshipReviewsData = async(req, res) => {
+  try {
+    const { internshipId } = req.params;
+    // Group by `jobTitle` and get sum
+    const jobTitles = await InternshipReview.aggregate([{$match: { "internshipId": internshipId }}]).sortByCount("jobTitle");
+    // Group by `employmentType` and get sum
+    const employmentTypes = await InternshipReview.aggregate([{$match: { "internshipId": internshipId }}]).sortByCount("employmentType");
+    res.status(200).json({ "Job Titles": jobTitles, "Employment Types": employmentTypes });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

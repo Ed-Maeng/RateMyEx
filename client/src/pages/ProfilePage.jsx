@@ -15,19 +15,19 @@ import { useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
 import ResetPasswordDialog from "../components/dialogs/ResetPasswordDialog";
 import FlexBetween from "../components/wrappers/FlexBetween";
+import WidgetWrapper from "../components/wrappers/WidgetWrapper";
 import ReviewWidgets from "../pages/widgets/ReviewsWidget";
 // Icons
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import PasswordIcon from '@mui/icons-material/Password';
 import PersonIcon from '@mui/icons-material/Person';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
 import WorkOutlineOutlined from "@mui/icons-material/WorkOutline";
-import WidgetWrapper from "../components/wrappers/WidgetWrapper";
 
 export default function ProfilePage() {
   const { palette } = useTheme();
@@ -171,7 +171,7 @@ export default function ProfilePage() {
                 />                
               </Box>
               <Box display="flex" alignItems="center" gap="1rem" mb="1rem">
-                <PasswordIcon fontSize="large" />
+                <LockOutlinedIcon fontSize="large" />
                 <TextField
                   label="Password"
                   defaultValue="••••••••"

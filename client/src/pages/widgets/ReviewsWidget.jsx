@@ -2,9 +2,11 @@ import { Box, Button, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentSection, setUser } from "../../state/auth";
-// All Review Widgets
+// Components
 import LoadingComponent from "../../components/LoadingComponent";
+import OverallRating from "../../components/OverallRating";
 import FlexBetween from "../../components/wrappers/FlexBetween";
+// All Review Widgets
 import ClubWidget from "./ClubWidget";
 import DormWidget from "./DormWidget";
 import InternshipWidget from "./InternshipWidget";
@@ -17,7 +19,7 @@ const ReviewsWidget = () => {
   const user = useSelector((state) => state.user);
   const currentSection = useSelector((state) => state.currentSection);
   const [reviews, setReviews] = useState([]);
-  // Types of Review Types
+  // Types of Review
   const reviewType = window.location.pathname.split("/")[2];
   const isInternship = reviewType === "internships";
   const isDorm = reviewType === "dorms";
@@ -52,6 +54,7 @@ const ReviewsWidget = () => {
     );
     const dataCurrentSection = await responseCurrentSection.json();
     dispatch(setCurrentSection({ currentSection: dataCurrentSection }));
+    setTotalReviews(dataCurrentSection.totalReviews);
   };
 
   const getUserReviews = async () => {
@@ -73,18 +76,12 @@ const ReviewsWidget = () => {
     );
     const dataUser = await responseUser.json();
     dispatch(setUser({ user: dataUser }));
+    setTotalReviews(dataUser.numberOfReviews);
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      if (isProfile) {
-        getUserReviews();
-        setTotalReviews(user.numberOfReviews);
-      } else {
-        getReviews();
-        setTotalReviews(currentSection.totalReviews);
-      }
-      
+      isProfile ? getUserReviews() : getReviews();
       setShowReviews((totalReviews <= 10) ? totalReviews : 10);
       await new Promise(r => setTimeout(r, 500));
       setLoading(false);
@@ -96,8 +93,11 @@ const ReviewsWidget = () => {
     <>
     {loading ? <LoadingComponent /> :
       <>
-        <Box width="100%" display={"flex"}>
-          <Box m="auto" flexBasis={"55%"}>
+        {/* OVERALL RATING */}
+        {!isProfile && <OverallRating />}
+
+        <Box display="flex" width="70%" justifyContent="center">
+          <Box flexBasis="80%">
             {/* TOTAL NUMBER OF REVIEWS */}
             <Typography
               variant="reviewTitle"
@@ -171,7 +171,7 @@ const ReviewsWidget = () => {
               </FlexBetween>
             }
           </Box>
-        </Box>        
+        </Box>
       </>
       }
     </>

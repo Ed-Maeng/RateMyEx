@@ -51,6 +51,10 @@ const Dialogs = (props) => {
     /* --- Section --- */
     case "section-found":
       dialog = InitialDialog.sectionAlreadyFoundDialog;
+      if (props.name) {
+        dialog.title = `Have you searched for "${props.name}"?`;
+        dialog.content = `Please use the search bar, we already have "${props.name}".`;
+      }
       break;
     /* --- Support --- */
     case "support":
@@ -82,6 +86,7 @@ const Dialogs = (props) => {
       open={props.open}
       onClose={() => {
         dialog.path && navigate(dialog.path);
+        window.location.reload(false);
         props.setOpen(false);
       }}
       aria-labelledby="alert-dialog-title"
@@ -110,6 +115,7 @@ const Dialogs = (props) => {
                 variant="outlined"
                 onClick={() => {
                   dialog.path && navigate(dialog.path);
+                  window.location.reload(false);
                   props.setOpen(false);
                 }}
                 sx={{

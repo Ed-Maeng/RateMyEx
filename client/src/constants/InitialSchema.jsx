@@ -131,12 +131,12 @@ export const initialValuesLogin = {
 // RESET SCHEMA
 export const resetSchema = yup.object().shape({
   newPassword: yup.string()
-               .required("Required")
-               .min(8, "Must be more than 8")
-               .max(50, "Must be less than 50"),
+                  .required("Required")
+                  .min(8, "Must be more than 8")
+                  .max(50, "Must be less than 50"),
   confirmPassword: yup.string()
-               .required("Required")
-               .oneOf([yup.ref('newPassword'), null], 'Passwords must match'),
+                      .required("Required")
+                      .oneOf([yup.ref('newPassword'), null], 'Passwords must match'),
 });
 
 export const initialValuesReset = {
@@ -146,7 +146,10 @@ export const initialValuesReset = {
 
 // SECTION FORM SCHEMA
 export const sectionFormSchema = yup.object().shape({
-  name: yup.string().required("Required").max(50, "Must be less than 50"),
+  name: yup.string()
+           .required("Required")
+           .max(50, "Must be less than 50")
+           .matches('^[.a-zA-Z0-9, ]*$', 'No Special Characters are allowed'),
   file: yup.mixed(),
 });
 

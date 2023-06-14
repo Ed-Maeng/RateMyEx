@@ -33,6 +33,7 @@ const SectionForm = (props) => {
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
   // Types of Open Dialogs
   const [sectionAlreadyFoundOpen, setSectionAlreadyFoundOpen] = useState(false);
+  const [sectionAlreadyFoundName, setSectionAlreadyFoundName] = useState("");
   const [defaultOpen, setDefaultOpen] = useState(false);
   // Loading
   const [loading, setLoading] = useState(false);
@@ -63,7 +64,9 @@ const SectionForm = (props) => {
       props.setOpen(false);
       window.location.reload(false);
     } else if (sectionResponse.status === 409) {
+      const errorData = await sectionResponse.json();
       setSectionAlreadyFoundOpen(true);
+      setSectionAlreadyFoundName(errorData.name);
     } else {
       setDefaultOpen(true);
     }
@@ -190,7 +193,7 @@ const SectionForm = (props) => {
             </Button>
           </Box>
           {/* Warning Dialogs */}
-          <Dialogs open={sectionAlreadyFoundOpen} setOpen={setSectionAlreadyFoundOpen} type="section-found" />
+          <Dialogs open={sectionAlreadyFoundOpen} setOpen={setSectionAlreadyFoundOpen} type="section-found" name={sectionAlreadyFoundName} />
           <Dialogs open={defaultOpen} setOpen={setDefaultOpen} type="default" />
         </form>
       )}

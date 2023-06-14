@@ -30,9 +30,12 @@ const SectionPage = () => {
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // State of School, User, & Sections 
+  // State of School & School Name
   const school = useSelector((state) => state.school);
+  const schoolName = useSelector((state) => state.schoolName);
+  // State of User & Current Section
   const user = useSelector((state) => state.user);
+  // State of Sections
   const [sections, setSections] = useState([]);
   // Review Types
   const reviewType = window.location.pathname.split("/")[2];
@@ -79,7 +82,7 @@ const SectionPage = () => {
               id={`${reviewType}`}
               onChange={(event, section) => {
                 dispatch(setCurrentSection({ currentSection: section }));
-                navigate(`/school/${reviewType}/reviews`);
+                navigate(`/${schoolName}/${reviewType}/${section.name.toLowerCase().replace(/[, ]+/g, "-")}`);
               }}
               options={sections}
               noOptionsText={`No ${reviewType} Found`}
@@ -124,7 +127,7 @@ const SectionPage = () => {
                     key={section.name}
                     onClick={() => {
                       dispatch(setCurrentSection({ currentSection: section }));
-                      navigate(`/school/${reviewType}/reviews`);
+                      navigate(`/${schoolName}/${reviewType}/${section.name.toLowerCase().replace(/[, ]+/g, "-")}`);
                     }}
                     sx={{
                       "&:hover": { 

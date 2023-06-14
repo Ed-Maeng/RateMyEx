@@ -28,22 +28,24 @@ function App() {
 
               { /* User Pages */ }            
               <Route path="/" element={<HomePage />} />
-              <Route path="/school" element={<SchoolPage />} />
               <Route path="/signin" element={<AccountFormPage page={"signin"} />} />
               <Route path="/reset/:emailToken" element={<AccountFormPage page={"reset"} />} />
               <Route path="/profile" element={<ProfilePage />} />
 
+              { /* School Pages */ }
+              <Route path="/:schoolName" element={<SchoolPage />} />
+
               { /* Section Pages */ }
-              <Route path="school/internships" element={<SectionPage />} />
-              <Route path="school/dorms" element={<SectionPage />} />
-              <Route path="school/professors" element={<SectionPage />} />
-              <Route path="school/clubs" element={<SectionPage />} />
+              <Route path="/:schoolName/internships" element={<SectionPage />} />
+              <Route path="/:schoolName/dorms" element={<SectionPage />} />
+              <Route path="/:schoolName/professors" element={<SectionPage />} />
+              <Route path="/:schoolName/clubs" element={<SectionPage />} />
 
               { /* Review Pages */ }
-              <Route path="school/internships/reviews" element={<ReviewPage />} />
-              <Route path="school/dorms/reviews" element={<ReviewPage />} />
-              <Route path="school/professors/reviews" element={<ReviewPage />} />
-              <Route path="school/clubs/reviews" element={<ReviewPage />} />
+              <Route path="/:schoolName/internships/:internshipName" element={<ReviewPage />} />
+              <Route path="/:schoolName/dorms/:dormName" element={<ReviewPage />} />
+              <Route path="/:schoolName/professors/:professorName" element={<ReviewPage />} />
+              <Route path="/:schoolName/clubs/:clubName" element={<ReviewPage />} />
             </Routes>
           </div>
         </ThemeProvider>

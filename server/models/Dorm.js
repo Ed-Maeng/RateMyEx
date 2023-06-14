@@ -11,6 +11,11 @@ const DormSchema = new mongoose.Schema(
       required: true,
       max: 50,
     },
+    identifier: {
+      type: String,
+      required: true,
+      max: 50,
+    },
     totalReviews: {
       type: Number,
       default: 0,

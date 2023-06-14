@@ -50,7 +50,7 @@ const HomePage = () => {
         <Autocomplete
           id="schools"
           onChange={(event, school) => {
-            const schoolName = school.name.toLowerCase().replace(/[, ]+/g, "-");
+            const schoolName = school.name.toLowerCase().replace(/[., ]+/g, "-");
             dispatch(setSchool({ school, schoolName }));
             navigate(`/${schoolName}`);
           }}
@@ -87,7 +87,7 @@ const HomePage = () => {
           <Grid item key={school._id} p="0.75rem">
             <Card 
               onClick={async () => {
-                const schoolName = school.name.toLowerCase().replace(/[, ]+/g, "-");
+                const schoolName = school.name.toLowerCase().replace(/[., ]+/g, "-");
                 dispatch(setSchool({ school, schoolName }));
                 navigate(`/${schoolName}`);
               }}

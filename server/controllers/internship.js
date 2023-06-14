@@ -15,10 +15,11 @@ export const createInternship = async(req, res) => {
     const { name } = req.body;
     const file = req.file;
     const imageName = file ? generateFileName() : "e11fa827751d82b05562abb9eecc3a1f4b324d5ea90780cf747bbf4fcb2b3476";
+    const identifier = name.toLowerCase().replace(/[., ]+/g, "");
 
-    const internship = await Internship.findOne({ schoolId, name });
+    const internship = await Internship.findOne({ schoolId, identifier });
     if (internship) {
-      return res.status(409).json({ msg: "Duplicate Internship Name in Same School." });
+      return res.status(409).json({ msg: "Duplicate Internship Name in Same School.", name: internship.name });
     }
 
     if (file) {
@@ -29,7 +30,7 @@ export const createInternship = async(req, res) => {
       await uploadFile(fileBuffer, imageName, file.mimetype);
     }
 
-    const newInternship = new Internship({ schoolId, name, imageName });
+    const newInternship = new Internship({ schoolId, name, imageName, identifier });
     const savedInternship = await newInternship.save();
     res.status(201).json(savedInternship);
   } catch (err) {

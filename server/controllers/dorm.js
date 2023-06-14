@@ -15,10 +15,11 @@ export const createDorm = async(req, res) => {
     const { name } = req.body;
     const file = req.file;
     const imageName = file ? generateFileName() : "9c006e2f35abcb80f190d737f0a3ff4a0d234b6b1af5197f672332052d122e63";
+    const identifier = name.toLowerCase().replace(/[., ]+/g, "");
 
-    const dorm = await Dorm.findOne({ schoolId, name });
+    const dorm = await Dorm.findOne({ schoolId, identifier });
     if (dorm) {
-      return res.status(409).json({ msg: "Duplicate Dorm Name in Same School." });
+      return res.status(409).json({ msg: "Duplicate Dorm Name in Same School.", name: dorm.name });
     }
 
     if (file) {
@@ -29,7 +30,7 @@ export const createDorm = async(req, res) => {
       await uploadFile(fileBuffer, imageName, file.mimetype);
     }
 
-    const newDorm = new Dorm({ schoolId, name, imageName });
+    const newDorm = new Dorm({ schoolId, name, imageName, identifier });
     const savedDorm = await newDorm.save();
     res.status(201).json(savedDorm);
   } catch (err) {

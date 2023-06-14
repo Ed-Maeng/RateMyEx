@@ -15,10 +15,11 @@ export const createClub = async(req, res) => {
     const { name } = req.body;
     const file = req.file;
     const imageName = file ? generateFileName() : "40a6176e6e3d95f69d4f1aa7e3d5d280b0ab2ecd02ac57a500e4bbd766545a67";
+    const identifier = name.toLowerCase().replace(/[., ]+/g, "");
 
-    const club = await Club.findOne({ schoolId, name });
+    const club = await Club.findOne({ schoolId, identifier });
     if (club) {
-      return res.status(409).json({ msg: "Duplicate Club Name in Same School." });
+      return res.status(409).json({ msg: "Duplicate Club Name in Same School.", name: club.name });
     }
 
     if (file) {
@@ -29,7 +30,7 @@ export const createClub = async(req, res) => {
       await uploadFile(fileBuffer, imageName, file.mimetype);
     }
 
-    const newClub = new Club({ schoolId, name, imageName });
+    const newClub = new Club({ schoolId, name, imageName, identifier });
     const savedClub = await newClub.save();
     res.status(201).json(savedClub);
   } catch (err) {

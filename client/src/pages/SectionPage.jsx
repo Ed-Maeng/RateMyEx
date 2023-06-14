@@ -82,7 +82,7 @@ const SectionPage = () => {
               id={`${reviewType}`}
               onChange={(event, section) => {
                 dispatch(setCurrentSection({ currentSection: section }));
-                navigate(`/${schoolName}/${reviewType}/${section.name.toLowerCase().replace(/[, ]+/g, "-")}`);
+                navigate(`/${schoolName}/${reviewType}/${section.name.toLowerCase().replace(/[., ]+/g, "-")}`);
               }}
               options={sections}
               noOptionsText={`No ${reviewType} Found`}
@@ -127,7 +127,7 @@ const SectionPage = () => {
                     key={section.name}
                     onClick={() => {
                       dispatch(setCurrentSection({ currentSection: section }));
-                      navigate(`/${schoolName}/${reviewType}/${section.name.toLowerCase().replace(/[, ]+/g, "-")}`);
+                      navigate(`/${schoolName}/${reviewType}/${section.name.toLowerCase().replace(/[., ]+/g, "-")}`);
                     }}
                     sx={{
                       "&:hover": { 

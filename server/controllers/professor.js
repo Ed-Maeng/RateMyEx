@@ -7,15 +7,17 @@ export const createProfessor = async(req, res) => {
   try {
     const { schoolId } = req.params;
     const { name } = req.body;
+    const identifier = name.toLowerCase().replace(/[., ]+/g, "");
 
-    const professor = await Professor.findOne({ schoolId, name });
+    const professor = await Professor.findOne({ schoolId, identifier });
     if (professor) {
-      return res.status(409).json({ msg: "Duplicate Professor Name in Same School." });
+      return res.status(409).json({ msg: "Duplicate Professor Name in Same School.", name: professor.name });
     }
 
     const newProfessor = new Professor({ 
       schoolId, 
-      name, 
+      name,
+      identifier,
       color: '#' + Math.floor(Math.random()*16777215).toString(16), 
     });
     const savedProfessor = await newProfessor.save();

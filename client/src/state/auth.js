@@ -4,6 +4,7 @@ const initialState = {
   user: null,
   token: null,
   school: null,
+  schoolName: "",
   currentSection: null,
   tab: false,
 };
@@ -25,6 +26,7 @@ export const authSlice = createSlice({
     },
     setSchool: (state, action) => {
       state.school = action.payload.school;
+      state.schoolName = action.payload.schoolName;
     },
     setCurrentSection: (state, action) => {
       state.currentSection = action.payload.currentSection;

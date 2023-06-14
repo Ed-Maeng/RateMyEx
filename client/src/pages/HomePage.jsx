@@ -21,7 +21,7 @@ import Flexbetween from "../components/wrappers/FlexBetween";
 const HomePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // State of schools & Colors
+  // State of Schools
   const [schools, setSchools] = useState([]);
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
@@ -50,8 +50,9 @@ const HomePage = () => {
         <Autocomplete
           id="schools"
           onChange={(event, school) => {
-            dispatch(setSchool({ school }));
-            navigate("/school");
+            const schoolName = school.name.toLowerCase().replace(/[, ]+/g, "-");
+            dispatch(setSchool({ school, schoolName }));
+            navigate(`/${schoolName}`);
           }}
           options={schools}
           noOptionsText={"No School Found"}
@@ -85,9 +86,10 @@ const HomePage = () => {
         {schools.slice(0, 12)?.map((school) =>
           <Grid item key={school._id} p="0.75rem">
             <Card 
-              onClick={() => {
-                dispatch(setSchool({ school: school }));
-                navigate(`/school`);
+              onClick={async () => {
+                const schoolName = school.name.toLowerCase().replace(/[, ]+/g, "-");
+                dispatch(setSchool({ school, schoolName }));
+                navigate(`/${schoolName}`);
               }}
               sx={{ width: 300 }}
             >

@@ -39,7 +39,8 @@ const Navbar = () => {
   // State of User & Boolean Authentication
   const user = useSelector((state) => state.user);
   const isAuth = Boolean(useSelector((state) => state.token));
-  // State of Tab
+  // State of School Name & Tab
+  const schoolName = useSelector((state) => state.schoolName);
   const tab = useSelector((state) => state.tab);
   // Account Settings
   const [anchorEl, setAnchorEl] = useState(null);
@@ -71,7 +72,7 @@ const Navbar = () => {
                 label="Internships" 
                 onClick={() => {
                   dispatch(setTab({tab: 0}));
-                  navigate("/school/internships");
+                  navigate(`/${schoolName}/internships`);
                   window.location.reload(false);
                 }}
               />
@@ -81,7 +82,7 @@ const Navbar = () => {
                 label="Housings" 
                 onClick={() => {
                   dispatch(setTab({tab: 1}));
-                  navigate("/school/dorms");
+                  navigate(`/${schoolName}/dorms`);
                   window.location.reload(false);
                 }}
               />
@@ -91,7 +92,7 @@ const Navbar = () => {
                 label="Clubs" 
                 onClick={() => {
                   dispatch(setTab({tab: 2}));
-                  navigate("/school/clubs");
+                  navigate(`/${schoolName}/clubs`);
                   window.location.reload(false);
                 }}
               />
@@ -101,7 +102,7 @@ const Navbar = () => {
                 label="Professors" 
                 onClick={() => {
                   dispatch(setTab({tab: 3}));
-                  navigate("/school/professors");
+                  navigate(`/${schoolName}/professors`);
                   window.location.reload(false);
                 }}
               />

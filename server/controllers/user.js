@@ -43,10 +43,28 @@ export const saveReview = async(req, res) => {
   try {
     const { userId, reviewType, reviewId } = req.params;
     
-    // Update `savedReviews` based on `reviewType`
+    // Update `savedReviews` based on `userId` and `reviewType`
     await User.findOneAndUpdate({ _id: userId }, {
       $set: {
         [`savedReviews.${reviewId}`]: reviewType,
+      }
+    });
+
+    const user = await User.findById({ _id: userId });
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const unsaveReview = async(req, res) => {
+  try {
+    const { userId, reviewId } = req.params;
+    
+    // Delete one from `savedReviews` based on `userId`
+    await User.findOneAndUpdate({ _id: userId }, {
+      $unset: {
+        [`savedReviews.${reviewId}`]: 1,
       }
     });
 

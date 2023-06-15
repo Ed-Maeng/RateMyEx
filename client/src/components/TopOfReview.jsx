@@ -33,7 +33,9 @@ const TopOfReview = (props) => {
   const token = useSelector((state) => state.token);
   // Types of Review
   const reviewType = window.location.pathname.split("/")[2];
-  // State of Review User
+  const isProfile = window.location.pathname.split("/")[1] === "profile";
+  // State of Number of Likes & Review's User
+  const [numberOfLikes, setNumberOfLikes] = useState(props.review.numberOfLikes);
   const [reviewUser, setReviewUser] = useState(null);
   // Types of Open Dialogs
   const [signInOpen, setSignInOpen] = useState(false);
@@ -80,8 +82,8 @@ const TopOfReview = (props) => {
 
   const unsaveReview = async () => {
     const responseUser = await fetch(
-      isLocal ? `http://localhost:4000/users/unsave/${user._id}/${reviewType}/${props.review._id}`
-      : `https://api.ratemyexschool.com:8443/users/unsave/${user._id}/${reviewType}/${props.review._id}`,
+      isLocal ? `http://localhost:4000/users/unsave/${user._id}/${props.review._id}`
+      : `https://api.ratemyexschool.com:8443/users/unsave/${user._id}/${props.review._id}`,
       {
         method: "POST",
         headers: { "Authorization": `Bearer ${token}` },
@@ -93,6 +95,46 @@ const TopOfReview = (props) => {
       dispatch(setUser({ user: dataUser }));
     } else {
       console.log("Response Issue in TopOfReview in unsaveReview");
+      setDefaultOpen(true);
+    }
+  };
+
+  const likeReview = async () => {
+    const responseUser = await fetch(
+      isLocal ? `http://localhost:4000/users/like/${user._id}/${reviewType}/${props.review._id}`
+      : `https://api.ratemyexschool.com:8443/users/like/${user._id}/${reviewType}/${props.review._id}`,
+      {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${token}` },
+      }
+    );
+
+    if (responseUser.ok) {
+      const dataUser = await responseUser.json();
+      dispatch(setUser({ user: dataUser }));
+      setNumberOfLikes(numberOfLikes + 1);
+    } else {
+      console.log("Response Issue in TopOfReview in likeReview");
+      setDefaultOpen(true);
+    }
+  };
+
+  const unlikeReview = async () => {
+    const responseUser = await fetch(
+      isLocal ? `http://localhost:4000/users/unlike/${user._id}/${reviewType}/${props.review._id}`
+      : `https://api.ratemyexschool.com:8443/users/unlike/${user._id}/${reviewType}/${props.review._id}`,
+      {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${token}` },
+      }
+    );
+
+    if (responseUser.ok) {
+      const dataUser = await responseUser.json();
+      dispatch(setUser({ user: dataUser }));
+      setNumberOfLikes(numberOfLikes - 1);
+    } else {
+      console.log("Response Issue in TopOfReview in unlikeReview");
       setDefaultOpen(true);
     }
   };
@@ -122,38 +164,64 @@ const TopOfReview = (props) => {
                 </Grid>
               </Grid>
 
-              {/* SAVE & SHARE */}
-              <Box display="flex">
-                <Tooltip title="Like">
-                  <IconButton sx={{ color: palette.neutral.main }}>
-                    <FavoriteBorderIcon fontSize="inherit" />
-                  </IconButton>
-                </Tooltip>
+              {/* LIKE & SAVE */}
+              {!isProfile &&
+                <Box display="flex">
+                  {user.likedReviews.includes(props.review._id) ?
+                    <Tooltip title="Liked">
+                      <>
+                        <Typography variant="h3b" sx={{ color: palette.neutral.main }}>{numberOfLikes}</Typography>
+                        <IconButton 
+                          onClick={() => {
+                            user ? unlikeReview() : setSignInOpen(true);
+                          }}
+                          sx={{ color: palette.neutral.main }}
+                        >                      
+                          <FavoriteIcon fontSize="inherit" />
+                        </IconButton>
+                      </>
+                    </Tooltip>
+                    :
+                    <Tooltip title="Like">
+                      <>
+                        <Typography variant="h3b" sx={{ color: palette.neutral.main }}>{numberOfLikes}</Typography>
+                        <IconButton 
+                          onClick={() => {
+                            user ? likeReview() : setSignInOpen(true);
+                          }}
+                          sx={{ color: palette.neutral.main }}
+                        >                      
+                          <FavoriteBorderIcon fontSize="inherit" />
+                        </IconButton>
+                      </>
+                    </Tooltip>
+                  }
 
-                {props.review._id in user.savedReviews ?
-                  <Tooltip title="Saved">
-                    <IconButton
-                      onClick={() => {
-                        user ? unsaveReview() : setSignInOpen(true);
-                      }}
-                      sx={{ color: palette.neutral.main }}
-                    >
-                      <BookmarkIcon fontSize="inherit" />
-                    </IconButton>
-                  </Tooltip>
-                  :
-                  <Tooltip title="Save">
-                    <IconButton 
-                      onClick={() => {
-                        user ? saveReview() : setSignInOpen(true);
-                      }}
-                      sx={{ color: palette.neutral.main }}
-                    >
-                      <BookmarkBorderIcon fontSize="inherit" />
-                    </IconButton>
-                  </Tooltip>
-                }
-              </Box>
+                  {props.review._id in user.savedReviews ?
+                    <Tooltip title="Saved">
+                      <IconButton
+                        onClick={() => {
+                          user ? unsaveReview() : setSignInOpen(true);
+                        }}
+                        sx={{ color: palette.neutral.main }}
+                      >
+                        <BookmarkIcon fontSize="inherit" />
+                      </IconButton>
+                    </Tooltip>
+                    :
+                    <Tooltip title="Save">
+                      <IconButton 
+                        onClick={() => {
+                          user ? saveReview() : setSignInOpen(true);
+                        }}
+                        sx={{ color: palette.neutral.main }}
+                      >
+                        <BookmarkBorderIcon fontSize="inherit" />
+                      </IconButton>
+                    </Tooltip>
+                  }
+                </Box>
+              }
             </FlexBetween>
           }
         />

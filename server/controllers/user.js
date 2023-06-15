@@ -43,7 +43,7 @@ export const saveReview = async(req, res) => {
   try {
     const { userId, reviewType, reviewId } = req.params;
     
-    // Update `savedReviews` based on `userId` and `reviewType`
+    // Add one to `savedReviews` based on `userId` and `reviewType`
     await User.findOneAndUpdate({ _id: userId }, {
       $set: {
         [`savedReviews.${reviewId}`]: reviewType,
@@ -74,3 +74,88 @@ export const unsaveReview = async(req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const likeReview = async(req, res) => {
+  try {
+    const { userId, reviewType, reviewId } = req.params;
+    
+    // Push to `likedReviews` based on `userId`
+    await User.updateOne(
+      { _id: userId }, 
+      { $push: { likedReviews: reviewId } },
+    );
+
+    // Increment Review's `numberOfLikes`
+    if (reviewType === "internships") {
+      await InternshipReview.updateOne(
+        {_id: reviewId}, 
+        { $inc: { numberOfLikes: 1 }
+      });
+    } else if (reviewType === "dorms") {
+      await DormReview.updateOne(
+        {_id: reviewId}, 
+        { $inc: { numberOfLikes: 1 }
+      });
+    } else if (reviewType === "clubs") {
+      await ClubReview.updateOne(
+        {_id: reviewId}, 
+        { $inc: { numberOfLikes: 1 }
+      });
+    } else if (reviewType === "professors") {
+      await ProfessorReview.updateOne(
+        {_id: reviewId}, 
+        { $inc: { numberOfLikes: 1 }
+      });
+    } else {
+      res.status(404).json({ message: "Review Type is not found." });
+    }
+
+    const user = await User.findById({ _id: userId });
+    res.status(200).json(user);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+export const unlikeReview = async(req, res) => {
+  try {
+    const { userId, reviewType, reviewId } = req.params;
+    
+    // Pull from `likedReviews` based on `userId`
+    await User.updateOne(
+      { _id: userId }, 
+      { $pull: { likedReviews: reviewId } },
+    );
+
+    // Decrement Review's `numberOfLikes`
+    if (reviewType === "internships") {
+      await InternshipReview.updateOne(
+        {_id: reviewId}, 
+        { $inc: { numberOfLikes: -1 }
+      });
+    } else if (reviewType === "dorms") {
+      await DormReview.updateOne(
+        {_id: reviewId}, 
+        { $inc: { numberOfLikes: -1 }
+      });
+    } else if (reviewType === "clubs") {
+      await ClubReview.updateOne(
+        {_id: reviewId}, 
+        { $inc: { numberOfLikes: -1 }
+      });
+    } else if (reviewType === "professors") {
+      await ProfessorReview.updateOne(
+        {_id: reviewId}, 
+        { $inc: { numberOfLikes: -1 }
+      });
+    } else {
+      return res.status(404).json({ message: "Review Type is not found." });
+    }
+
+    const user = await User.findById({ _id: userId });
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+

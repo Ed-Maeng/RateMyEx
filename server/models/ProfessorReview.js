@@ -32,14 +32,6 @@ const ProfessorReviewSchema = new mongoose.Schema(
       required: true,
       max: 500,
     },
-    imageNames: {
-      type: Array,
-      default: [],
-    },
-    imageUrls: {
-      type: Array,
-      default: [],
-    },
   },
   { timestamps: true }
 );

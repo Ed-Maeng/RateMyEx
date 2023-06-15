@@ -80,8 +80,8 @@ const TopOfReview = (props) => {
 
   const unsaveReview = async () => {
     const responseUser = await fetch(
-      isLocal ? `http://localhost:4000/users/unsave/${user._id}/${reviewType}/${props.review._id}`
-      : `https://api.ratemyexschool.com:8443/users/unsave/${user._id}/${reviewType}/${props.review._id}`,
+      isLocal ? `http://localhost:4000/users/unsave/${user._id}/${props.review._id}`
+      : `https://api.ratemyexschool.com:8443/users/unsave/${user._id}/${props.review._id}`,
       {
         method: "POST",
         headers: { "Authorization": `Bearer ${token}` },
@@ -93,6 +93,45 @@ const TopOfReview = (props) => {
       dispatch(setUser({ user: dataUser }));
     } else {
       console.log("Response Issue in TopOfReview in unsaveReview");
+      setDefaultOpen(true);
+    }
+  };
+
+  const likeReview = async () => {
+    const responseUser = await fetch(
+      isLocal ? `http://localhost:4000/users/like/${user._id}/${reviewType}/${props.review._id}`
+      : `https://api.ratemyexschool.com:8443/users/like/${user._id}/${reviewType}/${props.review._id}`,
+      {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${token}` },
+      }
+    );
+
+    if (responseUser.ok) {
+      const dataUser = await responseUser.json();
+      console.log(dataUser)
+      dispatch(setUser({ user: dataUser }));
+    } else {
+      console.log("Response Issue in TopOfReview in saveReview");
+      setDefaultOpen(true);
+    }
+  };
+
+  const unlikeReview = async () => {
+    const responseUser = await fetch(
+      isLocal ? `http://localhost:4000/users/unlike/${user._id}/${reviewType}/${props.review._id}`
+      : `https://api.ratemyexschool.com:8443/users/unlike/${user._id}/${reviewType}/${props.review._id}`,
+      {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${token}` },
+      }
+    );
+
+    if (responseUser.ok) {
+      const dataUser = await responseUser.json();
+      dispatch(setUser({ user: dataUser }));
+    } else {
+      console.log("Response Issue in TopOfReview in saveReview");
       setDefaultOpen(true);
     }
   };
@@ -122,13 +161,40 @@ const TopOfReview = (props) => {
                 </Grid>
               </Grid>
 
-              {/* SAVE & SHARE */}
+              {/* LIKE & SAVE */}
               <Box display="flex">
-                <Tooltip title="Like">
-                  <IconButton sx={{ color: palette.neutral.main }}>
-                    <FavoriteBorderIcon fontSize="inherit" />
-                  </IconButton>
-                </Tooltip>
+                {user.likedReviews.includes(props.review._id) ?
+                  <Tooltip title="Liked">
+                    <IconButton sx={{ color: palette.neutral.main }}>
+                      <Grid container direction="column">
+                        <Grid item>
+                          <FavoriteIcon fontSize="inherit" />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="h3b">{props.review.numberOfLikes}</Typography>
+                        </Grid>
+                      </Grid>
+                    </IconButton>
+                  </Tooltip>
+                  :
+                  <Tooltip title="Like">
+                    <IconButton 
+                      onClick={() => {
+                        user ? likeReview() : setSignInOpen(true);
+                      }}
+                      sx={{ color: palette.neutral.main }}
+                    >
+                      <Grid container direction="column">
+                        <Grid item>
+                          <FavoriteBorderIcon fontSize="inherit" />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant="h3b">{props.review.numberOfLikes}</Typography>
+                        </Grid>
+                      </Grid>
+                    </IconButton>
+                  </Tooltip>
+                }
 
                 {props.review._id in user.savedReviews ?
                   <Tooltip title="Saved">

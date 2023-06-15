@@ -98,6 +98,16 @@ export const getProfessorReviews = async(req, res) => {
   }
 }
 
+export const getProfessorReview = async(req, res) => {
+  try {
+    const { _id } = req.params;
+    const professorReview = await ProfessorReview.findById({ _id });
+    res.status(200).json(professorReview);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+}
+
 export const getProfessorReviewsData = async(req, res) => {
   try {
     const { professorId } = req.params;

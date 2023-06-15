@@ -91,7 +91,7 @@ const ReviewsWidget = () => {
 
   return (
     <>
-    {loading ? <LoadingComponent /> :
+      {loading ? <LoadingComponent /> :
       <>
         {/* OVERALL RATING */}
         {!isProfile && <OverallRating />}
@@ -121,7 +121,10 @@ const ReviewsWidget = () => {
             {/* PROFILE WIDGET */}
             {isProfile && 
               reviews.slice(0, showReviews)?.map((review) => {
-                if (review.hasOwnProperty("internshipId")) {
+                if (!review) {
+                  console.log("No Review in ReviewsWidget");
+                  return null;
+                } if (review.hasOwnProperty("internshipId")) {
                   return (<InternshipWidget key={review._id} review={review} />)
                 } else if (review.hasOwnProperty("dormId")) {
                   return (<DormWidget key={review._id} review={review} />)
@@ -131,7 +134,7 @@ const ReviewsWidget = () => {
                   return (<ProfessorWidget key={review._id} review={review} />)
                 } else {
                   /* TODO: Figure out a better way to handle error cases */
-                  console.log("No ID Property in ReviewsWidget")
+                  console.log("No ID Property in ReviewsWidget");
                   return null;
                 }
               })

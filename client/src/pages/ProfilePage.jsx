@@ -28,6 +28,7 @@ import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
 import WorkOutlineOutlined from "@mui/icons-material/WorkOutline";
+import SavedReviewsWidget from "./widgets/SavedReviewsWidget";
 
 export default function ProfilePage() {
   const { palette } = useTheme();
@@ -228,20 +229,26 @@ export default function ProfilePage() {
 
         {/* SAVED RATINGS */}
         {(value === "saved") &&
-          <Grid item>
-            <Grid container direction="column" alignItems="center" justifyContent="center">
-              <Grid item pb="1rem">
-                <Typography variant="h1b">
-                  You haven't saved any reviews yet
-                </Typography>
-              </Grid>
+          <>
+            {Object.keys(user.savedReviews).length < 1 ?
               <Grid item>
-                <Typography variant="h3b">
-                  Find your favorite reviews and save them here!
-                </Typography>
+                <Grid container direction="column" alignItems="center" justifyContent="center">
+                  <Grid item pb="1rem">
+                    <Typography variant="h1b">
+                      You haven't saved any reviews yet
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="h3b">
+                      Find your favorite reviews and save them here!
+                    </Typography>
+                  </Grid>
+                </Grid>
               </Grid>
-            </Grid>
-          </Grid>
+              :
+              <SavedReviewsWidget />
+            }
+          </>
         }
       </Grid>
 

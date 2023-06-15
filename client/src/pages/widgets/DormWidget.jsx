@@ -1,76 +1,34 @@
 import {
-  Avatar,
   Box,
   Button,
   CardMedia,
   Chip,
   Grid,
   ImageList,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Rating,
-  Typography
+  Typography,
+  useTheme,
 } from "@mui/material";
-import moment from 'moment';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 // Pages & Components
-import { useTheme } from "@emotion/react";
+import TopOfReview from "../../components/TopOfReview";
 import Dialogs from '../../components/dialogs/Dialogs';
 import WidgetWrapper from "../../components/wrappers/WidgetWrapper";
 
 const DormWidget = (props) => {
   const { palette } = useTheme();
-  const dateTimeAgo = moment(new Date(props.review.createdAt)).fromNow();
-  // State of User & Show More & Open
+  // State of User & Token
   const user = useSelector((state) => state.user);
+  // State of Show More & Open
   const [showMore, setShowMore] = useState(false);
-  const [reviewUser, setReviewUser] = useState(null);
   // Types of Open Dialogs
   const [signInOpen, setSignInOpen] = useState(false);
   const [hasReviewOpen, setHasReviewOpen] = useState(false);
-  // Check if it is in local or production
-  const isLocal = window.location.href.split("/")[2] === "localhost:3000";
-
-  const getUser = async () => {
-    const responseUser = await fetch(
-      isLocal ? `http://localhost:4000/users/${props.review.userId}`
-      : `https://api.ratemyexschool.com:8443/users/${props.review.userId}`,
-      {
-        method: "GET",
-      }
-    );
-    const dataUser = await responseUser.json();
-    setReviewUser(dataUser);
-  };
-  
-    useEffect(() => {
-      getUser();
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <WidgetWrapper m="1rem 0">
-      <ListItem>
-        {/* AVATAR */}
-        {reviewUser && 
-          <ListItemAvatar>
-            <Avatar sx={{ bgcolor: reviewUser.color }}>{reviewUser.firstName[0]}</Avatar>
-          </ListItemAvatar>
-        }
-        {/* RATING, USERNAME, TIME AGO */}
-        <ListItemText
-          primary={
-            <Grid container direction="column">
-              <Rating name="read-only" value={props.review.rating} size="small" readOnly />
-              <Grid item>
-                <Typography variant="h5b" sx={{ color: palette.neutral.main }}>{dateTimeAgo}</Typography>
-              </Grid>
-            </Grid>
-          }
-        />
-      </ListItem>
+      <TopOfReview review={props.review} />
 
       <Grid container direction="row" px="1.5rem" pt="0.4rem" alignItems="center" spacing={1.5}>
         {/* DORM NAME */}

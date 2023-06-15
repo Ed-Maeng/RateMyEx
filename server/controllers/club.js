@@ -148,6 +148,16 @@ export const getUserClubReviews = async(req, res) => {
   }
 }
 
+export const getClubReview = async(req, res) => {
+  try {
+    const { _id } = req.params;
+    const clubReview = await ClubReview.findById({ _id });
+    res.status(200).json(clubReview);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+}
+
 export const getClubReviewsData = async(req, res) => {
   try {
     const { clubId } = req.params;

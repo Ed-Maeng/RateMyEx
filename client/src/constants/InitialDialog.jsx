@@ -161,6 +161,15 @@ export const notResetPassword = {
   severity: "error",
 };
 
+/* --- SAVED REVIEW --- */
+export const reviewSaved = {
+  title: "Succesful!",
+  content: "Your review has been saved.",
+  buttonName: "Close",
+  path: null,
+  severity: "success",
+};
+
 /* --- DEFAULT --- */
 
 // DEFAULT DIALOG

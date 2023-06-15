@@ -43,7 +43,7 @@ export const saveReview = async(req, res) => {
   try {
     const { userId, reviewType, reviewId } = req.params;
     
-    // Add one tos `savedReviews` based on `userId` and `reviewType`
+    // Add one to `savedReviews` based on `userId` and `reviewType`
     await User.findOneAndUpdate({ _id: userId }, {
       $set: {
         [`savedReviews.${reviewId}`]: reviewType,

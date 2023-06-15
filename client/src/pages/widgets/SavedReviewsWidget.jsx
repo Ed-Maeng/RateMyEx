@@ -17,6 +17,7 @@ const SavedReviewsWidget = () => {
   const [reviews, setReviews] = useState([]);
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
+  // Number of Show & Total Reviews
   // Loading & Display Width
   const [loading, setLoading] = useState(true);
 
@@ -76,13 +77,13 @@ const SavedReviewsWidget = () => {
                 console.log("No Review in SavedReviewsWidget");
                 return null;
               } else if (review.hasOwnProperty("internshipId")) {
-                return (<InternshipWidget key={review._id} review={review} saved={false} />)
+                return (<InternshipWidget key={review._id} review={review} />)
               } else if (review.hasOwnProperty("dormId")) {
-                return (<DormWidget key={review._id} review={review} saved={false} />)
+                return (<DormWidget key={review._id} review={review} />)
               } else if (review.hasOwnProperty("clubId")) {
-                return (<ClubWidget key={review._id} review={review} saved={false} />)
+                return (<ClubWidget key={review._id} review={review} />)
               } else if (review.hasOwnProperty("professorId")) {
-                return (<ProfessorWidget key={review._id} review={review} saved={false} />)
+                return (<ProfessorWidget key={review._id} review={review} />)
               } else {
                 /* TODO: Figure out a better way to handle error cases */
                 console.log("No ID Property in SavedReviewsWidget");

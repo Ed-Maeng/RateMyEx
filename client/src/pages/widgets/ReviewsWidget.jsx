@@ -107,16 +107,16 @@ const ReviewsWidget = () => {
             </Typography>
 
             {/* INTERNSHIP WIDGET */}
-            {isInternship && reviews.slice(0, showReviews)?.map((review) => <InternshipWidget key={review._id} review={review} saved={true} />)}
+            {isInternship && reviews.slice(0, showReviews)?.map((review) => <InternshipWidget key={review._id} review={review} />)}
 
             {/* DORM WIDGET */}
-            {isDorm && reviews.slice(0, showReviews)?.map((review) => <DormWidget key={review._id} review={review} saved={true} />)}
+            {isDorm && reviews.slice(0, showReviews)?.map((review) => <DormWidget key={review._id} review={review} />)}
 
             {/* CLUB WIDGET */}
-            {isClub && reviews.slice(0, showReviews)?.map((review) => <ClubWidget key={review._id} review={review} saved={true} />)}
+            {isClub && reviews.slice(0, showReviews)?.map((review) => <ClubWidget key={review._id} review={review} />)}
 
             {/* PROFESSOR WIDGET */}
-            {isProfessor && reviews.slice(0, showReviews)?.map((review) => <ProfessorWidget key={review._id} review={review} saved={true} />)}
+            {isProfessor && reviews.slice(0, showReviews)?.map((review) => <ProfessorWidget key={review._id} review={review} />)}
 
             {/* PROFILE WIDGET */}
             {isProfile && 
@@ -125,13 +125,13 @@ const ReviewsWidget = () => {
                   console.log("No Review in ReviewsWidget");
                   return null;
                 } if (review.hasOwnProperty("internshipId")) {
-                  return (<InternshipWidget key={review._id} review={review} saved={false} />)
+                  return (<InternshipWidget key={review._id} review={review} />)
                 } else if (review.hasOwnProperty("dormId")) {
-                  return (<DormWidget key={review._id} review={review} saved={false} />)
+                  return (<DormWidget key={review._id} review={review} />)
                 } else if (review.hasOwnProperty("clubId")) {
-                  return (<ClubWidget key={review._id} review={review} saved={false} />)
+                  return (<ClubWidget key={review._id} review={review} />)
                 } else if (review.hasOwnProperty("professorId")) {
-                  return (<ProfessorWidget key={review._id} review={review} saved={false} />)
+                  return (<ProfessorWidget key={review._id} review={review} />)
                 } else {
                   /* TODO: Figure out a better way to handle error cases */
                   console.log("No ID Property in ReviewsWidget");

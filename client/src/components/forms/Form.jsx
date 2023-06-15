@@ -79,6 +79,7 @@ const Form = () => {
     } else if (registerResponse.status === 400) {
       setschoolEmailNotFoundOpen(true);
     } else {
+      console.log("Response Issue in Form in register");
       setDefaultOpen(true);
     }
     
@@ -118,6 +119,7 @@ const Form = () => {
     } else if (loggedInResponse.status === 400) {
       setWrongPasswordOpen(true);
     } else {
+      console.log("Response Issue in Form in login");
       setDefaultOpen(true);
     }
     
@@ -154,11 +156,13 @@ const Form = () => {
     } else if (oauthResponse.status === 400) {
       setschoolEmailNotFoundOpen(true);
     } else {
+      console.log("Response Issue in Form in onSuccess");
       setDefaultOpen(true);
     }
   };
 
   const onError = (res) => {
+    console.log("Response Issue in Form in onError");
     setDefaultOpen(true);
   };
 

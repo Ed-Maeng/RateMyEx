@@ -1,4 +1,4 @@
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, Grid, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentSection, setUser } from "../../state/auth";
@@ -7,6 +7,7 @@ import LoadingComponent from "../../components/LoadingComponent";
 import OverallRating from "../../components/OverallRating";
 import FlexBetween from "../../components/wrappers/FlexBetween";
 // All Review Widgets
+import Dialogs from "../../components/dialogs/Dialogs";
 import ClubWidget from "./ClubWidget";
 import DormWidget from "./DormWidget";
 import InternshipWidget from "./InternshipWidget";
@@ -31,6 +32,8 @@ const ReviewsWidget = () => {
   // Number of Show & Total Reviews
   const [showReviews, setShowReviews] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
+  // Types of Open Dialogs
+  const [defaultOpen, setDefaultOpen] = useState(false);
   // Loading & Display Width
   const [loading, setLoading] = useState(true);
 
@@ -42,8 +45,14 @@ const ReviewsWidget = () => {
         method: "GET",
       }
     );
-    const dataReviews = await responseReviews.json();
-    setReviews(dataReviews);
+    
+    if (responseReviews.ok) {
+      const dataReviews = await responseReviews.json();
+      setReviews(dataReviews);
+    } else {
+      console.log("Response Issue in ReviewsWidget in getReviews");
+      setDefaultOpen(true);
+    }
 
     const responseCurrentSection = await fetch(
       isLocal ? `http://localhost:4000/${reviewType}/section/${currentSection._id}` 
@@ -52,9 +61,15 @@ const ReviewsWidget = () => {
         method: "GET",
       }
     );
-    const dataCurrentSection = await responseCurrentSection.json();
-    dispatch(setCurrentSection({ currentSection: dataCurrentSection }));
-    setTotalReviews(dataCurrentSection.totalReviews);
+    
+    if (responseCurrentSection.ok) {
+      const dataCurrentSection = await responseCurrentSection.json();
+      dispatch(setCurrentSection({ currentSection: dataCurrentSection }));
+      setTotalReviews(dataCurrentSection.totalReviews);
+    } else {
+      console.log("Response Issue in ReviewsWidget in getReviews");
+      setDefaultOpen(true);
+    }
   };
 
   const getUserReviews = async () => {
@@ -65,8 +80,14 @@ const ReviewsWidget = () => {
         method: "GET",
       }
     );
-    const data = await response.json();
-    setReviews(data);
+    
+    if (response.ok) {
+      const data = await response.json();
+      setReviews(data);
+    } else {
+      console.log("Response Issue in ReviewsWidget in getUserReviews");
+      setDefaultOpen(true);
+    }
 
     const responseUser = await fetch(
       isLocal ? `http://localhost:4000/users/${user._id}` : `https://api.ratemyexschool.com:8443/users/${user._id}`,
@@ -74,9 +95,15 @@ const ReviewsWidget = () => {
         method: "GET",
       }
     );
-    const dataUser = await responseUser.json();
-    dispatch(setUser({ user: dataUser }));
-    setTotalReviews(dataUser.numberOfReviews);
+    
+    if (responseUser.ok) {
+      const dataUser = await responseUser.json();
+      dispatch(setUser({ user: dataUser }));
+      setTotalReviews(dataUser.numberOfReviews);
+    } else {
+      console.log("Response Issue in ReviewsWidget in getUserReviews");
+      setDefaultOpen(true);
+    }
   };
 
   useEffect(() => {
@@ -93,90 +120,109 @@ const ReviewsWidget = () => {
     <>
       {loading ? <LoadingComponent /> :
       <>
-        {/* OVERALL RATING */}
-        {!isProfile && <OverallRating />}
+        {(showReviews < 1) ?
+          <Grid container direction="column" pt="2rem" alignItems="center" justifyContent="center">
+            <Grid item pb="1rem">
+              <Typography variant="h1b">
+                People haven't wrote any reviews yet
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="h2b">
+                Be the first one to write a review!
+              </Typography>
+            </Grid>
+          </Grid>
+          :
+          <>
+            {/* OVERALL RATING */}
+            {!isProfile && <OverallRating />}
 
-        <Box display="flex" width="70%" justifyContent="center">
-          <Box flexBasis="80%">
-            {/* TOTAL NUMBER OF REVIEWS */}
-            <Typography
-              variant="reviewTitle"
-              pl="1rem"
-            >
-              {"Browse " + totalReviews + " Reviews"}
-            </Typography>
-
-            {/* INTERNSHIP WIDGET */}
-            {isInternship && reviews.slice(0, showReviews)?.map((review) => <InternshipWidget key={review._id} review={review} />)}
-
-            {/* DORM WIDGET */}
-            {isDorm && reviews.slice(0, showReviews)?.map((review) => <DormWidget key={review._id} review={review} />)}
-
-            {/* CLUB WIDGET */}
-            {isClub && reviews.slice(0, showReviews)?.map((review) => <ClubWidget key={review._id} review={review} />)}
-
-            {/* PROFESSOR WIDGET */}
-            {isProfessor && reviews.slice(0, showReviews)?.map((review) => <ProfessorWidget key={review._id} review={review} />)}
-
-            {/* PROFILE WIDGET */}
-            {isProfile && 
-              reviews.slice(0, showReviews)?.map((review) => {
-                if (!review) {
-                  console.log("No Review in ReviewsWidget");
-                  return null;
-                } if (review.hasOwnProperty("internshipId")) {
-                  return (<InternshipWidget key={review._id} review={review} />)
-                } else if (review.hasOwnProperty("dormId")) {
-                  return (<DormWidget key={review._id} review={review} />)
-                } else if (review.hasOwnProperty("clubId")) {
-                  return (<ClubWidget key={review._id} review={review} />)
-                } else if (review.hasOwnProperty("professorId")) {
-                  return (<ProfessorWidget key={review._id} review={review} />)
-                } else {
-                  /* TODO: Figure out a better way to handle error cases */
-                  console.log("No ID Property in ReviewsWidget");
-                  return null;
-                }
-              })
-            }
-
-            {/* Load Button */}
-            {(showReviews > 0) &&
-              <FlexBetween px="1rem" pt="0.5rem" pb="2rem">
-                {/* NUMBER OF SHOWING REVIEWS */}
+            <Box display="flex" width="70%" justifyContent="center">
+              <Box flexBasis="80%">
+                {/* TOTAL NUMBER OF REVIEWS */}
                 <Typography
-                  variant="h3b"
-                  color={palette.neutral.dark}
+                  variant="reviewTitle"
+                  pl="1rem"
                 >
-                  {"Showing " + showReviews + " of " + totalReviews + " reviews"}
+                  {"Browse " + totalReviews + " Reviews"}
                 </Typography>
-                {/* LOADING BUTTON */}
-                {(showReviews < totalReviews) &&
-                  <Button
-                    variant="contained"
-                    onClick={() => setShowReviews(
-                      ((totalReviews - showReviews) < 10) ? showReviews + totalReviews - showReviews : showReviews + 10)
+
+                {/* INTERNSHIP WIDGET */}
+                {isInternship && reviews.slice(0, showReviews)?.map((review) => <InternshipWidget key={review._id} review={review} />)}
+
+                {/* DORM WIDGET */}
+                {isDorm && reviews.slice(0, showReviews)?.map((review) => <DormWidget key={review._id} review={review} />)}
+
+                {/* CLUB WIDGET */}
+                {isClub && reviews.slice(0, showReviews)?.map((review) => <ClubWidget key={review._id} review={review} />)}
+
+                {/* PROFESSOR WIDGET */}
+                {isProfessor && reviews.slice(0, showReviews)?.map((review) => <ProfessorWidget key={review._id} review={review} />)}
+
+                {/* PROFILE WIDGET */}
+                {isProfile && 
+                  reviews.slice(0, showReviews)?.map((review) => {
+                    if (!review) {
+                      setDefaultOpen(true);
+                      console.log("No Review in ReviewsWidget");
+                      return null;
+                    } if (review.hasOwnProperty("internshipId")) {
+                      return (<InternshipWidget key={review._id} review={review} />)
+                    } else if (review.hasOwnProperty("dormId")) {
+                      return (<DormWidget key={review._id} review={review} />)
+                    } else if (review.hasOwnProperty("clubId")) {
+                      return (<ClubWidget key={review._id} review={review} />)
+                    } else if (review.hasOwnProperty("professorId")) {
+                      return (<ProfessorWidget key={review._id} review={review} />)
+                    } else {
+                      setDefaultOpen(true);
+                      console.log("No ID Property in ReviewsWidget");
+                      return null;
                     }
-                    sx={{
-                      bgcolor: palette.button.default,
-                      width: "110px",
-                      height: "35px",
-                      "&:hover": {
-                        bgcolor: palette.button.alt
-                      }
-                    }}
-                  >
-                    <Typography variant="h6b">
-                      Load More
-                    </Typography>
-                  </Button>
+                  })
                 }
-              </FlexBetween>
-            }
-          </Box>
-        </Box>
+
+                {/* Load Button */}       
+                <FlexBetween px="1rem" pt="0.5rem" pb="2rem">
+                  {/* NUMBER OF SHOWING REVIEWS */}
+                  <Typography
+                    variant="h3b"
+                    color={palette.neutral.dark}
+                  >
+                    {"Showing " + showReviews + " of " + totalReviews + " reviews"}
+                  </Typography>
+                  {/* LOADING BUTTON */}
+                  {(showReviews < totalReviews) &&
+                    <Button
+                      variant="contained"
+                      onClick={() => setShowReviews(
+                        ((totalReviews - showReviews) < 10) ? showReviews + totalReviews - showReviews : showReviews + 10)
+                      }
+                      sx={{
+                        bgcolor: palette.button.default,
+                        width: "110px",
+                        height: "35px",
+                        "&:hover": {
+                          bgcolor: palette.button.alt
+                        }
+                      }}
+                    >
+                      <Typography variant="h6b">
+                        Load More
+                      </Typography>
+                    </Button>
+                  }
+                </FlexBetween>
+              </Box>
+            </Box>
+          </>
+        }
       </>
       }
+
+      {/* Warning Dialogs */}
+      <Dialogs open={defaultOpen} setOpen={setDefaultOpen} type="default" />
     </>
   );
 }

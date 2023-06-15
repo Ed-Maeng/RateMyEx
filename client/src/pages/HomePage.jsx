@@ -16,6 +16,7 @@ import { setSchool, setTab } from '../state/auth';
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import SearchText from "../components/SearchText";
+import Dialogs from "../components/dialogs/Dialogs";
 import Flexbetween from "../components/wrappers/FlexBetween";
 
 const HomePage = () => {
@@ -25,6 +26,8 @@ const HomePage = () => {
   const [schools, setSchools] = useState([]);
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
+  // Types of Open Dialogs
+  const [defaultOpen, setDefaultOpen] = useState(false);
 
   const getSchools = async () => {
     const response = await fetch(
@@ -33,8 +36,14 @@ const HomePage = () => {
         method: "GET",
       }
     );
-    const data = await response.json();
-    setSchools(data);
+
+    if (response.ok) {
+      const data = await response.json();
+      setSchools(data);
+    } else {
+      console.log("Response Issue in HomePage in getSchools");
+      setDefaultOpen(true);
+    }
   };
 
   useEffect(() => {
@@ -120,6 +129,9 @@ const HomePage = () => {
       </Grid>
       
       <Footer />
+
+      {/* Warning Dialogs */}
+      <Dialogs open={defaultOpen} setOpen={setDefaultOpen} type="default" />
     </Box>
   );
 }

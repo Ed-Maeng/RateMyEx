@@ -5,6 +5,7 @@ import { setUser } from "../../state/auth";
 // Components
 import LoadingComponent from "../../components/LoadingComponent";
 // All Review Widgets
+import Dialogs from "../../components/dialogs/Dialogs";
 import ClubWidget from "./ClubWidget";
 import DormWidget from "./DormWidget";
 import InternshipWidget from "./InternshipWidget";
@@ -17,7 +18,8 @@ const SavedReviewsWidget = () => {
   const [reviews, setReviews] = useState([]);
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
-  // Number of Show & Total Reviews
+  // Types of Open Dialogs
+  const [defaultOpen, setDefaultOpen] = useState(false);
   // Loading & Display Width
   const [loading, setLoading] = useState(true);
 
@@ -28,8 +30,14 @@ const SavedReviewsWidget = () => {
         method: "GET",
       }
     );
-    const data = await response.json();
-    return data;
+    
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      console.log("Response Issue in SavedReviewsWidget in getReview");
+      setDefaultOpen(true);
+    }
   };
 
   const getSavedReviews = async () => {
@@ -39,13 +47,19 @@ const SavedReviewsWidget = () => {
         method: "GET",
       }
     );
-    const dataUser = await responseUser.json();
-    dispatch(setUser({ user: dataUser }));
 
-    Object.entries(user.savedReviews)?.map(async ([key, value]) => {
-      const review = await getReview(key, value);
-      setReviews(savedReviews => [...savedReviews, review]);
-    });
+    if (responseUser.ok) {
+      const dataUser = await responseUser.json();
+      dispatch(setUser({ user: dataUser }));
+  
+      Object.entries(user.savedReviews)?.map(async ([key, value]) => {
+        const review = await getReview(key, value);
+        setReviews(savedReviews => [...savedReviews, review]);
+      });
+    } else {
+      console.log("Response Issue in SavedReviewsWidget in getSavedReviews");
+      setDefaultOpen(true);
+    }
   };
 
   useEffect(() => {
@@ -74,6 +88,7 @@ const SavedReviewsWidget = () => {
             {/* SAVED REVIEWS */}
             {reviews?.map((review) => {
               if (!review) {
+                setDefaultOpen(true);
                 console.log("No Review in SavedReviewsWidget");
                 return null;
               } else if (review.hasOwnProperty("internshipId")) {
@@ -85,13 +100,16 @@ const SavedReviewsWidget = () => {
               } else if (review.hasOwnProperty("professorId")) {
                 return (<ProfessorWidget key={review._id} review={review} />)
               } else {
-                /* TODO: Figure out a better way to handle error cases */
+                setDefaultOpen(true);
                 console.log("No ID Property in SavedReviewsWidget");
                 return null;
               }})
             }
           </Box>
         </Box>
+
+        {/* Warning Dialogs */}
+        <Dialogs open={defaultOpen} setOpen={setDefaultOpen} type="default" />
       </>
     }
     </>

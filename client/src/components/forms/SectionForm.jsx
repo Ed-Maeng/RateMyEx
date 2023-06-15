@@ -68,6 +68,7 @@ const SectionForm = (props) => {
       setSectionAlreadyFoundOpen(true);
       setSectionAlreadyFoundName(errorData.name);
     } else {
+      console.log("Response Issue in SectionForm in saveSection");
       setDefaultOpen(true);
     }
 

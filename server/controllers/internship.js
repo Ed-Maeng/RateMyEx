@@ -128,6 +128,16 @@ export const getInternshipReviews = async(req, res) => {
   }
 }
 
+export const getInternshipReview = async(req, res) => {
+  try {
+    const { _id } = req.params;
+    const internshipReview = await InternshipReview.findById({ _id });
+    res.status(200).json(internshipReview);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+}
+
 export const getInternshipReviewsData = async(req, res) => {
   try {
     const { internshipId } = req.params;

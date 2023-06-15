@@ -137,6 +137,16 @@ export const getDormReviews = async(req, res) => {
   }
 }
 
+export const getDormReview = async(req, res) => {
+  try {
+    const { _id } = req.params;
+    const dormReview = await DormReview.findById({ _id });
+    res.status(200).json(dormReview);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+}
+
 export const getDormReviewsData = async(req, res) => {
   try {
     const { dormId } = req.params;

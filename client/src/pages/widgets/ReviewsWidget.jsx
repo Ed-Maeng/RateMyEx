@@ -91,7 +91,7 @@ const ReviewsWidget = () => {
 
   return (
     <>
-    {loading ? <LoadingComponent /> :
+      {loading ? <LoadingComponent /> :
       <>
         {/* OVERALL RATING */}
         {!isProfile && <OverallRating />}
@@ -107,31 +107,34 @@ const ReviewsWidget = () => {
             </Typography>
 
             {/* INTERNSHIP WIDGET */}
-            {isInternship && reviews.slice(0, showReviews)?.map((review) => <InternshipWidget key={review._id} review={review} />)}
+            {isInternship && reviews.slice(0, showReviews)?.map((review) => <InternshipWidget key={review._id} review={review} saved={true} />)}
 
             {/* DORM WIDGET */}
-            {isDorm && reviews.slice(0, showReviews)?.map((review) => <DormWidget key={review._id} review={review} />)}
+            {isDorm && reviews.slice(0, showReviews)?.map((review) => <DormWidget key={review._id} review={review} saved={true} />)}
 
             {/* CLUB WIDGET */}
-            {isClub && reviews.slice(0, showReviews)?.map((review) => <ClubWidget key={review._id} review={review} />)}
+            {isClub && reviews.slice(0, showReviews)?.map((review) => <ClubWidget key={review._id} review={review} saved={true} />)}
 
             {/* PROFESSOR WIDGET */}
-            {isProfessor && reviews.slice(0, showReviews)?.map((review) => <ProfessorWidget key={review._id} review={review} />)}
+            {isProfessor && reviews.slice(0, showReviews)?.map((review) => <ProfessorWidget key={review._id} review={review} saved={true} />)}
 
             {/* PROFILE WIDGET */}
             {isProfile && 
               reviews.slice(0, showReviews)?.map((review) => {
-                if (review.hasOwnProperty("internshipId")) {
-                  return (<InternshipWidget key={review._id} review={review} />)
+                if (!review) {
+                  console.log("No Review in ReviewsWidget");
+                  return null;
+                } if (review.hasOwnProperty("internshipId")) {
+                  return (<InternshipWidget key={review._id} review={review} saved={false} />)
                 } else if (review.hasOwnProperty("dormId")) {
-                  return (<DormWidget key={review._id} review={review} />)
+                  return (<DormWidget key={review._id} review={review} saved={false} />)
                 } else if (review.hasOwnProperty("clubId")) {
-                  return (<ClubWidget key={review._id} review={review} />)
+                  return (<ClubWidget key={review._id} review={review} saved={false} />)
                 } else if (review.hasOwnProperty("professorId")) {
-                  return (<ProfessorWidget key={review._id} review={review} />)
+                  return (<ProfessorWidget key={review._id} review={review} saved={false} />)
                 } else {
                   /* TODO: Figure out a better way to handle error cases */
-                  console.log("No ID Property in ReviewsWidget")
+                  console.log("No ID Property in ReviewsWidget");
                   return null;
                 }
               })

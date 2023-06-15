@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getClub,
+  getClubReview,
   getClubReviews,
   getClubReviewsData,
   getClubs,
@@ -12,6 +13,7 @@ const router = express.Router();
 router.get("/:schoolId", getClubs);
 router.get("/section/:clubId", getClub);
 router.get("/reviews/:clubId", getClubReviews);
+router.get("/review/:_id", getClubReview);
 router.get("/reviewsData/:clubId", getClubReviewsData);
 router.put("/:clubId", updateClub);
 

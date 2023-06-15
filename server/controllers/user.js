@@ -22,7 +22,7 @@ export const getUserReviews = async (req, res) => {
     const dormReviews = await DormReview.find({ userId });
     const clubReviews = await ClubReview.find({ userId });
     const professorReviews = await ProfessorReview.find({ userId });
-    const reviews = await internshipReviews.concat(dormReviews).concat(clubReviews).concat(professorReviews);
+    const reviews = internshipReviews.concat(dormReviews).concat(clubReviews).concat(professorReviews);
     res.status(200).json(reviews);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -34,6 +34,24 @@ export const sendEmailSupport = async (req, res) => {
     const { user, feedback } = req.body;
     const response = await emailSupport(`${user.firstName} ${user.lastName}`, feedback);
     res.status(200).json(response);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const saveReview = async(req, res) => {
+  try {
+    const { userId, reviewType, reviewId } = req.params;
+    
+    // Update `savedReviews` based on `reviewType`
+    await User.findOneAndUpdate({ _id: userId }, {
+      $set: {
+        [`savedReviews.${reviewId}`]: reviewType,
+      }
+    });
+
+    const user = await User.findById({ _id: userId });
+    res.status(200).json(user);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

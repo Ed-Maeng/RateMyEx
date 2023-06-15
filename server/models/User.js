@@ -44,6 +44,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    savedReviews: {
+      type: Map,
+      default: {},
+    }
   },
   { timestamps: true }
 );

@@ -7,6 +7,6 @@ import {
 const router = express.Router();
 
 router.get("/:_id", getUser);
-router.get("/reviews/:userId/", getUserReviews);
+router.get("/reviews/:userId", getUserReviews);
 
 export default router;

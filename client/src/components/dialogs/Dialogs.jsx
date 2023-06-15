@@ -76,6 +76,10 @@ const Dialogs = (props) => {
     case "same-password":
       dialog = InitialDialog.samePassword;
       break;
+    /* --- Save Review --- */
+    case "review-saved":
+      dialog = InitialDialog.reviewSaved;
+      break;
     default:
       dialog = InitialDialog.defaultDialog;
       break;
@@ -86,7 +90,6 @@ const Dialogs = (props) => {
       open={props.open}
       onClose={() => {
         dialog.path && navigate(dialog.path);
-        window.location.reload(false);
         props.setOpen(false);
       }}
       aria-labelledby="alert-dialog-title"
@@ -115,7 +118,6 @@ const Dialogs = (props) => {
                 variant="outlined"
                 onClick={() => {
                   dialog.path && navigate(dialog.path);
-                  window.location.reload(false);
                   props.setOpen(false);
                 }}
                 sx={{

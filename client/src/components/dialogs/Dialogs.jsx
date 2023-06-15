@@ -76,10 +76,6 @@ const Dialogs = (props) => {
     case "same-password":
       dialog = InitialDialog.samePassword;
       break;
-    /* --- Save Review --- */
-    case "review-saved":
-      dialog = InitialDialog.reviewSaved;
-      break;
     default:
       dialog = InitialDialog.defaultDialog;
       break;

@@ -65,7 +65,7 @@ const SavedReviewsWidget = () => {
   useEffect(() => {
     const fetchData = async () => {
       getSavedReviews();
-      await new Promise(r => setTimeout(r, 500));
+      await new Promise(r => setTimeout(r, 1000));
       setLoading(false);
     };
     fetchData().catch(console.error);

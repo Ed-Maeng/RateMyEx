@@ -21,9 +21,10 @@ import FlexBetween from "./wrappers/FlexBetween";
 // Icons
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import ShareIcon from '@mui/icons-material/Share';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-const SaveAndShare = (props) => {
+const TopOfReview = (props) => {
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const dateTimeAgo = moment(new Date(props.review.createdAt)).fromNow();
@@ -36,7 +37,6 @@ const SaveAndShare = (props) => {
   const [reviewUser, setReviewUser] = useState(null);
   // Types of Open Dialogs
   const [signInOpen, setSignInOpen] = useState(false);
-  const [reviewSaved, setReviewSaved] = useState(false);
   const [defaultOpen, setDefaultOpen] = useState(false);
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
@@ -61,8 +61,8 @@ const SaveAndShare = (props) => {
 
   const saveReview = async () => {
     const responseUser = await fetch(
-      isLocal ? `http://localhost:4000/users/${user._id}/${reviewType}/${props.review._id}`
-      : `https://api.ratemyexschool.com:8443/users/${user._id}/${reviewType}/${props.review._id}`,
+      isLocal ? `http://localhost:4000/users/save/${user._id}/${reviewType}/${props.review._id}`
+      : `https://api.ratemyexschool.com:8443/users/save/${user._id}/${reviewType}/${props.review._id}`,
       {
         method: "POST",
         headers: { "Authorization": `Bearer ${token}` },
@@ -72,9 +72,27 @@ const SaveAndShare = (props) => {
     if (responseUser.ok) {
       const dataUser = await responseUser.json();
       dispatch(setUser({ user: dataUser }));
-      setReviewSaved(true);
     } else {
       console.log("Response Issue in TopOfReview in saveReview");
+      setDefaultOpen(true);
+    }
+  };
+
+  const unsaveReview = async () => {
+    const responseUser = await fetch(
+      isLocal ? `http://localhost:4000/users/unsave/${user._id}/${reviewType}/${props.review._id}`
+      : `https://api.ratemyexschool.com:8443/users/unsave/${user._id}/${reviewType}/${props.review._id}`,
+      {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${token}` },
+      }
+    );
+
+    if (responseUser.ok) {
+      const dataUser = await responseUser.json();
+      dispatch(setUser({ user: dataUser }));
+    } else {
+      console.log("Response Issue in TopOfReview in unsaveReview");
       setDefaultOpen(true);
     }
   };
@@ -106,9 +124,20 @@ const SaveAndShare = (props) => {
 
               {/* SAVE & SHARE */}
               <Box display="flex">
+                <Tooltip title="Like">
+                  <IconButton sx={{ color: palette.neutral.main }}>
+                    <FavoriteBorderIcon fontSize="inherit" />
+                  </IconButton>
+                </Tooltip>
+
                 {props.review._id in user.savedReviews ?
                   <Tooltip title="Saved">
-                    <IconButton sx={{ color: palette.neutral.main }}>
+                    <IconButton
+                      onClick={() => {
+                        user ? unsaveReview() : setSignInOpen(true);
+                      }}
+                      sx={{ color: palette.neutral.main }}
+                    >
                       <BookmarkIcon fontSize="inherit" />
                     </IconButton>
                   </Tooltip>
@@ -124,11 +153,6 @@ const SaveAndShare = (props) => {
                     </IconButton>
                   </Tooltip>
                 }
-                <Tooltip title="Share">
-                  <IconButton sx={{ color: palette.neutral.main }}>
-                    <ShareIcon fontSize="inherit" />
-                  </IconButton>
-                </Tooltip>
               </Box>
             </FlexBetween>
           }
@@ -137,10 +161,9 @@ const SaveAndShare = (props) => {
 
       {/* Warning Dialogs */}
       <Dialogs open={signInOpen} setOpen={setSignInOpen} type="not-signin" />
-      <Dialogs open={reviewSaved} setOpen={setReviewSaved} type="review-saved" />
       <Dialogs open={defaultOpen} setOpen={setDefaultOpen} type="default" />
     </>
   )
 };
 
-export default SaveAndShare;
+export default TopOfReview;

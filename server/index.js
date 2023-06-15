@@ -14,7 +14,7 @@ import { createDorm, createDormReview } from "./controllers/dorm.js";
 import { createInternship, createInternshipReview } from "./controllers/internship.js";
 import { createProfessor, createProfessorReview } from "./controllers/professor.js";
 import { createSchool } from "./controllers/school.js";
-import { saveReview, sendEmailSupport } from "./controllers/user.js";
+import { saveReview, sendEmailSupport, unsaveReview } from "./controllers/user.js";
 
 /* ROUTERS */
 import authRoutes from "./routes/auth.js";
@@ -52,7 +52,8 @@ app.post("/clubs/:clubId/:userId/:schoolId", verifyToken, upload.array("files[]"
 app.post("/professors/:schoolId", upload.single("file"), createProfessor);
 app.post("/professors/:professorId/:userId/:schoolId", verifyToken, upload.array("files[]", 3), createProfessorReview);
 app.post("/users/support", verifyToken, sendEmailSupport);
-app.post("/users/:userId/:reviewType/:reviewId", verifyToken, saveReview);
+app.post("/users/save/:userId/:reviewType/:reviewId", verifyToken, saveReview);
+app.post("/users/unsave/:userId/:reviewType/:reviewId", verifyToken, unsaveReview);
 
 /* ROUTES */
 app.use("/auth", authRoutes);

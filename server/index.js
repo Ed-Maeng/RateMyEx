@@ -14,7 +14,7 @@ import { createDorm, createDormReview } from "./controllers/dorm.js";
 import { createInternship, createInternshipReview } from "./controllers/internship.js";
 import { createProfessor, createProfessorReview } from "./controllers/professor.js";
 import { createSchool } from "./controllers/school.js";
-import { likeReview, saveReview, sendEmailSupport, unsaveReview } from "./controllers/user.js";
+import { likeReview, saveReview, sendEmailSupport, unlikeReview, unsaveReview } from "./controllers/user.js";
 
 /* ROUTERS */
 import authRoutes from "./routes/auth.js";
@@ -55,6 +55,7 @@ app.post("/users/support", verifyToken, sendEmailSupport);
 app.post("/users/save/:userId/:reviewType/:reviewId", verifyToken, saveReview);
 app.post("/users/unsave/:userId/:reviewId", verifyToken, unsaveReview);
 app.post("/users/like/:userId/:reviewType/:reviewId", verifyToken, likeReview);
+app.post("/users/unlike/:userId/:reviewType/:reviewId", verifyToken, unlikeReview);
 
 /* ROUTES */
 app.use("/auth", authRoutes);

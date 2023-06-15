@@ -33,7 +33,9 @@ const TopOfReview = (props) => {
   const token = useSelector((state) => state.token);
   // Types of Review
   const reviewType = window.location.pathname.split("/")[2];
-  // State of Review User
+  const isProfile = window.location.pathname.split("/")[1] === "profile";
+  // State of Number of Likes & Review's User
+  const [numberOfLikes, setNumberOfLikes] = useState(props.review.numberOfLikes);
   const [reviewUser, setReviewUser] = useState(null);
   // Types of Open Dialogs
   const [signInOpen, setSignInOpen] = useState(false);
@@ -109,10 +111,10 @@ const TopOfReview = (props) => {
 
     if (responseUser.ok) {
       const dataUser = await responseUser.json();
-      console.log(dataUser)
       dispatch(setUser({ user: dataUser }));
+      setNumberOfLikes(numberOfLikes + 1);
     } else {
-      console.log("Response Issue in TopOfReview in saveReview");
+      console.log("Response Issue in TopOfReview in likeReview");
       setDefaultOpen(true);
     }
   };
@@ -130,8 +132,9 @@ const TopOfReview = (props) => {
     if (responseUser.ok) {
       const dataUser = await responseUser.json();
       dispatch(setUser({ user: dataUser }));
+      setNumberOfLikes(numberOfLikes - 1);
     } else {
-      console.log("Response Issue in TopOfReview in saveReview");
+      console.log("Response Issue in TopOfReview in unlikeReview");
       setDefaultOpen(true);
     }
   };
@@ -162,64 +165,63 @@ const TopOfReview = (props) => {
               </Grid>
 
               {/* LIKE & SAVE */}
-              <Box display="flex">
-                {user.likedReviews.includes(props.review._id) ?
-                  <Tooltip title="Liked">
-                    <IconButton sx={{ color: palette.neutral.main }}>
-                      <Grid container direction="column">
-                        <Grid item>
+              {!isProfile &&
+                <Box display="flex">
+                  {user.likedReviews.includes(props.review._id) ?
+                    <Tooltip title="Liked">
+                      <>
+                        <Typography variant="h3b" sx={{ color: palette.neutral.main }}>{numberOfLikes}</Typography>
+                        <IconButton 
+                          onClick={() => {
+                            user ? unlikeReview() : setSignInOpen(true);
+                          }}
+                          sx={{ color: palette.neutral.main }}
+                        >                      
                           <FavoriteIcon fontSize="inherit" />
-                        </Grid>
-                        <Grid item>
-                          <Typography variant="h3b">{props.review.numberOfLikes}</Typography>
-                        </Grid>
-                      </Grid>
-                    </IconButton>
-                  </Tooltip>
-                  :
-                  <Tooltip title="Like">
-                    <IconButton 
-                      onClick={() => {
-                        user ? likeReview() : setSignInOpen(true);
-                      }}
-                      sx={{ color: palette.neutral.main }}
-                    >
-                      <Grid container direction="column">
-                        <Grid item>
+                        </IconButton>
+                      </>
+                    </Tooltip>
+                    :
+                    <Tooltip title="Like">
+                      <>
+                        <Typography variant="h3b" sx={{ color: palette.neutral.main }}>{numberOfLikes}</Typography>
+                        <IconButton 
+                          onClick={() => {
+                            user ? likeReview() : setSignInOpen(true);
+                          }}
+                          sx={{ color: palette.neutral.main }}
+                        >                      
                           <FavoriteBorderIcon fontSize="inherit" />
-                        </Grid>
-                        <Grid item>
-                          <Typography variant="h3b">{props.review.numberOfLikes}</Typography>
-                        </Grid>
-                      </Grid>
-                    </IconButton>
-                  </Tooltip>
-                }
+                        </IconButton>
+                      </>
+                    </Tooltip>
+                  }
 
-                {props.review._id in user.savedReviews ?
-                  <Tooltip title="Saved">
-                    <IconButton
-                      onClick={() => {
-                        user ? unsaveReview() : setSignInOpen(true);
-                      }}
-                      sx={{ color: palette.neutral.main }}
-                    >
-                      <BookmarkIcon fontSize="inherit" />
-                    </IconButton>
-                  </Tooltip>
-                  :
-                  <Tooltip title="Save">
-                    <IconButton 
-                      onClick={() => {
-                        user ? saveReview() : setSignInOpen(true);
-                      }}
-                      sx={{ color: palette.neutral.main }}
-                    >
-                      <BookmarkBorderIcon fontSize="inherit" />
-                    </IconButton>
-                  </Tooltip>
-                }
-              </Box>
+                  {props.review._id in user.savedReviews ?
+                    <Tooltip title="Saved">
+                      <IconButton
+                        onClick={() => {
+                          user ? unsaveReview() : setSignInOpen(true);
+                        }}
+                        sx={{ color: palette.neutral.main }}
+                      >
+                        <BookmarkIcon fontSize="inherit" />
+                      </IconButton>
+                    </Tooltip>
+                    :
+                    <Tooltip title="Save">
+                      <IconButton 
+                        onClick={() => {
+                          user ? saveReview() : setSignInOpen(true);
+                        }}
+                        sx={{ color: palette.neutral.main }}
+                      >
+                        <BookmarkBorderIcon fontSize="inherit" />
+                      </IconButton>
+                    </Tooltip>
+                  }
+                </Box>
+              }
             </FlexBetween>
           }
         />

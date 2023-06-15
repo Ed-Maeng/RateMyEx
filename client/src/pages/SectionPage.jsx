@@ -46,6 +46,8 @@ const SectionPage = () => {
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
   // Loading
   const [loading, setLoading] = useState(true);
+  // Types of Open Dialogs
+  const [defaultOpen, setDefaultOpen] = useState(false);
 
   const getSections = async () => {
     const response = await fetch(
@@ -55,9 +57,15 @@ const SectionPage = () => {
         method: "GET",
       }
     );
-    const data = await response.json();
-    setSections(data);
-    setLoading(false);
+
+    if (response.ok) {
+      const data = await response.json();
+      setSections(data);
+      setLoading(false);
+    } else {
+      console.log("Response Issue in SectionPage in getSections");
+      setDefaultOpen(true);
+    }
   };
 
   useEffect(() => {
@@ -180,8 +188,10 @@ const SectionPage = () => {
           </Box>
         </>
       }
+      
       {/* Warning Dialogs */}
       <Dialogs open={signInOpen} setOpen={setSignInOpen} type="not-signin" />
+      <Dialogs open={defaultOpen} setOpen={setDefaultOpen} type="default" />
     </Box>
   );
 }

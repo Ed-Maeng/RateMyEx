@@ -30,7 +30,9 @@ const SaveAndShare = (props) => {
   // State of User & Token
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
-  // State of Open
+  // Types of Review
+  const reviewType = window.location.pathname.split("/")[2];
+  // State of Review User
   const [reviewUser, setReviewUser] = useState(null);
   // Types of Open Dialogs
   const [signInOpen, setSignInOpen] = useState(false);
@@ -47,25 +49,32 @@ const SaveAndShare = (props) => {
         method: "GET",
       }
     );
-    const dataUser = await responseUser.json();
-    setReviewUser(dataUser);
+
+    if (responseUser.ok) {
+      const dataUser = await responseUser.json();
+      setReviewUser(dataUser);
+    } else {
+      console.log("Response Issue in TopOfReview in getUser");
+      setDefaultOpen(true);
+    }
   };
 
   const saveReview = async () => {
     const responseUser = await fetch(
-      isLocal ? `http://localhost:4000/users/${user._id}/internships/${props.review._id}`
-      : `https://api.ratemyexschool.com:8443/users/${user._id}/internships/${props.review._id}`,
+      isLocal ? `http://localhost:4000/users/${user._id}/${reviewType}/${props.review._id}`
+      : `https://api.ratemyexschool.com:8443/users/${user._id}/${reviewType}/${props.review._id}`,
       {
         method: "POST",
         headers: { "Authorization": `Bearer ${token}` },
       }
     );
 
-    if (responseUser.status === 200) {
+    if (responseUser.ok) {
       const dataUser = await responseUser.json();
       dispatch(setUser({ user: dataUser }));
       setReviewSaved(true);
     } else {
+      console.log("Response Issue in TopOfReview in saveReview");
       setDefaultOpen(true);
     }
   };

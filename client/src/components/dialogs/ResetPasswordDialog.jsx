@@ -48,6 +48,7 @@ const SupportDialog = (props) => {
     } else if (submitResponse.status === 403) {
       setNeedVerifyDialog(true);
     } else {
+      console.log("Response Issue in ResetPasswordDialog in sendResetPassword");
       setDefaultOpen(true);
     }
   };

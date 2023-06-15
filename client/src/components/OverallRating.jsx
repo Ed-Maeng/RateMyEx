@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 // Icons
 import StarIcon from '@mui/icons-material/Star';
+import Dialogs from "./dialogs/Dialogs";
 
 const OverallRating = () => {
   const { palette } = useTheme();
@@ -22,6 +23,8 @@ const OverallRating = () => {
   // Review Data & Key
   const [reviewsDataKey, setReviewsDataKey] = useState([]);
   const [reviewsData, setReviewsData] = useState([]);
+  // Types of Open Dialogs
+  const [defaultOpen, setDefaultOpen] = useState(false);
 
   const getReviewsData = async () => {
     const response = await fetch(
@@ -31,9 +34,15 @@ const OverallRating = () => {
         method: "GET",
       }
     );
-    const data = await response.json();
-    setReviewsDataKey(Object.keys(data));
-    setReviewsData(data);
+
+    if (response.ok) {
+      const data = await response.json();
+      setReviewsDataKey(Object.keys(data));
+      setReviewsData(data);
+    } else {
+      console.log("Response Issue in OverallRating in getReviewsData");
+      setDefaultOpen(true);
+    }
   };
 
   useEffect(() => {
@@ -96,6 +105,9 @@ const OverallRating = () => {
           ))}
         </Grid>
       </Box>
+
+      {/* Warning Dialogs */}
+      <Dialogs open={defaultOpen} setOpen={setDefaultOpen} type="default" />
     </Box>
   )
 };

@@ -47,6 +47,7 @@ const SupportDialog = (props) => {
     } else if (submitResponse.status === 401) {
       setSignInOpen(true);
     } else {
+      console.log("Response Issue in SupportDialog in submitFeedback");
       setDefaultOpen(true);
     }
   };

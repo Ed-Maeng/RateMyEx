@@ -215,7 +215,7 @@ export default function ProfilePage() {
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Typography variant="h3b">
+                    <Typography variant="h2b">
                       Find your own reviews here!
                     </Typography>
                   </Grid>
@@ -239,7 +239,7 @@ export default function ProfilePage() {
                     </Typography>
                   </Grid>
                   <Grid item>
-                    <Typography variant="h3b">
+                    <Typography variant="h2b">
                       Find your favorite reviews and save them here!
                     </Typography>
                   </Grid>

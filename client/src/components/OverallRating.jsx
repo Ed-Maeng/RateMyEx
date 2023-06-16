@@ -20,13 +20,12 @@ const OverallRating = () => {
   const overallRating = (currentSection.totalReviews > 0) ? (currentSection.totalRatings * 1.0 / currentSection.totalReviews) : 0;
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
-  // Review Data & Key
-  const [reviewsDataKey, setReviewsDataKey] = useState([]);
-  const [reviewsData, setReviewsData] = useState([]);
+  // Ratings Data
+  const [ratings, setRatings] = useState([]);
   // Types of Open Dialogs
   const [defaultOpen, setDefaultOpen] = useState(false);
 
-  const getReviewsData = async () => {
+  const getRatings = async () => {
     const response = await fetch(
       isLocal ? `http://localhost:4000/${reviewType}/reviewsData/${currentSection._id}` 
       : `https://api.ratemyexschool.com:8443/${reviewType}/reviewsData/${currentSection._id}`,
@@ -37,8 +36,8 @@ const OverallRating = () => {
 
     if (response.ok) {
       const data = await response.json();
-      setReviewsDataKey(Object.keys(data));
-      setReviewsData(data);
+      console.log(data)
+      setRatings(data);
     } else {
       console.log("Response Issue in OverallRating in getReviewsData");
       setDefaultOpen(true);
@@ -46,7 +45,7 @@ const OverallRating = () => {
   };
 
   useEffect(() => {
-    getReviewsData();
+    getRatings();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 
@@ -66,39 +65,19 @@ const OverallRating = () => {
         </Grid>
       </Grid>
 
-      {/* REVIEWS DATA (PT 1) */}
+      {/* RATING DISTRIBUTION */}
       <Box pb="2rem">
-        <Typography variant="h2b">{reviewsDataKey[0]}</Typography>
+        <Typography variant="h2b">Ratings</Typography>
 
         <Grid container py="1rem" direction="column" spacing={3}>
-          {reviewsData[reviewsDataKey[0]]?.map((data) => (
-            <Grid item key={data._id}>
+          {[5, 4, 3, 2, 1, 0].map((rating) => (
+            <Grid item key={rating}>
               <Grid container justifyContent="space-between" spacing={2}>
                 <Grid item>
-                  <Chip label={data._id} variant="outlined" color="primary" />
+                  <Chip label={rating} variant="outlined" color="primary" />
                 </Grid>
                 <Grid item>
-                  <Typography variant="h4b">{data.count}</Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-
-      {/* REVIEWS DATA (PT 2) */}
-      <Box>
-        <Typography variant="h2b">{reviewsDataKey[1]}</Typography>
-
-        <Grid container py="1rem" direction="column" spacing={3}>
-          {reviewsData[reviewsDataKey[1]]?.map((data) => (
-            <Grid item key={data._id}>
-              <Grid container justifyContent="space-between" spacing={2}>
-                <Grid item>
-                  <Chip label={data._id ? data._id : "Other"} variant="outlined" color="primary" />
-                </Grid>
-                <Grid item>
-                  <Typography variant="h4b">{data.count}</Typography>
+                  <Typography variant="h4b">{ratings[0] ? ratings[0].count : 0}</Typography>
                 </Grid>
               </Grid>
             </Grid>

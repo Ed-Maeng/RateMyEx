@@ -1,1 +1,0 @@
-## Private Keys and CERTS will be stored directly in server

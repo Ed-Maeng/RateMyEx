@@ -108,14 +108,12 @@ export const getProfessorReview = async(req, res) => {
   }
 }
 
-export const getProfessorReviewsData = async(req, res) => {
+export const getProfessorRatings = async(req, res) => {
   try {
     const { professorId } = req.params;
-    // Group by `rooms` and get sum
-    const classNames = await ProfessorReview.aggregate([{$match: { "professorId": professorId }}]).sortByCount("className");
-    // Group by `campus` and get sum
-    const terms = await ProfessorReview.aggregate([{$match: { "professorId": professorId }}]).sortByCount("term");
-    res.status(200).json({ "Class Names": classNames, "Terms": terms });
+    // Group by `rating` and get sum
+    const ratings = await ProfessorReview.aggregate([{$match: { "professorId": professorId }}]).sortByCount("rating");
+    res.status(200).json(ratings);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

@@ -168,33 +168,33 @@ const TopOfReview = (props) => {
               {!isProfile &&
                 <Box display="flex">
                   {user.likedReviews.includes(props.review._id) ?
-                    <Tooltip title="Liked">
                       <>
                         <Typography variant="h3b" sx={{ color: palette.neutral.main }}>{numberOfLikes}</Typography>
-                        <IconButton 
-                          onClick={() => {
-                            user ? unlikeReview() : setSignInOpen(true);
-                          }}
-                          sx={{ color: palette.neutral.main }}
-                        >                      
-                          <FavoriteIcon fontSize="inherit" />
-                        </IconButton>
+                        <Tooltip title="Liked">
+                          <IconButton 
+                            onClick={() => {
+                              user ? unlikeReview() : setSignInOpen(true);
+                            }}
+                            sx={{ color: palette.neutral.main }}
+                          >                      
+                            <FavoriteIcon fontSize="inherit" />
+                          </IconButton>
+                        </Tooltip>
                       </>
-                    </Tooltip>
                     :
-                    <Tooltip title="Like">
                       <>
                         <Typography variant="h3b" sx={{ color: palette.neutral.main }}>{numberOfLikes}</Typography>
-                        <IconButton 
-                          onClick={() => {
-                            user ? likeReview() : setSignInOpen(true);
-                          }}
-                          sx={{ color: palette.neutral.main }}
-                        >                      
-                          <FavoriteBorderIcon fontSize="inherit" />
-                        </IconButton>
+                        <Tooltip title="Like">
+                          <IconButton
+                            onClick={() => {
+                              user ? likeReview() : setSignInOpen(true);
+                            }}
+                            sx={{ color: palette.neutral.main }}
+                          >                      
+                            <FavoriteBorderIcon fontSize="inherit" />
+                          </IconButton>
+                        </Tooltip>
                       </>
-                    </Tooltip>
                   }
 
                   {props.review._id in user.savedReviews ?

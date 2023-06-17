@@ -138,14 +138,12 @@ export const getInternshipReview = async(req, res) => {
   }
 }
 
-export const getInternshipReviewsData = async(req, res) => {
+export const getInternshipRatings = async(req, res) => {
   try {
     const { internshipId } = req.params;
-    // Group by `jobTitle` and get sum
-    const jobTitles = await InternshipReview.aggregate([{$match: { "internshipId": internshipId }}]).sortByCount("jobTitle");
-    // Group by `employmentType` and get sum
-    const employmentTypes = await InternshipReview.aggregate([{$match: { "internshipId": internshipId }}]).sortByCount("employmentType");
-    res.status(200).json({ "Job Titles": jobTitles, "Employment Types": employmentTypes });
+    // Group by `rating` and get sum
+    const ratings = await InternshipReview.aggregate([{$match: { "internshipId": internshipId }}]).sortByCount("rating");
+    res.status(200).json(ratings);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

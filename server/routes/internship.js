@@ -1,9 +1,9 @@
 import express from "express";
 import {
   getInternship,
+  getInternshipRatings,
   getInternshipReview,
   getInternshipReviews,
-  getInternshipReviewsData,
   getInternships,
   updateInternship,
 } from "../controllers/internship.js";
@@ -14,7 +14,7 @@ router.get("/:schoolId", getInternships);
 router.get("/section/:internshipId", getInternship);
 router.get("/reviews/:internshipId", getInternshipReviews);
 router.get("/review/:_id", getInternshipReview);
-router.get("/reviewsData/:internshipId", getInternshipReviewsData);
+router.get("/ratings/:internshipId", getInternshipRatings);
 router.put("/:internshipId", updateInternship);
 
 export default router;

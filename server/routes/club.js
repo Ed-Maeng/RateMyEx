@@ -1,9 +1,9 @@
 import express from "express";
 import {
   getClub,
+  getClubRatings,
   getClubReview,
   getClubReviews,
-  getClubReviewsData,
   getClubs,
   updateClub,
 } from "../controllers/club.js";
@@ -14,7 +14,7 @@ router.get("/:schoolId", getClubs);
 router.get("/section/:clubId", getClub);
 router.get("/reviews/:clubId", getClubReviews);
 router.get("/review/:_id", getClubReview);
-router.get("/reviewsData/:clubId", getClubReviewsData);
+router.get("/ratings/:clubId", getClubRatings);
 router.put("/:clubId", updateClub);
 
 export default router;

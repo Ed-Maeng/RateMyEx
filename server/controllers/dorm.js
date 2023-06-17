@@ -147,14 +147,12 @@ export const getDormReview = async(req, res) => {
   }
 }
 
-export const getDormReviewsData = async(req, res) => {
+export const getDormRatings = async(req, res) => {
   try {
     const { dormId } = req.params;
-    // Group by `rooms` and get sum
-    const rooms = await DormReview.aggregate([{$match: { "dormId": dormId }}]).sortByCount("rooms");
-    // Group by `campus` and get sum
-    const campuses = await DormReview.aggregate([{$match: { "dormId": dormId }}]).sortByCount("campus");
-    res.status(200).json({ "Rooms": rooms, "On/Off Campus": campuses });
+    // Group by `rating` and get sum
+    const ratings = await DormReview.aggregate([{$match: { "dormId": dormId }}]).sortByCount("rating");
+    res.status(200).json(ratings);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

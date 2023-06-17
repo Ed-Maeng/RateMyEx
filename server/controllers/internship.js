@@ -138,7 +138,7 @@ export const getInternshipReview = async(req, res) => {
   }
 }
 
-export const getInternshipReviewsData = async(req, res) => {
+export const getInternshipRatings = async(req, res) => {
   try {
     const { internshipId } = req.params;
     // Group by `rating` and get sum

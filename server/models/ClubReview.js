@@ -39,6 +39,11 @@ const ClubReviewSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    numberOfLikes: {
+      type: Number,
+      default: 0,
+      required: true,
+    },
   },
   { timestamps: true }
 );

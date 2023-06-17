@@ -158,14 +158,12 @@ export const getClubReview = async(req, res) => {
   }
 }
 
-export const getClubReviewsData = async(req, res) => {
+export const getClubRatings = async(req, res) => {
   try {
     const { clubId } = req.params;
-    // Group by `rooms` and get sum
-    const categories = await ClubReview.aggregate([{$match: { "clubId": clubId }}]).sortByCount("category");
-    // Group by `campus` and get sum
-    const terms = await ClubReview.aggregate([{$match: { "clubId": clubId }}]).sortByCount("term");
-    res.status(200).json({ "Categories": categories, "Terms": terms });
+    // Group by `rating` and get sum
+    const ratings = await ClubReview.aggregate([{$match: { "clubId": clubId }}]).sortByCount("rating");
+    res.status(200).json(ratings);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

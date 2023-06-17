@@ -32,6 +32,11 @@ const ProfessorReviewSchema = new mongoose.Schema(
       required: true,
       max: 500,
     },
+    numberOfLikes: {
+      type: Number,
+      default: 0,
+      required: true,
+    },
   },
   { timestamps: true }
 );

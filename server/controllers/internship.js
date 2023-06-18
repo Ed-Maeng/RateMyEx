@@ -121,8 +121,19 @@ export const getInternship = async(req, res) => {
 export const getInternshipReviews = async(req, res) => {
   try {
     const { internshipId } = req.params;
-    const internshipReviews = await InternshipReview.find({ internshipId }).sort('-createdAt');
-    res.status(200).json(internshipReviews);
+    const { filters } = req.body;
+    let reviews = [];
+
+    if (filters.length > 0) {
+      reviews = await InternshipReview.find({ internshipId,
+        jobTitle: {
+          $in: filters
+        }
+      }).sort('-createdAt');
+    } else {
+      reviews = await InternshipReview.find({ internshipId }).sort('-createdAt');
+    }
+    res.status(200).json(reviews);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
@@ -144,6 +155,21 @@ export const getInternshipRatings = async(req, res) => {
     // Group by `rating` and get sum
     const ratings = await InternshipReview.aggregate([{$match: { "internshipId": internshipId }}]).sortByCount("rating");
     res.status(200).json(ratings);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+}
+
+export const getInternshipFilters = async(req, res) => {
+  try {
+    const { internshipId } = req.params;
+    // Group by `jobTitle` and get sum
+    const jobTitles = await InternshipReview.aggregate([
+      { $match: { "internshipId": internshipId }},
+      { $group: { _id: "$jobTitle" }},
+      { $sort: { _id: -1 }},
+    ]);
+    res.status(200).json(jobTitles);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

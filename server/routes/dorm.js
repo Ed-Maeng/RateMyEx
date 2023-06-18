@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getDorm,
+  getDormFilters,
   getDormRatings,
   getDormReview,
   getDormReviews,
@@ -12,9 +13,10 @@ const router = express.Router();
 
 router.get("/:schoolId", getDorms);
 router.get("/section/:dormId", getDorm);
-router.get("/reviews/:dormId", getDormReviews);
+router.post("/reviews/:dormId", getDormReviews);
 router.get("/review/:_id", getDormReview);
 router.get("/ratings/:dormId", getDormRatings);
+router.get("/filters/:dormId", getDormFilters);
 router.put("/:dormId", updateDorm);
 
 export default router;

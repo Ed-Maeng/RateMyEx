@@ -91,8 +91,19 @@ export const getProfessor = async(req, res) => {
 export const getProfessorReviews = async(req, res) => {
   try {
     const { professorId } = req.params;
-    const professorReviews = await ProfessorReview.find({ professorId }).sort('-createdAt');
-    res.status(200).json(professorReviews);
+    const { filters } = req.body;
+    let reviews = [];
+
+    if (filters.length > 0) {
+      reviews = await ProfessorReview.find({ professorId,
+        className: {
+          $in: filters
+        }
+      }).sort('-createdAt');
+    } else {
+      reviews = await ProfessorReview.find({ professorId }).sort('-createdAt');
+    }
+    res.status(200).json(reviews);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
@@ -114,6 +125,21 @@ export const getProfessorRatings = async(req, res) => {
     // Group by `rating` and get sum
     const ratings = await ProfessorReview.aggregate([{$match: { "professorId": professorId }}]).sortByCount("rating");
     res.status(200).json(ratings);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+}
+
+export const getProfessorFilters = async(req, res) => {
+  try {
+    const { professorId } = req.params;
+    // Group by `rooms` and get sum
+    const classNames = await ProfessorReview.aggregate([
+      { $match: { "professorId": professorId }},
+      { $group: { _id: "$className" }},
+      { $sort: { _id: -1 }},
+    ]);
+    res.status(200).json(classNames);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

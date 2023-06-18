@@ -1,6 +1,7 @@
 import { Avatar, Box, Button, Grid, Typography, useTheme } from '@mui/material';
-import { useState } from 'react';
-import { useSelector } from "react-redux";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { emptyFilters } from "../state/auth";
 // Pages & Components
 import Navbar from '../components/Navbar';
 import Dialogs from '../components/dialogs/Dialogs';
@@ -9,12 +10,18 @@ import ReviewWidgets from './widgets/ReviewsWidget';
 
 const ReviewPage = () => {
   const { palette } = useTheme();
+  const dispatch = useDispatch();
   // State of Current Section & User & Open
   const currentSection = useSelector((state) => state.currentSection);
   const user = useSelector((state) => state.user);
   // Types of Open Dialogs
   const [reviewFormOpen, setReviewFormOpen] = useState(false);
   const [signInOpen, setSignInOpen] = useState(false);
+
+  useEffect(() => {
+    // Empty Filters when we go to a different page
+    dispatch(emptyFilters());
+  }, [window.location.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

@@ -124,15 +124,31 @@ export const getClub = async(req, res) => {
 export const getClubReviews = async(req, res) => {
   try {
     const { clubId } = req.params;
-    const clubReviews = await ClubReview.find({ clubId }).sort('-createdAt');
-    for (let review of clubReviews) {
-      review.imageUrls = [];
-      for (let imageName of review.imageNames) {
-        review.imageUrls.push(await getObjectSignedUrl(imageName));
-        await review.save();
-      }
+    const { filters } = req.body;
+    let reviews = [];
+
+    if (filters.length > 0) {
+      reviews = await ClubReview.find({ clubId,
+        term: {
+          $in: filters
+        }
+      }).sort('-createdAt');
+    } else {
+      reviews = await ClubReview.find({ clubId }).sort('-createdAt');
     }
-    res.status(200).json(clubReviews);
+
+    for (let review of reviews) {
+      let images = [];
+      for (let imageName of review.imageNames) {
+        images.push(await getObjectSignedUrl(imageName));
+      }
+
+      await ClubReview.findOneAndUpdate(
+        { _id: review._id }, 
+        { imageUrls: images }
+      );
+    }
+    res.status(200).json(reviews);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
@@ -164,6 +180,21 @@ export const getClubRatings = async(req, res) => {
     // Group by `rating` and get sum
     const ratings = await ClubReview.aggregate([{$match: { "clubId": clubId }}]).sortByCount("rating");
     res.status(200).json(ratings);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+}
+
+export const getClubFilters = async(req, res) => {
+  try {
+    const { clubId } = req.params;
+    // Group by `campus` and get sum
+    const terms = await ClubReview.aggregate([
+      { $match: { "clubId": clubId }},
+      { $group: { _id: "$term" }},
+      { $sort: { _id: -1 }},
+    ]);
+    res.status(200).json(terms);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

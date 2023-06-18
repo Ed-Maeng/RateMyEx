@@ -7,6 +7,7 @@ const initialState = {
   schoolName: "",
   currentSection: null,
   tab: false,
+  filters: [],
 };
 
 export const authSlice = createSlice({
@@ -34,8 +35,17 @@ export const authSlice = createSlice({
     setTab: (state, action) => {
       state.tab = action.payload.tab;
     },
+    addFilter: (state, action) => {
+      state.filters.push(action.payload.filter);
+    },
+    removeFilter: (state, action) => {
+      state.filters = state.filters.filter(item => item !== action.payload.filter);
+    },
+    emptyFilters: (state) => {
+      state.filters = [];
+    },
   },
 });
 
-export const { setLogin, setLogout, setUser, setSchool, setCurrentSection, setTab } = authSlice.actions;
+export const { setLogin, setLogout, setUser, setSchool, setCurrentSection, setTab, addFilter, removeFilter, emptyFilters } = authSlice.actions;
 export default authSlice.reducer;

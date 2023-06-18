@@ -16,9 +16,11 @@ import ProfessorWidget from "./ProfessorWidget";
 const ReviewsWidget = () => {
   const { palette } = useTheme();
   const dispatch = useDispatch();
-  // State of Reviews & Current Section
+  // State of User, Current Section, & Filters
   const user = useSelector((state) => state.user);
   const currentSection = useSelector((state) => state.currentSection);
+  const selectedFilters = useSelector((state) => state.filters);
+  // Reviews
   const [reviews, setReviews] = useState([]);
   // Types of Review
   const reviewType = window.location.pathname.split("/")[2];
@@ -42,13 +44,16 @@ const ReviewsWidget = () => {
       isLocal ? `http://localhost:4000/${reviewType}/reviews/${currentSection._id}` 
       : `https://api.ratemyexschool.com:8443/${reviewType}/reviews/${currentSection._id}`,
       {
-        method: "GET",
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ filters: selectedFilters}),
       }
     );
     
     if (responseReviews.ok) {
       const dataReviews = await responseReviews.json();
       setReviews(dataReviews);
+      setTotalReviews(dataReviews.length);
     } else {
       console.log("Response Issue in ReviewsWidget in getReviews");
       setDefaultOpen(true);
@@ -65,7 +70,6 @@ const ReviewsWidget = () => {
     if (responseCurrentSection.ok) {
       const dataCurrentSection = await responseCurrentSection.json();
       dispatch(setCurrentSection({ currentSection: dataCurrentSection }));
-      setTotalReviews(dataCurrentSection.totalReviews);
     } else {
       console.log("Response Issue in ReviewsWidget in getReviews");
       setDefaultOpen(true);
@@ -114,7 +118,7 @@ const ReviewsWidget = () => {
       setLoading(false);
     };
     fetchData().catch(console.error);
-  }, [totalReviews]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [totalReviews, selectedFilters]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

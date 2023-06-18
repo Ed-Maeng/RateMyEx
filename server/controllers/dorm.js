@@ -123,15 +123,31 @@ export const getDorm = async(req, res) => {
 export const getDormReviews = async(req, res) => {
   try {
     const { dormId } = req.params;
-    const dormReviews = await DormReview.find({ dormId }).sort('-createdAt');;
-    for (let review of dormReviews) {
-      review.imageUrls = [];
-      for (let imageName of review.imageNames) {
-        review.imageUrls.push(await getObjectSignedUrl(imageName));
-        await review.save();
-      }
+    const { filters } = req.body;
+    let reviews = [];
+
+    if (filters.length > 0) {
+      reviews = await DormReview.find({ dormId,
+        rooms: {
+          $in: filters
+        }
+      }).sort('-createdAt');
+    } else {
+      reviews = await DormReview.find({ dormId }).sort('-createdAt');
     }
-    res.status(200).json(dormReviews);
+    
+    for (let review of reviews) {
+      let images = [];
+      for (let imageName of review.imageNames) {
+        images.push(await getObjectSignedUrl(imageName));
+      }
+
+      await DormReview.findOneAndUpdate(
+        { _id: review._id }, 
+        { imageUrls: images }
+      );
+    }
+    res.status(200).json(reviews);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
@@ -153,6 +169,21 @@ export const getDormRatings = async(req, res) => {
     // Group by `rating` and get sum
     const ratings = await DormReview.aggregate([{$match: { "dormId": dormId }}]).sortByCount("rating");
     res.status(200).json(ratings);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+}
+
+export const getDormFilters = async(req, res) => {
+  try {
+    const { dormId } = req.params;
+    // Group by `rooms` and get sum
+    const rooms = await DormReview.aggregate([
+      { $match: { "dormId": dormId }},
+      { $group: { _id: "$rooms" }},
+      { $sort: { _id: -1 }},
+    ]);
+    res.status(200).json(rooms);
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

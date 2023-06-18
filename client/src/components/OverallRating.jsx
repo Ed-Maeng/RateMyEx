@@ -1,11 +1,14 @@
 import {
   Box,
+  Button,
+  Chip,
   Grid,
   Typography,
   useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addFilter, removeFilter } from "../state/auth";
 // Components
 import ReviewBar from "./ReviewBar";
 // Icons
@@ -14,15 +17,19 @@ import Dialogs from "./dialogs/Dialogs";
 
 const OverallRating = () => {
   const { palette } = useTheme();
+  const dispatch = useDispatch();
   // Types of Review Types
   const reviewType = window.location.pathname.split("/")[2];
-  // State of Current Section & Overall Rating
+  // State of Current Section & Filters
   const currentSection = useSelector((state) => state.currentSection);
+  const selectedFilters = useSelector((state) => state.filters);
+  // Overall Rating
   const overallRating = (currentSection.totalReviews > 0) ? (currentSection.totalRatings * 1.0 / currentSection.totalReviews) : 0;
   // Check if it is in local or production
   const isLocal = window.location.href.split("/")[2] === "localhost:3000";
-  // Ratings Data & Total
+  // Ratings & Filters
   const [numOfRatings, setNumOfRatings] = useState([]);
+  const [filters, setFilters] = useState([]);
   // Types of Open Dialogs
   const [defaultOpen, setDefaultOpen] = useState(false);
 
@@ -50,13 +57,32 @@ const OverallRating = () => {
         }
       }
     } else {
-      console.log("Response Issue in OverallRating in getReviewsData");
+      console.log("Response Issue in OverallRating in getRatings");
+      setDefaultOpen(true);
+    }
+  };
+
+  const getFilters = async () => {
+    const response = await fetch(
+      isLocal ? `http://localhost:4000/${reviewType}/filters/${currentSection._id}` 
+      : `https://api.ratemyexschool.com:8443/${reviewType}/filters/${currentSection._id}`,
+      {
+        method: "GET",
+      }
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      setFilters(data);
+    } else {
+      console.log("Response Issue in OverallRating in getFilters");
       setDefaultOpen(true);
     }
   };
 
   useEffect(() => {
     getRatings();
+    getFilters();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 
@@ -77,7 +103,7 @@ const OverallRating = () => {
       </Grid>
 
       {/* RATING DISTRIBUTION */}
-      <Box pb="2rem">
+      <Box pb="1rem">
         <Typography variant="h2b">Rating Distribution</Typography>
 
         <Grid container py="1rem" direction="column" spacing={1}>
@@ -93,6 +119,37 @@ const OverallRating = () => {
               </Grid>
             </Grid>
           ))}
+        </Grid>
+      </Box>
+
+      {/* FILTERS */}
+      <Box>
+        <Typography variant="h2b">Filters</Typography>
+
+        <Grid container py="1rem" direction="column">
+          {filters[0] && filters[0]._id &&
+            filters?.map((data) => (
+              <Grid item key={data._id}>
+                {selectedFilters?.includes(data._id) ?
+                  <Button
+                    onClick={() => {
+                      dispatch(removeFilter({ filter: data._id }));
+                    }}
+                  >            
+                    <Chip label={data._id} variant="filled" color="info" sx={{ "&:hover": { cursor: "pointer" } }} />
+                  </Button>
+                  :
+                  <Button
+                    onClick={() => {
+                      dispatch(addFilter({ filter: data._id }));
+                    }}
+                  >                      
+                    <Chip label={data._id} variant="outlined" color="info" sx={{ "&:hover": { cursor: "pointer" } }} />
+                  </Button>
+                }
+              </Grid>
+            ))
+          }
         </Grid>
       </Box>
 
